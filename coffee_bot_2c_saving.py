@@ -14,6 +14,16 @@ import shutil
 import threading
 from flask import Flask, request, send_from_directory
 
+# Chatbot imports
+from huggingface_hub import login
+from langchain_community.vectorstores import FAISS
+from langchain_core.prompts import PromptTemplate
+from langchain.memory import ConversationBufferMemory
+from langchain.chains import ConversationalRetrievalChain
+from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
+from langchain.embeddings.huggingface import HuggingFaceEmbeddings  # Import corrected
+
+
 # Create a Flask app to handle file uploads
 app = Flask(__name__)
 
