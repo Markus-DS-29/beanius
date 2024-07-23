@@ -151,43 +151,6 @@ if 'transcription' not in st.session_state:
 # Display recording status
 status = st.empty()
 
-def start_recording():
-    st.session_state.recording = True
-    st.session_state.recorded_data = None
-    status.text('Recording...')
-    duration = 5  # seconds
-
-    # Define a path for the file in a persistent location
-    persistent_path = "audio_files/recorded_speech.wav"
-    os.makedirs(os.path.dirname(persistent_path), exist_ok=True)
-    
-    # Record and save the audio data
-    st.session_state.recorded_data = sd.rec(int(duration * st.session_state.fs), samplerate=st.session_state.fs, channels=1, dtype='int16')
-    sd.wait()  # Wait until recording is finished
-    st.session_state.recording = False
-    status.text('Recording finished')
-
-    # Save the recorded data to the persistent file
-    with wave.open(persistent_path, 'w') as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)  # 16 bits = 2 bytes
-        wf.setframerate(st.session_state.fs)
-        wf.writeframes(st.session_state.recorded_data.tobytes())
-
-    st.session_state.persistent_file_path = persistent_path
-
-# Function to stop recording
-def stop_recording():
-    st.session_state.recording = False
-
-# Layout for recording buttons
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button('Start Recording'):
-        start_recording()
-with col2:
-    if st.button('Stop Recording') and st.session_state.recording:
-        stop_recording()
 
 # Save and plot recorded data
 if 'persistent_file_path' in st.session_state:
