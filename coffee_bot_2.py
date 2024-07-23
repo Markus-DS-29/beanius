@@ -5,8 +5,8 @@ import streamlit as st
 import os
 import requests
 
-import numpy as np
-import wave
+#import numpy as np
+#import wave
 #import matplotlib.pyplot as plt
 #import torch
 #from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
@@ -15,13 +15,13 @@ import wave
 #import sounddevice as sd
 
 # Chatbot imports
-from huggingface_hub import login
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
+from huggingface_hub import login
 
 #connection to huggingface
 huggingface_token = st.secrets["df_token"]
