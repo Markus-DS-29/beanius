@@ -1,5 +1,4 @@
 streamlit
-sounddevice==0.4.7
 numpy
 wave
 matplotlib
@@ -13,4 +12,4 @@ langchain
 langchain-core
 faiss-cpu
 sentence-transformers
-
+sounddevice==0.4.7
