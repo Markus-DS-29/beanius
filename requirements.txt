@@ -2,7 +2,7 @@ wave
 transformers
 soundfile
 pydub
-huggingface_hub
+huggingface-hub==0.23.4
 langchain_huggingface
 langchain
 langchain-core
