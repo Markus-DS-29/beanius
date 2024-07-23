@@ -1,0 +1,42 @@
+
+name: Update Audio File
+
+on:
+  push:
+    branches:
+      - main  # or the branch you want to target
+
+jobs:
+  update-audio:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.12'  # Python version according to Streamlit
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt  # Ensure you have a requirements.txt file
+
+    - name: Generate or process audio file
+      run: |
+        python coffee_bot_2b.py  # The script that generates or processes the audio file
+
+    - name: Check for changes
+      id: check_changes
+      run: |
+        git diff --exit-code || echo "Changes detected"
+
+    - name: Commit and push changes
+      if: steps.check_changes.outputs.changed == 'true'
+      run: |
+        git config --global user.name 'github-actions'
+        git config --global user.email 'github-actions@github.com'
+        git add audio_files/recorded_speech.wav
+        git commit -m "Automated update of recorded_speech.wav"
+        git push
