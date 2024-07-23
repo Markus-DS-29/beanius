@@ -21,8 +21,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
-from langchain.embeddings.huggingface import HuggingFaceEmbeddings  # Import corrected
-
+#from langchain.embeddings.huggingface import HuggingFaceEmbeddings  # Import corrected
+from langchain_community.embeddings import HuggingFaceEmbeddings
 
 #connection to huggingface
 huggingface_token = st.secrets["df_token"]
