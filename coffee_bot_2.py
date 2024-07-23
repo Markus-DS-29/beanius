@@ -2,6 +2,9 @@
 
 
 import streamlit as st
+import os
+import requests
+
 import sounddevice as sd
 import numpy as np
 import wave
@@ -20,9 +23,13 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
-# Connection to HuggingFace
-huggingface_token = "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"
+#connection to huggingface
+huggingface_token = st.secrets["df_token"]
 login(token=huggingface_token)
+
+
+
+
 
 # This info is at the top of each HuggingFace model page
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
