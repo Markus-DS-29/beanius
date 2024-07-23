@@ -5,7 +5,7 @@ import streamlit as st
 import os
 import requests
 
-import sounddevice as sd
+#import sounddevice as sd
 import numpy as np
 import wave
 import matplotlib.pyplot as plt
