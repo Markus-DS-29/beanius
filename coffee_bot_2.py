@@ -5,14 +5,14 @@ import streamlit as st
 import os
 import requests
 
-#import numpy as np
-#import wave
-#import matplotlib.pyplot as plt
-#import torch
-#from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-#import soundfile as sf
-#from pydub import AudioSegment
-#import sounddevice as sd
+import numpy as np
+import wave
+import matplotlib.pyplot as plt
+import torch
+from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+import soundfile as sf
+from pydub import AudioSegment
+import sounddevice as sd
 
 # Chatbot imports
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
