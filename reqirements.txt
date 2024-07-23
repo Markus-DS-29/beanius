@@ -1,8 +1,6 @@
 streamlit
 numpy
 wave
-matplotlib
-torch
 transformers
 soundfile
 pydub
@@ -13,3 +11,5 @@ langchain-core
 faiss-cpu
 sentence-transformers
 sounddevice==0.4.7
+torch==2.3.1
+matplotlib
