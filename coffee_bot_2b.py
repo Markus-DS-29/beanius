@@ -32,7 +32,7 @@ load_path = "/tmp/coffee_content/faiss_index"
 
 # Ensure the directory exists
 os.makedirs(embeddings_folder, exist_ok=True)
-os.makedirs(os.path.dirname(load_path), exist_ok=True)
+os.makedirs(load_path, exist_ok=True)
 
 # Initialize HuggingFace embeddings
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
