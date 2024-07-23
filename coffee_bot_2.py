@@ -10,7 +10,7 @@ import numpy as np
 import wave
 #import matplotlib.pyplot as plt
 #import torch
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+#from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 #import soundfile as sf
 from pydub import AudioSegment
 
