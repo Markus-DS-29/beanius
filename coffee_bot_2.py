@@ -24,9 +24,12 @@ from langchain.schema import Document
 from huggingface_hub import login
 
 #connection to huggingface
-huggingface_token = st.secrets["df_token"]
-login(token=huggingface_token)
+#huggingface_token = st.secrets["df_token"]
+#login(token=huggingface_token)
 
+# Connection to HuggingFace
+huggingface_token = "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"
+login(token=huggingface_token)
 
 
 
