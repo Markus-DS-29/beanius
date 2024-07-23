@@ -1,5 +1,6 @@
 import os
 import streamlit as st
+import streamlit.components.v1 as components
 import sounddevice as sd
 import numpy as np
 import wave
