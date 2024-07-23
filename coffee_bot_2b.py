@@ -25,12 +25,9 @@ login(token=huggingface_token)
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 
-# Get the temporary directory provided by Streamlit
-temp_dir = st._config.get_option("server.headless_root")
-
-# Use this directory for caching
-embeddings_folder = f"{temp_dir}/coffee_content"
-load_path = f"{temp_dir}/coffee_content/faiss_index"
+# Use /tmp directory for caching
+embeddings_folder = "/tmp/coffee_content"
+load_path = "/tmp/coffee_content/faiss_index"
 
 # Ensure the directory exists
 os.makedirs(embeddings_folder, exist_ok=True)
