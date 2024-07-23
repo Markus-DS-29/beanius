@@ -19,8 +19,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 
-# Connection to HuggingFace
-huggingface_token = "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"
+#connection to huggingface
+huggingface_token = st.secrets["df_token"]
 login(token=huggingface_token)
 
 # Initialize Wav2Vec2 model and processor
