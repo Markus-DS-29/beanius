@@ -38,9 +38,15 @@ os.makedirs(os.path.dirname(load_path), exist_ok=True)
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
 embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
 
-# Read FAISS vector store from local drive
-vector_db = FAISS.load_local(load_path, embeddings, allow_dangerous_deserialization=True)
-retriever = vector_db.as_retriever(search_kwargs={"k": 5})
+# Check if FAISS files exist before loading
+faiss_index_file = os.path.join(load_path, "index.faiss")
+faiss_pkl_file = os.path.join(load_path, "index.pkl")
+
+if os.path.exists(faiss_index_file) and os.path.exists(faiss_pkl_file):
+    vector_db = FAISS.load_local(load_path, embeddings, allow_dangerous_deserialization=True)
+    retriever = vector_db.as_retriever(search_kwargs={"k": 5})
+else:
+    st.error(f"FAISS index files not found at {load_path}. Ensure both index.faiss and index.pkl are present.")
 
 # Initialize memory
 @st.cache_resource
@@ -56,7 +62,7 @@ memory = init_memory(llm)
 input_template = """Answer the question based only on the following context.
 Keep your answers short and succinct, but always use whole sentences.
 All answers in German.
-Important: Allways add the link
+Important: Always add the link
 
 Previous conversation:
 {chat_history}
