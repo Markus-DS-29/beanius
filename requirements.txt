@@ -1,6 +1,5 @@
 wave
 transformers
-soundfile
 pydub
 huggingface-hub==0.23.4
 langchain_huggingface
@@ -9,6 +8,7 @@ langchain-core
 faiss-cpu
 sentence-transformers
 sounddevice==0.4.7
+soundfile==0.12.1
 torch==2.3.1
 matplotlib
 matplotlib-inline
