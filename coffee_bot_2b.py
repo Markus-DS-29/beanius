@@ -8,6 +8,8 @@ import torch
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
 import soundfile as sf
 from pydub import AudioSegment
+import tempfile
+import shutil
 
 # Chatbot imports
 from huggingface_hub import login
@@ -26,16 +28,13 @@ login(token=huggingface_token)
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 
-# Use /tmp directory for caching
-embeddings_folder = "/tmp/coffee_content"
-load_path = "/tmp/coffee_content/faiss_index"
-
-# Ensure the directory exists
+# Initialize HuggingFace embeddings
+embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
+embeddings_folder = "coffee_content/embeddings"
+load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
 
-# Initialize HuggingFace embeddings
-embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
 embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
 
 # Check if FAISS files exist before loading
@@ -52,7 +51,7 @@ else:
 @st.cache_resource
 def init_memory(_llm):
     return ConversationBufferMemory(
-        llm=llm,
+        llm=_llm,
         output_key='answer',
         memory_key='chat_history',
         return_messages=True)
@@ -109,10 +108,23 @@ def start_recording():
     st.session_state.recorded_data = None
     status.text('Recording...')
     duration = 5  # seconds
-    st.session_state.recorded_data = sd.rec(int(duration * st.session_state.fs), samplerate=st.session_state.fs, channels=1, dtype='int16')
-    sd.wait()  # Wait until recording is finished
-    st.session_state.recording = False
-    status.text('Recording finished')
+
+    # Using a temporary directory to save the audio file
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
+        temp_file_path = temp_file.name
+        st.session_state.recorded_data = sd.rec(int(duration * st.session_state.fs), samplerate=st.session_state.fs, channels=1, dtype='int16')
+        sd.wait()  # Wait until recording is finished
+        st.session_state.recording = False
+        status.text('Recording finished')
+        
+        # Save the recorded data to the temporary file
+        with wave.open(temp_file_path, 'w') as wf:
+            wf.setnchannels(1)
+            wf.setsampwidth(2)  # 16 bits = 2 bytes
+            wf.setframerate(st.session_state.fs)
+            wf.writeframes(st.session_state.recorded_data.tobytes())
+
+    st.session_state.temp_file_path = temp_file_path
 
 # Function to stop recording
 def stop_recording():
@@ -128,22 +140,18 @@ with col2:
         stop_recording()
 
 # Save and plot recorded data
-if st.session_state.recorded_data is not None:
-    wav_filename = 'recorded_speech.wav'
+if 'temp_file_path' in st.session_state:
+    temp_file_path = st.session_state.temp_file_path
     
-    # Save the WAV file with 16-bit PCM
-    with wave.open(wav_filename, 'w') as wf:
-        wf.setnchannels(1)
-        wf.setsampwidth(2)  # 16 bits = 2 bytes
-        wf.setframerate(st.session_state.fs)
-        wf.writeframes(st.session_state.recorded_data.tobytes())
-    
-    st.audio(wav_filename, format='audio/wav')
+    st.audio(temp_file_path, format='audio/wav')
     st.success('Recording saved successfully!')
 
     # Plot the recorded data
+    with wave.open(temp_file_path, 'r') as wf:
+        recorded_data = np.frombuffer(wf.readframes(-1), dtype=np.int16)
+    
     fig, ax = plt.subplots()
-    ax.plot(st.session_state.recorded_data)
+    ax.plot(recorded_data)
     ax.set_title("Recorded Audio")
     st.pyplot(fig)
 
@@ -159,10 +167,8 @@ if st.session_state.recorded_data is not None:
         audio_processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-large-xlsr-53-german")
         audio_model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-xlsr-53-german")
 
-        # Path to the audio file
-        file_path = wav_filename
-        processed_file_path = "processed_audio.wav"
-        preprocess_audio(file_path, processed_file_path)
+        processed_file_path = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
+        preprocess_audio(temp_file_path, processed_file_path)
 
         # Load the processed audio file
         speech, sample_rate = sf.read(processed_file_path)
@@ -188,9 +194,8 @@ if st.session_state.recorded_data is not None:
         with torch.no_grad():
             logits = audio_model(input_values).logits
             predicted_ids = torch.argmax(logits, dim=-1)
+            transcription = audio_processor.batch_decode(predicted_ids)
 
-        # Decode the predicted transcription
-        transcription = audio_processor.batch_decode(predicted_ids)
         st.session_state.transcription = transcription[0]
 
         # Display the transcription
