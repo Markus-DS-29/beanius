@@ -21,8 +21,8 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.embeddings.huggingface import HuggingFaceEmbeddings  # Import corrected
 
-# Connection to HuggingFace
-huggingface_token = "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"
+#connection to huggingface
+huggingface_token = st.secrets["df_token"]
 login(token=huggingface_token)
 
 # This info is at the top of each HuggingFace model page
