@@ -1,5 +1,5 @@
 streamlit
-sounddevice
+sounddevice==0.4.7
 numpy
 wave
 matplotlib
