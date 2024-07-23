@@ -1,1 +1,16 @@
+streamlit
+sounddevice
+numpy
+wave
+matplotlib
+torch
+transformers
+soundfile
+pydub
+huggingface_hub
+langchain_huggingface
+langchain
+langchain-core
+faiss-cpu
+sentence-transformers
 
