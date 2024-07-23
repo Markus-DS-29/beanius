@@ -118,7 +118,7 @@ components.html("""
     <script src="/audio_recorder.js"></script>
 </head>
 <body>
-    <button onclick="startRecording()">Start Recording</button>
+    <button onclick="startRecording()">Start JS Recording</button>
     <div id="audio-container"></div>
 </body>
 </html>
