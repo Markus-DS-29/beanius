@@ -1,10 +1,9 @@
-
-name: Update Audio File
+name: Commit and Push Audio File
 
 on:
   push:
     branches:
-      - main  # or the branch you want to target
+      - main  # Change this to your branch if needed
 
 jobs:
   update-audio:
@@ -17,23 +16,13 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.12'  # Python version according to Streamlit
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
-        pip install -r requirements.txt  # Ensure you have a requirements.txt file
+        pip install -r requirements.txt  # Ensure you have a requirements.txt with necessary packages
 
-    - name: Generate or process audio file
-      run: |
-        python coffee_bot_2b.py  # The script that generates or processes the audio file
-
-    - name: Check for changes
-      id: check_changes
-      run: |
-        git diff --exit-code || echo "Changes detected"
-
-    - name: Commit and push changes
-      if: steps.check_changes.outputs.changed == 'true'
+    - name: Commit and push updated audio file
       run: |
         git config --global user.name 'github-actions'
         git config --global user.email 'github-actions@github.com'
