@@ -103,7 +103,7 @@ if 'text_received' not in state:
 
 c1, c2 = st.columns(2)
 with c1:
-    st.write("Convert speech to text:")
+    st.write("Was für einen Espresso suchst du?")
 with c2:
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
@@ -116,126 +116,7 @@ st.text(text_from_speech)
         
 ################        
         
-        
 
-# Speech Recorder and Transcriber
-if 'recording' not in st.session_state:
-    st.session_state.recording = False
-if 'recorded_data' not in st.session_state:
-    st.session_state.recorded_data = None
-if 'fs' not in st.session_state:
-    st.session_state.fs = 16000  # Sample rate required for Wav2Vec2
-if 'transcription' not in st.session_state:
-    st.session_state.transcription = None
-
-# Display recording status
-status = st.empty()
-
-# Function to start recording
-def start_recording():
-    st.session_state.recording = True
-    st.session_state.recorded_data = None
-    status.text('Recording...')
-    duration = 5  # seconds
-
-    # Using a temporary directory to save the audio file
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp_file:
-        temp_file_path = temp_file.name
-        st.session_state.recorded_data = sd.rec(int(duration * st.session_state.fs), samplerate=st.session_state.fs, channels=1, dtype='int16')
-        sd.wait()  # Wait until recording is finished
-        st.session_state.recording = False
-        status.text('Recording finished')
-        
-        # Save the recorded data to the temporary file
-        with wave.open(temp_file_path, 'w') as wf:
-            wf.setnchannels(1)
-            wf.setsampwidth(2)  # 16 bits = 2 bytes
-            wf.setframerate(st.session_state.fs)
-            wf.writeframes(st.session_state.recorded_data.tobytes())
-
-    st.session_state.temp_file_path = temp_file_path
-
-# Function to stop recording
-def stop_recording():
-    st.session_state.recording = False
-
-# Layout for recording buttons
-col1, col2 = st.columns([1, 1])
-with col1:
-    if st.button('Start Recording'):
-        start_recording()
-with col2:
-    if st.button('Stop Recording') and st.session_state.recording:
-        stop_recording()
-
-# Save and plot recorded data
-if 'temp_file_path' in st.session_state:
-    temp_file_path = st.session_state.temp_file_path
-    
-    st.audio(temp_file_path, format='audio/wav')
-    st.success('Recording saved successfully!')
-
-    # Plot the recorded data
-    with wave.open(temp_file_path, 'r') as wf:
-        recorded_data = np.frombuffer(wf.readframes(-1), dtype=np.int16)
-    
-    fig, ax = plt.subplots()
-    ax.plot(recorded_data)
-    ax.set_title("Recorded Audio")
-    st.pyplot(fig)
-
-    # Transcribe the audio
-    if st.button('Transcribe Audio'):
-        def preprocess_audio(file_path, output_path, sample_rate=16000):
-            audio = AudioSegment.from_file(file_path)
-            audio = audio.set_frame_rate(sample_rate)  # Resample to 16 kHz
-            audio = audio.set_channels(1)  # Ensure mono channel
-            audio.export(output_path, format="wav")
-
-        # Load the model and processor
-        audio_processor = Wav2Vec2Processor.from_pretrained("facebook/wav2vec2-large-xlsr-53-german")
-        audio_model = Wav2Vec2ForCTC.from_pretrained("facebook/wav2vec2-large-xlsr-53-german")
-
-        processed_file_path = tempfile.NamedTemporaryFile(delete=False, suffix=".wav").name
-        preprocess_audio(temp_file_path, processed_file_path)
-
-        # Load the processed audio file
-        speech, sample_rate = sf.read(processed_file_path)
-
-        # Display some information about the audio file
-        st.write(f"Sample Rate: {sample_rate} Hz")
-        st.write(f"Number of Samples: {len(speech)}")
-
-        # Normalize the audio data
-        speech = (speech - np.mean(speech)) / np.std(speech)
-
-        # Ensure the audio input has a minimum length
-        min_length = 32000  # 2 seconds of audio at 16000 Hz
-        if len(speech) < min_length:
-            # Pad the audio to the minimum length
-            pad_length = min_length - len(speech)
-            speech = np.pad(speech, (0, pad_length), mode='constant')
-
-        # Process the audio data
-        input_values = audio_processor(speech, return_tensors="pt", sampling_rate=16000).input_values
-
-        # Perform speech-to-text with the model
-        with torch.no_grad():
-            logits = audio_model(input_values).logits
-            predicted_ids = torch.argmax(logits, dim=-1)
-            transcription = audio_processor.batch_decode(predicted_ids)
-            
-#################
-
-        st.session_state.transcription = text_from_speech
-        #st.session_state.transcription = transcription[0]
-
-#################
-
-        
-        # Display the transcription
-        st.write("Transcription:")
-        st.write(st.session_state.transcription)
 
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
