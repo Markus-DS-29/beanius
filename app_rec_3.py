@@ -1,3 +1,5 @@
+#status: Running as Streamlit WebApp and saving to SQL
+
 import os
 import streamlit as st
 import mysql.connector
@@ -39,29 +41,21 @@ def get_db_connection():
     return mysql.connector.connect(**db_config)
 
 # Function to save conversations to the database
-def save_conversations_to_db(messages, session_id):
+def save_conversations_to_db(messages):
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    # Check if the session ID already exists in the database
-    cursor.execute("SELECT COUNT(*) FROM conversations WHERE session_id = %s", (session_id,))
-    if cursor.fetchone()[0] > 0:
-        # Session already saved, no need to save again
-        cursor.close()
-        conn.close()
-        return
-
-    # Insert new session data
     for message in messages:
-        query = "INSERT INTO conversations (session_id, timestamp, role, content) VALUES (%s, %s, %s, %s)"
-        values = (session_id, datetime.now(), message["role"], message["content"])
-        cursor.execute(query, values)
+        cursor.execute('''
+            INSERT INTO conversations (timestamp, role, content)
+            VALUES (%s, %s, %s)
+        ''', (datetime.now(), message['role'], message['content']))
     
     conn.commit()
     cursor.close()
     conn.close()
 
-# Connection to HuggingFace
+# Connection to huggingface
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
 
@@ -121,9 +115,7 @@ chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=m
 st.title("Welcome to the Beanius, your Espresso expert.")
 st.markdown("Just give me a minute, I will be right with you.")
 
-# Initialize session state
-if "session_id" not in st.session_state:
-    st.session_state.session_id = str(datetime.now().timestamp())  # Unique session ID based on timestamp
+# Initialize chat history
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -131,9 +123,13 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+        
 
-# Recording input
+        
+################
+
 state = st.session_state
+
 if 'text_received' not in state:
     state.text_received = []
 
@@ -142,6 +138,15 @@ with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+
+#if text_from_speech:
+ #   state.text_received.append(text_from_speech)
+    
+#for text in state.text_received:
+ #   st.text(text_from_speech)
+#st.write(text_from_speech)
+        
+################        
 
 transcription = text_from_speech
 
@@ -169,23 +174,25 @@ if transcription:
         st.session_state.messages.append({"role": "assistant", "content": response})
 
     # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages, st.session_state.session_id)
+    save_conversations_to_db(st.session_state.messages)
 
+
+################
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-    
+
     # Generate response
     response = chain({"question": prompt})
     msg = response['answer']
-    
+
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": msg})
     with st.chat_message("assistant"):
         st.markdown(msg)
 
     # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages, st.session_state.session_id)
+    save_conversations_to_db(st.session_state.messages)
