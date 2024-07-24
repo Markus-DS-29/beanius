@@ -108,35 +108,35 @@ with c2:
 st.text(text_from_speech)
         
 ################
-        
-        transcription = text_from_speech
 
-        # Display the transcription
-        st.session_state.transcription = transcription
-        st.write(f"Transcription: {transcription}")
+transcription = text_from_speech
 
-        # Use the transcription as input to the chatbot
-        if transcription:
-            # Display user message in chat message container
-            st.chat_message("user").markdown(transcription)
+# Display the transcription
+st.session_state.transcription = transcription
+st.write(f"Transcription: {transcription}")
 
-            # Add user message to chat history
-            st.session_state.messages.append({"role": "user", "content": transcription})
+# Use the transcription as input to the chatbot
+if transcription:
+    # Display user message in chat message container
+    st.chat_message("user").markdown(transcription)
 
-            # Begin spinner before answering question so it's there for the duration
-            with st.spinner("Grinding an answer..."):
-                # Send question to chain to get answer
-                answer = chain(transcription)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": transcription})
 
-                # Extract answer from dictionary returned by chain
-                response = answer["answer"]
+    # Begin spinner before answering question so it's there for the duration
+    with st.spinner("Grinding an answer..."):
+        # Send question to chain to get answer
+        answer = chain(transcription)
 
-                # Display chatbot response in chat message container
-                with st.chat_message("assistant"):
-                    st.markdown(response)
+        # Extract answer from dictionary returned by chain
+        response = answer["answer"]
 
-                # Add assistant response to chat history
-                st.session_state.messages.append({"role": "assistant", "content": response})
+        # Display chatbot response in chat message container
+        with st.chat_message("assistant"):
+            st.markdown(response)
+
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 # React to text input
 if prompt := st.chat_input("Welche Art Espresso suchst du?"):
