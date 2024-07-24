@@ -1,80 +1,61 @@
+#streamlit run demo_v3.py
+
+
+# streamlit_audio_recorder by stefanrmmr (rs. analytics) - version January 2023
+
 import streamlit as st
-import base64
-import io
-import soundfile as sf
+from st_audiorec import st_audiorec
 
-st.title("Audio Recorder")
+# DESIGN implement changes to the standard streamlit UI/UX
+# --> optional, not relevant for the functionality of the component!
+st.set_page_config(page_title="streamlit_audio_recorder")
+# Design move app further up and remove top padding
+st.markdown('''<style>.css-1egvi7u {margin-top: -3rem;}</style>''',
+            unsafe_allow_html=True)
+# Design change st.Audio to fixed height of 45 pixels
+st.markdown('''<style>.stAudio {height: 45px;}</style>''',
+            unsafe_allow_html=True)
+# Design change hyperlink href link color
+st.markdown('''<style>.css-v37k9u a {color: #ff4c4b;}</style>''',
+            unsafe_allow_html=True)  # darkmode
+st.markdown('''<style>.css-nlntq9 a {color: #ff4c4b;}</style>''',
+            unsafe_allow_html=True)  # lightmode
 
-# Function to process audio data
-def process_audio(audio_data):
-    audio_data = audio_data.split(",")[1]
-    audio_bytes = base64.b64decode(audio_data)
-    audio_file = io.BytesIO(audio_bytes)
-    data, samplerate = sf.read(audio_file)
-    return audio_bytes
 
-# Display audio recorder UI
-st.markdown(
-    """
-    <script>
-    let mediaRecorder;
-    let audioChunks = [];
+def audiorec_demo_app():
 
-    async function startRecording() {
-        audioChunks = [];
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            mediaRecorder.start();
+    # TITLE and Creator information
+    st.title('streamlit audio recorder')
+    st.markdown('Implemented by '
+        '[Stefan Rummer](https://www.linkedin.com/in/stefanrmmr/) - '
+        'view project source code on '
+                
+        '[GitHub](https://github.com/stefanrmmr/streamlit-audio-recorder)')
+    st.write('\n\n')
 
-            mediaRecorder.addEventListener("dataavailable", event => {
-                audioChunks.push(event.data);
-            });
+    # TUTORIAL: How to use STREAMLIT AUDIO RECORDER?
+    # by calling this function an instance of the audio recorder is created
+    # once a recording is completed, audio data will be saved to wav_audio_data
 
-            mediaRecorder.addEventListener("stop", () => {
-                const audioBlob = new Blob(audioChunks);
-                const reader = new FileReader();
-                reader.readAsDataURL(audioBlob);
-                reader.onloadend = function() {
-                    const base64data = reader.result;
-                    document.getElementById('audioData').value = base64data;
-                    document.getElementById('uploadButton').click();
-                };
-            });
+    wav_audio_data = st_audiorec() # tadaaaa! yes, that's it! :D
 
-            document.getElementById('stopButton').disabled = false;
-            document.getElementById('startButton').disabled = true;
-            document.getElementById('status').innerText = 'Recording...';
-        } catch (error) {
-            console.error('Error accessing microphone:', error);
-        }
-    }
+    # add some spacing and informative messages
+    col_info, col_space = st.columns([0.57, 0.43])
+    with col_info:
+        st.write('\n')  # add vertical spacer
+        st.write('\n')  # add vertical spacer
+        st.write('The .wav audio data, as received in the backend Python code,'
+                 ' will be displayed below this message as soon as it has'
+                 ' been processed. [This informative message is not part of'
+                 ' the audio recorder and can be removed easily] 🎈')
 
-    function stopRecording() {
-        mediaRecorder.stop();
-        document.getElementById('stopButton').disabled = true;
-        document.getElementById('startButton').disabled = false;
-        document.getElementById('status').innerText = 'Recording stopped. Processing...';
-    }
-    </script>
-    <button id="startButton" onclick="startRecording()">Start Recording</button>
-    <button id="stopButton" onclick="stopRecording()" disabled>Stop Recording</button>
-    <p id="status">Press "Start Recording" to begin.</p>
-    <textarea id="audioData" style="display:none;"></textarea>
-    <button id="uploadButton" style="display:none;" onclick="document.getElementById('uploadForm').submit();">Upload</button>
-    <form id="uploadForm" method="POST">
-        <input type="hidden" name="audio_data" id="audioDataInput">
-    </form>
-    """,
-    unsafe_allow_html=True
-)
+    if wav_audio_data is not None:
+        # display audio data as received on the Python side
+        col_playback, col_space = st.columns([0.58,0.42])
+        with col_playback:
+            st.audio(wav_audio_data, format='audio/wav')
 
-# Capture and process the audio data
-audio_data = st.experimental_get_query_params().get('audio_data', [None])[0]
 
-if audio_data:
-    audio_bytes = process_audio(audio_data)
-    st.audio(audio_bytes, format='audio/wav')
-    st.success("Audio file uploaded and processed successfully.")
-else:
-    st.warning("Please record audio first.")
+if __name__ == '__main__':
+    # call main function
+    audiorec_demo_app()
