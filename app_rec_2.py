@@ -112,7 +112,7 @@ with c2:
     
 #for text in state.text_received:
  #   st.text(text_from_speech)
-st.write(text_from_speech)
+#st.write(text_from_speech)
         
 ################        
 
