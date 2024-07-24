@@ -1,18 +1,10 @@
 #streamlit run coffee_bot_2.py
 
-
 import streamlit as st
 import os
 import requests
-
 import numpy as np
-import wave
-import matplotlib.pyplot as plt
-import torch
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-import soundfile as sf
-from pydub import AudioSegment
-import sounddevice as sd
 
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
