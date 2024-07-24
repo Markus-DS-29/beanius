@@ -1,5 +1,7 @@
 import os
 import streamlit as st
+import mysql.connector
+from datetime import datetime
 import streamlit.components.v1 as components
 #import sounddevice as sd
 import numpy as np
@@ -24,17 +26,36 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
-#connection to huggingface
-huggingface_token = st.secrets["api_keys"]["df_token"]
-login(token=huggingface_token)
-
-# Accessing secrets from Streamlit secrets management
+# MySQL database connection details from Streamlit secrets
 db_config = {
     'user': st.secrets["mysql"]["user"],
     'password': st.secrets["mysql"]["password"],
     'host': st.secrets["mysql"]["host"],
     'database': st.secrets["mysql"]["database"]
 }
+
+# Function to connect to the database
+def get_db_connection():
+    return mysql.connector.connect(**db_config)
+
+# Function to save conversations to the database
+def save_conversations_to_db(messages):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    for message in messages:
+        cursor.execute('''
+            INSERT INTO conversations (timestamp, role, content)
+            VALUES (%s, %s, %s)
+        ''', (datetime.now(), message['role'], message['content']))
+    
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+# Connection to huggingface
+huggingface_token = st.secrets["api_keys"]["huggingface_token"]
+login(token=huggingface_token)
 
 # This info is at the top of each HuggingFace model page
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
@@ -150,6 +171,9 @@ if transcription:
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
 
+    # Save the updated conversation to the database
+    save_conversations_to_db(st.session_state.messages)
+
 
 ################
 # Chat Input
@@ -167,3 +191,6 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     st.session_state.messages.append({"role": "assistant", "content": msg})
     with st.chat_message("assistant"):
         st.markdown(msg)
+
+    # Save the updated conversation to the database
+    save_conversations_to_db(st.session_state.messages)
