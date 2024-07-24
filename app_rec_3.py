@@ -25,8 +25,16 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
 #connection to huggingface
-huggingface_token = st.secrets["df_token"]
+huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
+
+# Accessing secrets from Streamlit secrets management
+db_config = {
+    'user': st.secrets["mysql"]["user"],
+    'password': st.secrets["mysql"]["password"],
+    'host': st.secrets["mysql"]["host"],
+    'database': st.secrets["mysql"]["database"]
+}
 
 # This info is at the top of each HuggingFace model page
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
