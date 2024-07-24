@@ -224,15 +224,21 @@ if 'temp_file_path' in st.session_state:
             logits = audio_model(input_values).logits
             predicted_ids = torch.argmax(logits, dim=-1)
             transcription = audio_processor.batch_decode(predicted_ids)
+            
+#################
 
-        st.session_state.transcription = transcription[0]
+        st.session_state.transcription = text_from_speech
+        #st.session_state.transcription = transcription[0]
 
+#################
+
+        
         # Display the transcription
         st.write("Transcription:")
         st.write(st.session_state.transcription)
 
 # Chat Input
-if prompt := st.chat_input("Say something to Espresso Martin!"):
+if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
