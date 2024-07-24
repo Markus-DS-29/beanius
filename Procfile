@@ -1,1 +1,1 @@
-web: python app.py
+web: sh -c "streamlit run app.py & python server.py"
