@@ -1,17 +1,7 @@
-#streamlit run demo_v3.py
-import sys
-import os
-
-# Path to the directory containing the st_audiorec module
-module_path = 'st_audiorec'
-sys.path.append(module_path)
-import st_audiorec
-
-
 # streamlit_audio_recorder by stefanrmmr (rs. analytics) - version January 2023
 
 import streamlit as st
-#from st_audiorec import st_audiorec
+from st_audiorec import st_audiorec
 
 # DESIGN implement changes to the standard streamlit UI/UX
 # --> optional, not relevant for the functionality of the component!
