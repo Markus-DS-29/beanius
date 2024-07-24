@@ -1,6 +1,9 @@
 import streamlit as st
 from st_audiorec import st_audiorec  # Import the st_audiorec function
 
+print(sys.path)  # Check if the path includes your repository
+print(dir(st_audiorec))  # List available attributes in st_audiorec
+
 # Initialize the st_audiorec component
 audio_recorder = st_audiorec()
 
