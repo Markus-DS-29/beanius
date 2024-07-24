@@ -1,6 +1,8 @@
 import os
 import streamlit as st
+#import sounddevice as sd
 import numpy as np
+import wave
 import matplotlib.pyplot as plt
 import torch
 from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
@@ -8,10 +10,9 @@ import soundfile as sf
 from pydub import AudioSegment
 import tempfile
 import shutil
-import threading
 
 # Audio
-from streamlit_mic_recorder import speech_to_text
+from streamlit_mic_recorder import mic_recorder, speech_to_text
 
 # Chatbot imports
 from huggingface_hub import login
@@ -22,11 +23,11 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
-# Connection to HuggingFace
+#connection to huggingface
 huggingface_token = st.secrets["df_token"]
 login(token=huggingface_token)
 
-# Model setup
+# This info is at the top of each HuggingFace model page
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 
@@ -90,7 +91,9 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
+        
 
+        
 ################
 
 state = st.session_state
@@ -98,52 +101,60 @@ state = st.session_state
 if 'text_received' not in state:
     state.text_received = []
 
-def record_speech():
-    # Call speech_to_text and return the result
-    return speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
-
 c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
-    if st.button("Start Recording"):
-        with st.spinner("Recording in progress..."):
-            # Run the speech_to_text in a separate thread
-            record_thread = threading.Thread(target=lambda: state.update({"text_received": record_speech()}))
-            record_thread.start()
-            record_thread.join()  # Wait for the recording to complete
+    text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
-text_from_speech = state.get("text_received", "")
-
+#if text_from_speech:
+ #   state.text_received.append(text_from_speech)
+    
+#for text in state.text_received:
+ #   st.text(text_from_speech)
+#st.write(text_from_speech)
+        
 ################        
 
 transcription = text_from_speech
 
 # Use the transcription as input to the chatbot
 if transcription:
+    # Display user message in chat message container
     st.chat_message("user").markdown(transcription)
 
+    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": transcription})
 
+    # Begin spinner before answering question so it's there for the duration
     with st.spinner("Grinding an answer..."):
+        # Send question to chain to get answer
         answer = chain(transcription)
+
+        # Extract answer from dictionary returned by chain
         response = answer["answer"]
 
+        # Display chatbot response in chat message container
         with st.chat_message("assistant"):
             st.markdown(response)
 
+        # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
+
 
 ################
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
+    # Generate response
     response = chain({"question": prompt})
     msg = response['answer']
 
+    # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": msg})
     with st.chat_message("assistant"):
         st.markdown(msg)
