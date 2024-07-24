@@ -8,7 +8,7 @@ import soundfile as sf
 from pydub import AudioSegment
 import tempfile
 import shutil
-import time
+import threading
 
 # Audio
 from streamlit_mic_recorder import speech_to_text
@@ -98,11 +98,9 @@ state = st.session_state
 if 'text_received' not in state:
     state.text_received = []
 
-def simulate_recording():
-    # Simulate recording process with a delay
-    time.sleep(5)
-    # Normally here you would call speech_to_text and return its result
-    return "Simulated speech text"
+def record_speech():
+    # Call speech_to_text and return the result
+    return speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
 c1, c2 = st.columns(2)
 with c1:
@@ -110,10 +108,10 @@ with c1:
 with c2:
     if st.button("Start Recording"):
         with st.spinner("Recording in progress..."):
-            # Simulate the recording process
-            state.text_received = simulate_recording()
-            # In a real application, replace simulate_recording() with:
-            # state.text_received = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+            # Run the speech_to_text in a separate thread
+            record_thread = threading.Thread(target=lambda: state.update({"text_received": record_speech()}))
+            record_thread.start()
+            record_thread.join()  # Wait for the recording to complete
 
 text_from_speech = state.get("text_received", "")
 
