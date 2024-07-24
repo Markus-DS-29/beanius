@@ -3,7 +3,7 @@ import sys
 import os
 
 # Path to the directory containing the st_audiorec module
-module_path = 'st_audiorec/st_audiorec'
+module_path = 'st_audiorec'
 sys.path.append(module_path)
 import st_audiorec
 
