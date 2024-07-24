@@ -1,3 +1,4 @@
+git+https://github.com/Markus-DS-29/beanius.git#egg=streamlit-audiorec
 wave
 transformers
 pydub
