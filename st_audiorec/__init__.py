@@ -9,7 +9,7 @@ def st_audiorec():
 
     # get parent directory relative to current directory
     #parent_dir = os.path.dirname(os.path.abspath(__file__))
-    parent_dir = "https://github.com/Markus-DS-29/beanius/st_audiorec/"
+    parent_dir = "https://github.com/Markus-DS-29/beanius/st_audiorec"
     # Custom REACT-based component for recording client audio in browser
     build_dir = os.path.join(parent_dir, "frontend/build")
     # specify directory and initialize st_audiorec object functionality
