@@ -1,4 +1,13 @@
 #streamlit run demo_v3.py
+import sys
+import os
+
+# Path to the directory containing the st_audiorec module
+module_path = '/path/to/your/repository/st_audiorec'
+sys.path.append(module_path)
+
+# Now you can import st_audiorec
+import st_audiorec
 
 
 # streamlit_audio_recorder by stefanrmmr (rs. analytics) - version January 2023
