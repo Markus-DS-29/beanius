@@ -16,3 +16,4 @@ langchain
 langchain-huggingface
 langchain-community
 flask
+werkzeug
