@@ -12,7 +12,7 @@ with c1:
 with c2:
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
-if text:
+if text_from_speech:
     state.text_received.append(text_from_speech)
     
 for text in state.text_received:
