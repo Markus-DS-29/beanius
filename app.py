@@ -3,10 +3,8 @@ import sys
 import os
 
 # Path to the directory containing the st_audiorec module
-module_path = '/path/to/your/repository/st_audiorec'
+module_path = 'st_audiorec'
 sys.path.append(module_path)
-
-# Now you can import st_audiorec
 import st_audiorec
 
 
