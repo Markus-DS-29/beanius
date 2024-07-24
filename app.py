@@ -1,38 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from flask import Flask, request, jsonify
-from werkzeug.middleware.dispatcher import DispatcherMiddleware
-from werkzeug.serving import run_simple
-import base64
-import io
-import soundfile as sf
-
-# Flask app for handling audio uploads
-app = Flask(__name__)
-
-@app.route('/upload', methods=['POST'])
-def upload_audio():
-    data = request.get_json()
-    audio_data = data['data'].split(",")[1]
-    audio_bytes = base64.b64decode(audio_data)
-    
-    audio_file = io.BytesIO(audio_bytes)
-    data, samplerate = sf.read(audio_file)
-    
-    # Process the audio data (e.g., transcription)
-    # Here you can save the audio file or send it to a transcription service
-    
-    return jsonify(status="success")
-
-# Function to start the Flask server
-def run():
-    app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
-        '/streamlit': st.server.app,
-    })
-    run_simple('0.0.0.0', 8501, app)
-
-if __name__ == "__main__":
-    run()
 
 # Streamlit app for recording audio
 def audio_recorder():
