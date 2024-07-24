@@ -43,10 +43,10 @@ class StAudioRec extends StreamlitComponentBase<State> {
       <span>
         <div>
           <button id='record' onClick={this.onClick_start}>
-            Start Recording
+            Start Recording Now
           </button>
           <button id='stop' onClick={this.onClick_stop}>
-            Stop
+            Stop Now
           </button>
           <button id='reset' onClick={this.onClick_reset}>
             Reset
