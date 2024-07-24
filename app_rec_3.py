@@ -97,17 +97,39 @@ for message in st.session_state.messages:
         
 ################
 
+def record_speech(state):
+    # Start recording and update the state
+    state["recording"] = True
+    state["text_received"] = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+    state["recording"] = False
+
+
+####
+
 state = st.session_state
 
 if 'text_received' not in state:
     state.text_received = []
 
+if 'recording' not in state:
+    state.recording = False
+
 c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
-    with st.spinner("Recording in progress..."):
-        text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+    if st.button("Start Recording"):
+        state.recording = True
+
+        # Start recording in a separate thread
+        recording_thread = threading.Thread(target=record_speech, args=(state,))
+        recording_thread.start()
+
+        # Display a spinner while recording
+        with st.spinner("Recording in progress..."):
+            # Wait for the recording thread to finish
+            recording_thread.join()
+####
 
 #if text_from_speech:
  #   state.text_received.append(text_from_speech)
@@ -118,29 +140,22 @@ with c2:
         
 ################        
 
-transcription = text_from_speech
+###
+transcription = state.text_received
 
 # Use the transcription as input to the chatbot
 if transcription:
-    # Display user message in chat message container
     st.chat_message("user").markdown(transcription)
 
-    # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": transcription})
 
-    # Begin spinner before answering question so it's there for the duration
     with st.spinner("Grinding an answer..."):
-        # Send question to chain to get answer
         answer = chain(transcription)
-
-        # Extract answer from dictionary returned by chain
         response = answer["answer"]
 
-        # Display chatbot response in chat message container
         with st.chat_message("assistant"):
             st.markdown(response)
 
-        # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
 
 
