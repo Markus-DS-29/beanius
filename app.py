@@ -5,7 +5,7 @@ import os
 # Path to the directory containing the st_audiorec module
 module_path = 'st_audiorec'
 sys.path.append(module_path)
-#import st_audiorec
+import st_audiorec
 
 
 # streamlit_audio_recorder by stefanrmmr (rs. analytics) - version January 2023
