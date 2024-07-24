@@ -12,7 +12,7 @@ setuptools.setup(
     description="Record audio from the user's microphone in apps that are deployed to the web. (via Browser Media-API) [GitHub ☆ 160+: steamlit-audio-recorder]",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/stefanrmmr/streamlit-audio-recorder",
+    url="https://github.com/Markus-DS-29/beanius/",
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[],
