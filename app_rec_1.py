@@ -10,10 +10,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write("Convert speech to text:")
 with c2:
-    text = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
-
-if text:
-    state.text_received.append(text)
+    text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
 for text in state.text_received:
-    st.text(text)
+    st.text(text_from_speech)
