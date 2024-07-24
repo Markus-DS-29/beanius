@@ -14,8 +14,7 @@ soundfile==0.12.1
 torch==2.3.1
 matplotlib
 matplotlib-inline
-matplotlib.animation
 langchain
 langchain-huggingface
 langchain-community
-#threading
+
