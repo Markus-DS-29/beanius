@@ -115,9 +115,34 @@ with c2:
 st.write(text_from_speech)
         
 ################        
-        
+
+transcription = text_from_speech
+
+# Use the transcription as input to the chatbot
+if transcription:
+    # Display user message in chat message container
+    st.chat_message("user").markdown(transcription)
+
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": transcription})
+
+    # Begin spinner before answering question so it's there for the duration
+    with st.spinner("Grinding an answer..."):
+        # Send question to chain to get answer
+        answer = chain(transcription)
+
+        # Extract answer from dictionary returned by chain
+        response = answer["answer"]
+
+        # Display chatbot response in chat message container
+        with st.chat_message("assistant"):
+            st.markdown(response)
+
+        # Add assistant response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": response})
 
 
+################
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
