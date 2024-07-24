@@ -18,4 +18,4 @@ langchain
 langchain-huggingface
 langchain-community
 numpy
-
+pyaudio
