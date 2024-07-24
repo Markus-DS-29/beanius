@@ -5,10 +5,20 @@ import soundfile as sf
 
 st.title("Audio Recorder and Transcriber")
 
-# Placeholder for recording status
-recording_status = st.empty()
+# Function to process audio data
+def process_audio(audio_data):
+    audio_data = audio_data.split(",")[1]
+    audio_bytes = base64.b64decode(audio_data)
+    
+    audio_file = io.BytesIO(audio_bytes)
+    data, samplerate = sf.read(audio_file)
+    
+    # Process the audio data (e.g., transcription)
+    # Here you can save the audio file or send it to a transcription service
+    
+    return audio_bytes
 
-# JavaScript code for audio recording
+# UI components
 st.markdown(
     """
     <script>
@@ -51,6 +61,7 @@ st.markdown(
         document.getElementById('startButton').disabled = false;
         document.getElementById('status').innerText = 'Recording stopped. Processing...';
     }
+
     </script>
     <button id="startButton" onclick="startRecording()">Start Recording</button>
     <button id="stopButton" onclick="stopRecording()" disabled>Stop Recording</button>
@@ -62,23 +73,20 @@ st.markdown(
 )
 
 # Process the audio data
-if st.button("Upload Audio", key="upload"):
-    audio_data = st.session_state.get('audio_data', None)
-    if audio_data:
-        audio_data = audio_data.split(",")[1]
-        audio_bytes = base64.b64decode(audio_data)
-        
-        audio_file = io.BytesIO(audio_bytes)
-        data, samplerate = sf.read(audio_file)
-        
-        # Display audio player
-        st.audio(audio_bytes, format='audio/wav')
-        
-        st.success("Audio file uploaded and processed successfully.")
-    else:
-        st.warning("No audio data found. Please record audio first.")
+if 'audio_data' not in st.session_state:
+    st.session_state.audio_data = None
 
-# Hidden form to capture audio data
-st.form(key='upload_form', clear_on_submit=True).form_submit_button(
-    label='hidden_upload', on_click=lambda: st.session_state.update(audio_data=st.experimental_get_query_params().get('audioData', [None])[0])
-)
+if st.session_state.audio_data:
+    audio_bytes = process_audio(st.session_state.audio_data)
+    
+    # Display audio player
+    st.audio(audio_bytes, format='audio/wav')
+    
+    st.success("Audio file uploaded and processed successfully.")
+else:
+    st.warning("Please record audio first.")
+
+# Form to capture audio data
+with st.form(key='upload_form'):
+    st.session_state.audio_data = st.text_input('audio_data', value="", type="hidden")
+    st.form_submit_button(label='Upload Audio', on_click=lambda: st.session_state.update(audio_data=st.session_state.audio_data))
