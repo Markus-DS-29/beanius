@@ -1,7 +1,7 @@
 import streamlit as st
 import streamlit.components.v1 as components
 from flask import Flask, request, jsonify
-from werkzeug.wsgi import DispatcherMiddleware
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.serving import run_simple
 import base64
 import io
@@ -29,7 +29,7 @@ def run():
     app.wsgi_app = DispatcherMiddleware(app.wsgi_app, {
         '/streamlit': st.server.app,
     })
-    run_simple('localhost', 8501, app)
+    run_simple('0.0.0.0', 8501, app)
 
 if __name__ == "__main__":
     run()
