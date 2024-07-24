@@ -1,1 +1,12 @@
 streamlit-mic-recorder
+
+transformers
+pydub
+huggingface-hub==0.23.4
+langchain_huggingface
+langchain
+langchain-core
+faiss-cpu
+langchain
+langchain-huggingface
+langchain-community
