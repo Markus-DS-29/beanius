@@ -17,4 +17,5 @@ matplotlib-inline
 langchain
 langchain-huggingface
 langchain-community
+numpy
 
