@@ -15,6 +15,9 @@ from pydub import AudioSegment
 import tempfile
 import shutil
 import re
+import uuid
+from urllib.parse import urlencode
+
 
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
@@ -27,6 +30,14 @@ from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
+
+
+
+# Generate a unique session ID for a new session
+session_id = str(uuid.uuid4())
+
+# Store the session ID in session state
+st.session_state.session_id = session_id
 
 
 
@@ -71,7 +82,15 @@ def detect_and_replace_url(answer):
             detected_slug = None
         #answer = url_pattern.sub('[Info](/single_bean)', answer)
 #########        # Display a link that opens in the same tab
-        answer = url_pattern.sub(f'<a href="/single_bean?url={detected_slug}" target="_self">Hier klicken für mehr Infos.</a>', answer)
+
+        #Existing URL parameters
+        existing_params = {'url': detected_url}
+        # Add session_id to existing parameters
+        existing_params['session_id'] = session_id
+        # Generate URL with both parameters
+        subpage_url = f"/single_bean?{urlencode(existing_params)}"
+
+        answer = url_pattern.sub(f'<a href="subpage_url" target="_self">Hier klicken für mehr Infos.</a>', answer)
     else:
         detected_url = None
         detected_slug = None
