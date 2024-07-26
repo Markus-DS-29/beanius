@@ -50,6 +50,9 @@ def display_single_beans_info(source_url):
     else:
         st.markdown("**Error:** Bohne not found.")
 
+    cursor.close()
+    conn.close()
+
 # Main function to run the Streamlit app
 if __name__ == "__main__":
     source_url = st.text_input("Enter the product source URL")
