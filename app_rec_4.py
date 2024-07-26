@@ -90,7 +90,7 @@ def detect_and_replace_url(answer):
         # Generate URL with both parameters
         subpage_url = f"/single_bean?{urlencode(existing_params)}"
 
-        answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer, unsafe_allow_html=True)
+        answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer)
     else:
         detected_url = None
         detected_slug = None
@@ -234,6 +234,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     save_conversations_to_db(st.session_state.messages)
     
     # (Optional) Debugging: Print the detected URL and slug
+    st.write(f"subpage_url: {subpage_url}")
     if 'detected_url' in st.session_state:
         st.write(f"Detected URL: {st.session_state.detected_url}")
     if 'detected_slug' in st.session_state:
