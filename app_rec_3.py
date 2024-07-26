@@ -55,6 +55,18 @@ def save_conversations_to_db(messages):
     cursor.close()
     conn.close()
 
+# Function to detect and replace URLs in the answer
+def detect_and_replace_url(answer):
+    url_pattern = re.compile(r'(https?://\S+)')
+    urls = url_pattern.findall(answer)
+    if urls:
+        answer_url = urls[0]
+        answer = url_pattern.sub('<a href="/single_bean">Info</a>', answer)
+    else:
+        answer_url = None
+    return answer, answer_url
+
+
 # Connection to huggingface
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
@@ -166,6 +178,9 @@ if transcription:
         # Extract answer from dictionary returned by chain
         answer = response["answer"]
 
+        # Detect and replace URL in the answer using function frome above (c/p to text-chat)
+        answer, answer_url = detect_and_replace_url(answer)
+
         # Display chatbot response in chat message container
         with st.chat_message("assistant"):
             st.markdown(answer)
@@ -188,6 +203,9 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Generate response
     response = chain({"question": prompt})
     answer = response['answer']
+    
+    # Detect and replace URL in the answer using function frome above (c/p from text-chat)
+    answer, answer_url = detect_and_replace_url(answer)
 
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": answer})
