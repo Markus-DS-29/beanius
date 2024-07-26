@@ -63,7 +63,7 @@ def detect_and_replace_url(answer):
     urls = url_pattern.findall(answer)
     if urls:
         answer_url = urls[0]
-        answer = url_pattern.sub('<a href="/single_bean">Info</a>', answer)
+        answer = url_pattern.sub('[Info](/single_bean)', answer)
     else:
         answer_url = None
     return answer, answer_url
