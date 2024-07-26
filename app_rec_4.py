@@ -1,4 +1,3 @@
-
 import os
 import streamlit as st
 import mysql.connector
@@ -32,17 +31,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
 
-
-# Generate a unique session ID for a new session
-session_id = str(uuid.uuid4())
-
-# Store the session ID in session state
-st.session_state.session_id = session_id
-
-
-
-
-# MySQL database connection details from Streamlit secrets
+# Database connection configuration
 db_config = {
     'user': st.secrets["mysql"]["user"],
     'password': st.secrets["mysql"]["password"],
@@ -54,8 +43,7 @@ db_config = {
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
-
-#Function to save conversations to the database
+# Function to save conversations to the database
 def save_conversations_to_db(messages, session_id):
     conn = get_db_connection()
     cursor = conn.cursor()
@@ -70,6 +58,23 @@ def save_conversations_to_db(messages, session_id):
     cursor.close()
     conn.close()
 
+# Function to fetch conversations from the database
+def fetch_conversations_from_db(session_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute('''
+        SELECT timestamp, role, content
+        FROM conversations
+        WHERE session_id = %s
+        ORDER BY timestamp
+    ''', (session_id,))
+    conversations = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return conversations
 
 # Function to detect and replace URLs in the answer
 def detect_and_replace_url(answer):
@@ -82,13 +87,10 @@ def detect_and_replace_url(answer):
             detected_slug = detected_url[len(base_url):]
         else:
             detected_slug = None
-        #answer = url_pattern.sub('[Info](/single_bean)', answer)
-#########        # Display a link that opens in the same tab
-
-        #Existing URL parameters
+        # Existing URL parameters
         existing_params = {'url': detected_slug}
         # Add session_id to existing parameters
-        existing_params['session_id'] = session_id
+        existing_params['session_id'] = st.session_state.session_id
         # Generate URL with both parameters
         subpage_url = f"/single_bean?{urlencode(existing_params)}"
 
@@ -162,7 +164,19 @@ chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=m
 st.title("Welcome to the Beanius, your Espresso expert.")
 st.markdown("Just give me a minute, I will be right with you.")
 
-# Initialize chat history
+# Extract session_id from the URL
+query_params = st.experimental_get_query_params()
+session_id = query_params.get('session_id', [None])[0]
+
+if session_id:
+    # Fetch and load the conversation from the database
+    st.session_state.messages = fetch_conversations_from_db(session_id)
+else:
+    # Generate a new session_id if none exists
+    session_id = str(uuid.uuid4())
+    st.session_state.session_id = session_id
+
+# Initialize chat history if not already initialized
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
