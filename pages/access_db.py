@@ -14,32 +14,33 @@ def get_db_connection():
     conn = mysql.connector.connect(**db_config)
     return conn
 
-# Function to fetch beans_infos from the database
-def fetch_beans_infos_from_db():
+# Function to fetch conversations from the database
+def fetch_conversations_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT title , source_url FROM beans_info')
-    beans_info = cursor.fetchall()
+    cursor.execute('SELECT * FROM conversations ORDER BY timestamp DESC')
+    conversations = cursor.fetchall()
     
     cursor.close()
     conn.close()
     
-    return beans_infos
+    return conversations
 
-# Function to display beans_infos on the subpage
-def display_beans_infos():
-    st.title("Unsere Bohnen")
+# Function to display conversations on the subpage
+def display_conversations():
+    st.title("Conversation History")
 
-    # Fetch beans_infos from the database
-    beans_infos = fetch_beans_infos_from_db()
+    # Fetch conversations from the database
+    conversations = fetch_conversations_from_db()
 
     # Display conversations
-    for beans_info in beans_infos:
-        st.markdown(f"**Bohne:** {beans_info['title']}")
-        st.markdown(f"**Link:** {beans_info['source_url']}")
+    for conversation in conversations:
+        st.markdown(f"**Timestamp:** {conversation['timestamp']}")
+        st.markdown(f"**Role:** {conversation['role']}")
+        st.markdown(f"**Content:** {conversation['content']}")
         st.markdown("---")
 
 # Main function to run the Streamlit app
 if __name__ == "__main__":
-    display_beans_infos()
+    display_conversations()
