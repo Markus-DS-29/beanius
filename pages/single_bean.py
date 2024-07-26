@@ -50,7 +50,7 @@ def display_single_beans_info(source_url):
     else:
         st.markdown("**Error:** Bohne not found.")
 
-    cursor.close()
+    #cursor.close()
     conn.close()
 
 # Main function to run the Streamlit app
