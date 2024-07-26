@@ -47,16 +47,14 @@ def display_single_beans_info(source_url):
             st.markdown("**Reviews:** No reviews yet.")
         
         st.markdown("---")
+        st.markdown(f"**Beschreibung:** {beans_info['description']}")
     else:
         st.markdown("**Error:** Bohne not found.")
 
-    st.markdown(f"**Beschreibung:** {beans_info['description']}")
-
-    #cursor.close()
-    #conn.close()
-
 # Main function to run the Streamlit app
 if __name__ == "__main__":
-    source_url = st.text_input("Enter the product source URL")
-    if source_url:
+    if 'detected_url' in st.session_state:
+        source_url = st.session_state.detected_url
         display_single_beans_info(source_url)
+    else:
+        st.markdown("**Error:** No URL detected in the session state.")
