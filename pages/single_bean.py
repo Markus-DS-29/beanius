@@ -58,7 +58,9 @@ if __name__ == "__main__":
     source_url = query_params.get('url', [None])[0]
     if source_url:
         # Decode the URL from the query parameters
-        decoded_url = urllib.parse.unquote(source_url)
+        decoded_slug = urllib.parse.unquote(source_url)
+        external_url = "https://www.kaffeezentrale.de/"
+        decoded_url = external_url + decoded_slug
         display_single_beans_info(decoded_url)
     else:
         st.markdown("**Error:** No URL detected in the query parameters.")
