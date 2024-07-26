@@ -84,7 +84,7 @@ def detect_and_replace_url(answer):
 #########        # Display a link that opens in the same tab
 
         #Existing URL parameters
-        existing_params = {'url': detected_url}
+        existing_params = {'url': detected_slug}
         # Add session_id to existing parameters
         existing_params['session_id'] = session_id
         # Generate URL with both parameters
@@ -234,7 +234,6 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     save_conversations_to_db(st.session_state.messages)
     
     # (Optional) Debugging: Print the detected URL and slug
-    st.write(f"subpage_url: {subpage_url}")
     if 'detected_url' in st.session_state:
         st.write(f"Detected URL: {st.session_state.detected_url}")
     if 'detected_slug' in st.session_state:
