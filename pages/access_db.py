@@ -14,7 +14,7 @@ def get_db_connection():
     conn = mysql.connector.connect(**db_config)
     return conn
 
-# Function to fetch conversations from the database
+# Function to fetch beans_infos from the database
 def fetch_beans_infos_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -32,7 +32,7 @@ def display_beans_infos():
     st.title("Unsere Bohnen")
 
     # Fetch beans_infos from the database
-    beans_infos = fetch_conversations_from_db()
+    beans_infos = fetch_beans_infos_from_db()
 
     # Display conversations
     for beans_info in beans_infos:
