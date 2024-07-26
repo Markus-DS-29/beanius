@@ -37,7 +37,7 @@ def display_beans_infos():
     # Display beans_infos
     for beans_info in beans_infos:
         st.markdown(f"**Bohne:** {beans_info['title']}")
-        st.markdown(f"**URL:** {conversation['source_url']}")
+        st.markdown(f"**URL:** {beans_info['source_url']}")
         st.markdown("---")
 
 # Main function to run the Streamlit app
