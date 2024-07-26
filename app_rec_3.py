@@ -69,7 +69,9 @@ def detect_and_replace_url(answer):
             detected_slug = detected_url[len(base_url):]
         else:
             detected_slug = None
-        answer = url_pattern.sub('[Info](/single_bean)', answer)
+        #answer = url_pattern.sub('[Info](/single_bean)', answer)
+#########        # Display a link that opens in the same tab
+        answer = url_pattern.sub('<a href="/single_bean" target="_self">Open Subpage</a>', answer)
     else:
         detected_url = None
         detected_slug = None
@@ -182,7 +184,7 @@ if transcription:
 
         # Display chatbot response in chat message container
         with st.chat_message("assistant"):
-            st.markdown(answer)
+            st.markdown(answer, unsafe_allow_html=True)
 
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": answer})
@@ -207,7 +209,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
-        st.markdown(answer)
+        st.markdown(answer, unsafe_allow_html=True)
        
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
