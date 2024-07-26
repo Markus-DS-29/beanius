@@ -43,8 +43,8 @@ def display_beans_infos():
 
         chart_data = pd.DataFrame(
             {
-                "Rating": beans_info['rating_value'],
-                "Reviews": beans_info['review_count'],
+                "Rating": {beans_info['rating_value']},
+                "Reviews": {beans_info['review_count']},
             }
         )
         st.bar_chart(chart_data)
