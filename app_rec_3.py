@@ -60,13 +60,23 @@ def save_conversations_to_db(messages):
 # Function to detect and replace URLs in the answer
 def detect_and_replace_url(answer):
     url_pattern = re.compile(r'(https?://\S+)')
+    base_url = "https://www.kaffeezentrale.de/"
     urls = url_pattern.findall(answer)
     if urls:
-        answer_url = urls[0]
+        detected_url = urls[0]
+        if detected_url.startswith(base_url):
+            detected_slug = detected_url[len(base_url):]
+        else:
+            detected_slug = None
         answer = url_pattern.sub('[Info](/single_bean)', answer)
     else:
-        answer_url = None
-    return answer, answer_url
+        detected_url = None
+        detected_slug = None
+    return answer, detected_url, detected_slug
+
+# Store in session state
+st.session_state.detected_url = detected_url
+st.session_state.detected_slug = detected_slug
 
 
 # Connection to huggingface
