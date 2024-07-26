@@ -187,12 +187,12 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
 
     # Generate response
     response = chain({"question": prompt})
-    msg = response['answer']
+    answer = response['answer']
 
     # Add response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": msg})
+    st.session_state.messages.append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
-        st.markdown(msg)
+        st.markdown(answer)
 
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
