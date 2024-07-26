@@ -1,4 +1,4 @@
-simport streamlit as st
+import streamlit as st
 import mysql.connector
 from datetime import datetime
 
