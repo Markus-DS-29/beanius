@@ -15,7 +15,7 @@ def get_db_connection():
     return conn
 
 # Function to fetch conversations from the database
-def fetch_conversations_from_db():
+def fetch_beans_infos_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
@@ -25,21 +25,21 @@ def fetch_conversations_from_db():
     cursor.close()
     conn.close()
     
-    return conversations
+    return beans_infos
 
-# Function to display conversations on the subpage
-def display_conversations():
+# Function to display beans_infos on the subpage
+def display_beans_infos():
     st.title("Unsere Bohnen")
 
-    # Fetch conversations from the database
-    conversations = fetch_conversations_from_db()
+    # Fetch beans_infos from the database
+    beans_infos = fetch_conversations_from_db()
 
     # Display conversations
-    for conversation in conversations:
+    for beans_info in beans_infos:
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**Link:** {beans_info['source_url']}")
         st.markdown("---")
 
 # Main function to run the Streamlit app
 if __name__ == "__main__":
-    display_conversations()
+    display_beans_infos()
