@@ -5,10 +5,10 @@ from datetime import datetime
 # Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
     db_config = {
-        'user': st.secrets["mysql"]["user"],
-        'password': st.secrets["mysql"]["password"],
+        'user': st.secrets["mysql"]["DB_USER"],
+        'password': st.secrets["mysql"]["DB_PASS"],
         'host': st.secrets["mysql"]["host"],
-        'database': st.secrets["mysql"]["database"]
+        'database': st.secrets["mysql"]["BEANS_DATABASE"]
     }
     
     conn = mysql.connector.connect(**db_config)
@@ -19,7 +19,7 @@ def fetch_conversations_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT * FROM conversations ORDER BY timestamp DESC')
+    cursor.execute('SELECT title , source_url FROM beans_info)
     conversations = cursor.fetchall()
     
     cursor.close()
