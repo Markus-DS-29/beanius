@@ -76,7 +76,8 @@ def detect_and_replace_url(answer):
     # Store in session state
     st.session_state.detected_url = detected_url
     st.session_state.detected_slug = detected_slug
-    return answer
+    
+    return answer, detected_url, detected_slug
 
 
 # Connection to huggingface
