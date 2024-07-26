@@ -60,4 +60,4 @@ if __name__ == "__main__":
         #decoded_url = urllib.parse.unquote(source_url)
         display_single_beans_info(source_url)
     else:
-        st.markdown(f'"{source_url}**Error:** No URL detected in the query parameters.")
+        st.markdown(f'"{source_url}**Error:** No URL detected in the query parameters."')
