@@ -53,8 +53,11 @@ def display_single_beans_info(source_url):
 
 # Main function to run the Streamlit app
 if __name__ == "__main__":
-    if 'detected_url' in st.session_state:
-        source_url = st.session_state.detected_url
-        display_single_beans_info(source_url)
+    query_params = st.experimental_get_query_params()
+    source_url = query_params.get('url', [None])[0]
+    if source_url:
+        # Decode the URL from the query parameters
+        #decoded_url = urllib.parse.unquote(source_url)
+        display_single_beans_info(decoded_url)
     else:
-        st.markdown("**Error:** No URL detected in the session state.")
+        st.markdown("**Error:** No URL detected in the query parameters.")
