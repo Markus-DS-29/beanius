@@ -44,7 +44,7 @@ def display_beans_infos():
         chart_data = pd.DataFrame(
             {
                 "col1": list(range(20)) * 3,
-                "col2": np.random.randn(60),
+                "col2": 42,
                 "col3": ["A"] * 20 + ["B"] * 20 + ["C"] * 20,
             }
         )
