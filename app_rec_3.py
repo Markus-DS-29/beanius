@@ -127,8 +127,21 @@ for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# Function to handle transcription and response
-def handle_response(transcription):
+state = st.session_state
+
+if 'text_received' not in state:
+    state.text_received = []
+
+c1, c2 = st.columns(2)
+with c1:
+    st.write("Was für einen Espresso suchst du?")
+with c2:
+    text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+
+transcription = text_from_speech
+
+# Use the transcription as input to the chatbot
+if transcription:
     # Display user message in chat message container
     st.chat_message("user").markdown(transcription)
 
@@ -156,24 +169,24 @@ def handle_response(transcription):
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
 
-# Mic Recorder input
-state = st.session_state
-
-if 'text_received' not in state:
-    state.text_received = []
-
-c1, c2 = st.columns(2)
-with c1:
-    st.write("Was für einen Espresso suchst du?")
-with c2:
-    text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
-
-transcription = text_from_speech
-
-# Use the transcription as input to the chatbot
-if transcription:
-    handle_response(transcription)
-
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
-    handle_response(prompt)
+    # Add user message to chat history
+    st.session_state.messages.append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    # Generate response
+    response = chain({"question": prompt})
+    answer = response['answer']
+    
+    # Detect and replace URL in the answer
+    answer = detect_and_replace_url(answer)
+
+    # Add response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": answer})
+    with st.chat_message("assistant"):
+        st.markdown(answer)
+
+    # Save the updated conversation to the database
+    save_conversations_to_db(st.session_state.messages)
