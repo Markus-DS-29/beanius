@@ -211,7 +211,7 @@ if transcription:
         st.session_state.messages.append({"role": "assistant", "content": answer})
 
     # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages)
+    save_conversations_to_db(st.session_state.messages, session_id)
 
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
@@ -233,7 +233,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         st.markdown(answer, unsafe_allow_html=True)
        
     # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages)
+    save_conversations_to_db(st.session_state.messages, session_id)
     
     # (Optional) Debugging: Print the detected URL and slug
     if 'detected_url' in st.session_state:
