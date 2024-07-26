@@ -161,17 +161,17 @@ if transcription:
     # Begin spinner before answering question so it's there for the duration
     with st.spinner("Grinding an answer..."):
         # Send question to chain to get answer
-        answer = chain(transcription)
-
+        response = chain({"question": transcription})
+        
         # Extract answer from dictionary returned by chain
-        response = answer["answer"]
+        answer = response["answer"]
 
         # Display chatbot response in chat message container
         with st.chat_message("assistant"):
             st.markdown(response)
 
         # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": response})
+        st.session_state.messages.append({"role": "assistant", "content": answer})
 
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
