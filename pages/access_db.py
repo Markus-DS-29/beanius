@@ -1,4 +1,4 @@
-import streamlit as st
+simport streamlit as st
 import mysql.connector
 from datetime import datetime
 
@@ -29,16 +29,15 @@ def fetch_conversations_from_db():
 
 # Function to display conversations on the subpage
 def display_conversations():
-    st.title("Conversation History")
+    st.title("Unsere Bohnen")
 
     # Fetch conversations from the database
     conversations = fetch_conversations_from_db()
 
     # Display conversations
     for conversation in conversations:
-        st.markdown(f"**Timestamp:** {conversation['timestamp']}")
-        st.markdown(f"**Role:** {conversation['role']}")
-        st.markdown(f"**Content:** {conversation['content']}")
+        st.markdown(f"**Bohne:** {beans_info['title']}")
+        st.markdown(f"**Link:** {beans_info['source_url']}")
         st.markdown("---")
 
 # Main function to run the Streamlit app
