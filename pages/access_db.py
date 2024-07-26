@@ -39,7 +39,7 @@ def display_beans_infos():
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
         chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']], })
-        st.bar_chart(chart_data_rating, horizontal=True)   
+        st.bar_chart(chart_data_rating, y="Rating", horizontal=True)   
         st.markdown(f"**Reviews:** {beans_info['review_count']}")   
         st.markdown("---")
 
