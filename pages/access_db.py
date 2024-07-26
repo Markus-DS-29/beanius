@@ -41,13 +41,12 @@ def display_beans_infos():
         st.markdown(f"**Rating:** {beans_info['rating_value']}")
         st.markdown(f"**Reviews:** {beans_info['review_count']}")
 
-        chart_data = pd.DataFrame(
-            {
-                "Rating": [beans_info['rating_value']],
-                "Reviews": [beans_info['review_count']],
-            }
-        )
-        st.bar_chart(chart_data)
+        chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']], })
+        st.bar_chart(chart_data_rating, horizontal=True)
+
+        chart_data_review = pd.DataFrame({"Rating": [beans_info['review_count']], })
+        st.bar_chart(chart_data_review, horizontal=True)
+        
         st.markdown("---")
 
 # Main function to run the Streamlit app
