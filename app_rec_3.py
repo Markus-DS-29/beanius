@@ -64,7 +64,7 @@ def detect_and_replace_url(answer):
     base_url = "https://www.kaffeezentrale.de/"
     urls = url_pattern.findall(answer)
     if urls:
-        detected_url = urls[0]
+        detected_url = urls[0].rstrip(')')
         if detected_url.startswith(base_url):
             detected_slug = detected_url[len(base_url):]
         else:
