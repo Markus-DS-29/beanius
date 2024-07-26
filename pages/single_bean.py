@@ -1,6 +1,7 @@
 import streamlit as st
 import mysql.connector
 import pandas as pd
+import urllib.parse
 
 # Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
