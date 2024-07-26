@@ -40,6 +40,15 @@ def display_beans_infos():
         st.markdown(f"**URL:** {beans_info['source_url']}")
         st.markdown(f"**Rating:** {beans_info['rating_value']}")
         st.markdown(f"**Reviews:** {beans_info['review_count']}")
+
+        chart_data = pd.DataFrame(
+            {
+                "col1": list(range(20)) * 3,
+                "col2": np.random.randn(60),
+                "col3": ["A"] * 20 + ["B"] * 20 + ["C"] * 20,
+            }
+        )
+        st.bar_chart(chart_data)
         st.markdown("---")
 
 # Main function to run the Streamlit app
