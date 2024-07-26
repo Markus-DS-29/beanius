@@ -68,7 +68,7 @@ def detect_and_replace_url(answer):
             detected_slug = detected_url[len(base_url):]
         else:
             detected_slug = None
-        answer = url_pattern.sub('[Info](/single_bean)', answer)
+        answer_url = url_pattern.sub('[Info](/single_bean)', answer_url)
     else:
         detected_url = None
         detected_slug = None
@@ -77,7 +77,7 @@ def detect_and_replace_url(answer):
     st.session_state.detected_url = detected_url
     st.session_state.detected_slug = detected_slug
     
-    return answer
+    return answer_url
 
 
 # Connection to huggingface
