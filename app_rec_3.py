@@ -208,6 +208,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     st.session_state.messages.append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
         st.markdown(answer)
+        st.markdown(detected_url)
 
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
