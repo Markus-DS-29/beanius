@@ -19,11 +19,13 @@ def fetch_single_beans_info_from_db(source_url):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info WHERE source_url = %s', (source_url,))
-    beans_info = cursor.fetchone()
-    
-    cursor.close()
-    conn.close()
+    try:
+        cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info WHERE source_url = %s', (source_url,))
+        beans_info = cursor.fetchone()  # Fetch only one row
+        
+    finally:
+        cursor.close()
+        conn.close()
     
     return beans_info
 
@@ -41,7 +43,7 @@ def display_single_beans_info(source_url):
 
         if beans_info['review_count'] > 0:
             chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-            st.bar_chart(chart_data_rating, y="Rating", use_container_width=True)
+            st.bar_chart(chart_data_rating, use_container_width=True)
             st.markdown(f"**Reviews:** {beans_info['review_count']}")
         else:
             st.markdown("**Reviews:** No reviews yet.")
