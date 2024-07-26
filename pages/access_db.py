@@ -2,15 +2,20 @@ import streamlit as st
 from datetime import datetime
 import mysql.connector
 
+
 # Function to establish a connection to the database
 def get_db_connection():
-    conn = mysql.connector.connect(
-        host="your_host",
-        user="your_user",
-        password="your_password",
-        database="your_database"
-    )
+    db_config = {
+        'user': st.secrets["mysql"]["user"],
+        'password': st.secrets["mysql"]["password"],
+        'host': st.secrets["mysql"]["host"],
+        'database': st.secrets["mysql"]["database"]
+    }
+    
+    conn = mysql.connector.connect(**db_config)
     return conn
+
+
 
 # Function to fetch conversations from the database
 def fetch_conversations_from_db():
