@@ -23,7 +23,7 @@ def fetch_single_beans_info_from_db(source_url):
     beans_info = cursor.fetchone()
     
     #cursor.close()
-    #conn.close()
+    conn.close()
     
     return beans_info
 
@@ -51,7 +51,7 @@ def display_single_beans_info(source_url):
         st.markdown("**Error:** Bohne not found.")
 
     #cursor.close()
-    conn.close()
+    #conn.close()
 
 # Main function to run the Streamlit app
 if __name__ == "__main__":
