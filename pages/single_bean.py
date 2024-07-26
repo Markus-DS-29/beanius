@@ -22,7 +22,9 @@ def fetch_single_beans_info_from_db(source_url):
     try:
         cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info WHERE source_url = %s', (source_url,))
         beans_info = cursor.fetchone()  # Fetch only one row
-        
+    except mysql.connector.Error as err:
+        st.error(f"Error: {err}")
+        beans_info = None
     finally:
         cursor.close()
         conn.close()
