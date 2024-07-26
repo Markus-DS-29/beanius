@@ -20,7 +20,7 @@ def fetch_conversations_from_db():
     cursor = conn.cursor(dictionary=True)
     
     cursor.execute('SELECT title , source_url FROM beans_info')
-    conversations = cursor.fetchall()
+    beans_info = cursor.fetchall()
     
     cursor.close()
     conn.close()
