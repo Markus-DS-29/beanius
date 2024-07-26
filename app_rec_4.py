@@ -54,20 +54,22 @@ db_config = {
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
-# Function to save conversations to the database
-def save_conversations_to_db(messages):
+
+#Function to save conversations to the database
+def save_conversations_to_db(messages, session_id):
     conn = get_db_connection()
     cursor = conn.cursor()
     
     for message in messages:
         cursor.execute('''
-            INSERT INTO conversations (timestamp, role, content)
-            VALUES (%s, %s, %s)
-        ''', (datetime.now(), message['role'], message['content']))
+            INSERT INTO conversations (timestamp, role, content, session_id)
+            VALUES (%s, %s, %s, %s)
+        ''', (datetime.now(), message['role'], message['content'], session_id))
     
     conn.commit()
     cursor.close()
     conn.close()
+
 
 # Function to detect and replace URLs in the answer
 def detect_and_replace_url(answer):
