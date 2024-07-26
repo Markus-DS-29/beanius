@@ -1,9 +1,8 @@
 import streamlit as st
-from datetime import datetime
 import mysql.connector
+from datetime import datetime
 
-
-# Function to establish a connection to the database
+# Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
     db_config = {
         'user': st.secrets["mysql"]["user"],
@@ -14,8 +13,6 @@ def get_db_connection():
     
     conn = mysql.connector.connect(**db_config)
     return conn
-
-
 
 # Function to fetch conversations from the database
 def fetch_conversations_from_db():
@@ -30,12 +27,7 @@ def fetch_conversations_from_db():
     
     return conversations
 
-
-
-
-# Import the function to fetch conversations
-from your_module import fetch_conversations_from_db
-
+# Function to display conversations on the subpage
 def display_conversations():
     st.title("Conversation History")
 
@@ -49,5 +41,6 @@ def display_conversations():
         st.markdown(f"**Content:** {conversation['content']}")
         st.markdown("---")
 
+# Main function to run the Streamlit app
 if __name__ == "__main__":
     display_conversations()
