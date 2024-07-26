@@ -58,6 +58,6 @@ if __name__ == "__main__":
     if source_url:
         # Decode the URL from the query parameters
         #decoded_url = urllib.parse.unquote(source_url)
-        display_single_beans_info(decoded_url)
+        display_single_beans_info(source_url)
     else:
         st.markdown("**Error:** No URL detected in the query parameters.")
