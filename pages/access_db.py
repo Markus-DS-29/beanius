@@ -34,8 +34,8 @@ def display_beans_infos():
     # Fetch conversations from the database
     beans_infos = fetch_beans_infos_from_db()
 
-    # Display conversations
-    for conversation in conversations:
+    # Display beans_infos
+    for beans_info in beans_infos:
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {conversation['source_url']}")
         st.markdown("---")
