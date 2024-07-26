@@ -1,34 +1,14 @@
-#status: Running as Streamlit WebApp and saving to SQL
-
 import os
 import streamlit as st
 import mysql.connector
 from datetime import datetime
-import streamlit.components.v1 as components
-#import sounddevice as sd
-import numpy as np
-import wave
-import matplotlib.pyplot as plt
-import torch
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-import soundfile as sf
-from pydub import AudioSegment
-import tempfile
-import shutil
 import re
-
-
-# Audio
-from streamlit_mic_recorder import mic_recorder, speech_to_text
-
-# Chatbot imports
 from huggingface_hub import login
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
-from langchain.schema import Document
 
 # MySQL database connection details from Streamlit secrets
 db_config = {
@@ -68,7 +48,7 @@ def detect_and_replace_url(answer):
             detected_slug = detected_url[len(base_url):]
         else:
             detected_slug = None
-        answer_url = url_pattern.sub('[Info](/single_bean)', answer_url)
+        answer = url_pattern.sub('[Info](/single_bean)', answer)
     else:
         detected_url = None
         detected_slug = None
@@ -77,18 +57,16 @@ def detect_and_replace_url(answer):
     st.session_state.detected_url = detected_url
     st.session_state.detected_slug = detected_slug
     
-    return answer_url
+    return answer
 
-
-# Connection to huggingface
+# Connection to HuggingFace
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
 
-# This info is at the top of each HuggingFace model page
+# HuggingFace model and embeddings
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 
-# Initialize HuggingFace embeddings
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
 embeddings_folder = "coffee_content/embeddings"
 load_path = "coffee_content/faiss_index"
@@ -148,10 +126,6 @@ if "messages" not in st.session_state:
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-        
-
-        
-################
 
 state = st.session_state
 
@@ -163,15 +137,6 @@ with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
-
-#if text_from_speech:
- #   state.text_received.append(text_from_speech)
-    
-#for text in state.text_received:
- #   st.text(text_from_speech)
-#st.write(text_from_speech)
-        
-################        
 
 transcription = text_from_speech
 
@@ -191,8 +156,8 @@ if transcription:
         # Extract answer from dictionary returned by chain
         answer = response["answer"]
 
-        # Detect and replace URL in the answer using function frome above (c/p to text-chat)
-        answer, answer_url = detect_and_replace_url(answer)
+        # Detect and replace URL in the answer
+        answer = detect_and_replace_url(answer)
 
         # Display chatbot response in chat message container
         with st.chat_message("assistant"):
@@ -204,8 +169,6 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages)
 
-
-################
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
@@ -217,8 +180,8 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     response = chain({"question": prompt})
     answer = response['answer']
     
-    # Detect and replace URL in the answer using function frome above (c/p from text-chat)
-    answer, answer_url = detect_and_replace_url(answer)
+    # Detect and replace URL in the answer
+    answer = detect_and_replace_url(answer)
 
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": answer})
