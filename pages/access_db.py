@@ -19,7 +19,7 @@ def fetch_beans_infos_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT title, source_url FROM beans_info')
+    cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info')
     beans_infos = cursor.fetchall()
     
     cursor.close()
@@ -38,6 +38,8 @@ def display_beans_infos():
     for beans_info in beans_infos:
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
+        st.markdown(f"**Rating:** {beans_info['rating_value']}")
+        st.markdown(f"**Reviews:** {beans_info['review_count']}")
         st.markdown("---")
 
 # Main function to run the Streamlit app
