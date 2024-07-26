@@ -1,6 +1,37 @@
 import streamlit as st
 from datetime import datetime
 
+
+import streamlit as st
+import mysql.connector
+from datetime import datetime
+
+# Function to establish a connection to the database
+def get_db_connection():
+    conn = mysql.connector.connect(
+        host="your_host",
+        user="your_user",
+        password="your_password",
+        database="your_database"
+    )
+    return conn
+
+# Function to fetch conversations from the database
+def fetch_conversations_from_db():
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute('SELECT * FROM conversations ORDER BY timestamp DESC')
+    conversations = cursor.fetchall()
+    
+    cursor.close()
+    conn.close()
+    
+    return conversations
+
+
+
+
 # Import the function to fetch conversations
 from your_module import fetch_conversations_from_db
 
