@@ -90,7 +90,7 @@ def detect_and_replace_url(answer):
         # Generate URL with both parameters
         subpage_url = f"/single_bean?{urlencode(existing_params)}"
 
-        answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer)
+        answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer, unsafe_allow_html=True)
     else:
         detected_url = None
         detected_slug = None
