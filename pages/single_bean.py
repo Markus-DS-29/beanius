@@ -14,12 +14,12 @@ def get_db_connection():
     conn = mysql.connector.connect(**db_config)
     return conn
 
-# Function to fetch a single beans_info from the database based on its index
-def fetch_single_beans_info_from_db(index_id):
+# Function to fetch a single beans_info from the database based on its source_url
+def fetch_single_beans_info_from_db(source_url):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info WHERE id = %s', (index_id,))
+    cursor.execute('SELECT title, source_url, rating_value, review_count FROM beans_info WHERE source_url = %s', (source_url,))
     beans_info = cursor.fetchone()
     
     cursor.close()
@@ -28,11 +28,11 @@ def fetch_single_beans_info_from_db(index_id):
     return beans_info
 
 # Function to display a single beans_info on the subpage
-def display_single_beans_info(index_id):
+def display_single_beans_info(source_url):
     st.title("Unsere Bohne")
 
     # Fetch single beans_info from the database
-    beans_info = fetch_single_beans_info_from_db(index_id)
+    beans_info = fetch_single_beans_info_from_db(source_url)
 
     # Display beans_info if it exists
     if beans_info:
@@ -41,7 +41,7 @@ def display_single_beans_info(index_id):
 
         if beans_info['review_count'] > 0:
             chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-            st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
+            st.bar_chart(chart_data_rating, y="Rating", use_container_width=True)
             st.markdown(f"**Reviews:** {beans_info['review_count']}")
         else:
             st.markdown("**Reviews:** No reviews yet.")
@@ -52,6 +52,6 @@ def display_single_beans_info(index_id):
 
 # Main function to run the Streamlit app
 if __name__ == "__main__":
-    single_product_index_id = st.number_input("Enter the product index ID", min_value=1)
-    if single_product_index_id:
-        display_single_beans_info(single_product_index_id)
+    source_url = st.text_input("Enter the product source URL")
+    if source_url:
+        display_single_beans_info(source_url)
