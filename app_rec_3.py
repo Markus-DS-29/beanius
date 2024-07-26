@@ -71,7 +71,7 @@ def detect_and_replace_url(answer):
             detected_slug = None
         #answer = url_pattern.sub('[Info](/single_bean)', answer)
 #########        # Display a link that opens in the same tab
-        answer = url_pattern.sub('<a href="/single_bean" target="_self">Open Subpage</a>', answer)
+        answer = url_pattern.sub('<a href="/single_bean?url={detected_slug}" target="_self">Hier klicken für mehr Infos.</a>', answer)
     else:
         detected_url = None
         detected_slug = None
