@@ -1,14 +1,34 @@
+
 import os
 import streamlit as st
 import mysql.connector
 from datetime import datetime
-import re
+import streamlit.components.v1 as components
+#import sounddevice as sd
+import numpy as np
+import wave
+import matplotlib.pyplot as plt
+import torch
+from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+import soundfile as sf
+from pydub import AudioSegment
+import tempfile
+import shutil
+
+# Audio
+from streamlit_mic_recorder import mic_recorder, speech_to_text
+
+# Chatbot imports
 from huggingface_hub import login
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
+from langchain.schema import Document
+
+
+
 
 # MySQL database connection details from Streamlit secrets
 db_config = {
