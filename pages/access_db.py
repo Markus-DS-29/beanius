@@ -1,10 +1,6 @@
 import streamlit as st
 from datetime import datetime
-
-
-import streamlit as st
 import mysql.connector
-from datetime import datetime
 
 # Function to establish a connection to the database
 def get_db_connection():
