@@ -28,12 +28,14 @@ def fetch_single_beans_info_from_db(source_url):
     return beans_info
 
 
-# Function to handle button click
+# Function to handle button click and show the link
 def redirect_button(url):
+    full_url = f"{url}?session_id={session_id}"
     st.experimental_set_query_params(session_id=session_id)
-    js = f"window.location.href = '{url}?session_id={session_id}';"
+    js = f"window.location.href = '{full_url}';"
     html = f"<script>{js}</script>"
     st.markdown(html, unsafe_allow_html=True)
+    return full_url
 
 
 # Function to display a single beans_info on the subpage
