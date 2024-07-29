@@ -85,3 +85,5 @@ if __name__ == "__main__":
   
     # Add a link to navigate back to the main page
     st.write(f"[Zurück zum Chat]({main_page_url})")
+    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat html</a>', unsafe_allow_html=True)
+
