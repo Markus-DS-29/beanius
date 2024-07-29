@@ -9,8 +9,9 @@ css = """
 /* Style the title */
 
 /* Style the sidebar */
-.sidebar .sidebar-content {
-    background-color: red !important;
+.st-emotion-cache-1gv3huu.eczjsme18 {
+  display: none;
+}
 }
 </style>
 """
