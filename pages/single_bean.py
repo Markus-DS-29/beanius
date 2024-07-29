@@ -46,9 +46,9 @@ def display_single_beans_info(source_url):
     # Display beans_info if it exists
     if beans_info:
 
-        # Add a button to navigate back to the main page
-        if st.button('Zurück zum Chat', key="top"):
-            redirect_button('/')
+        if st.button('Go to Main Page'):
+            main_page_url = redirect_button('/')
+            st.write(f"[Click here to go to the main page]({main_page_url})")
             
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
