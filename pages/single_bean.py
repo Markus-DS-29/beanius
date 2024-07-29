@@ -36,7 +36,7 @@ def redirect_button(url):
     # Create a button that redirects to a new page
 
 # Add a button to navigate back to the main page
-if st.button('Zurück zum Chat', key=top):
+if st.button('Zurück zum Chat', key="top"):
     redirect_button('/~/+/app_rec_4')
 
 
@@ -88,5 +88,5 @@ if __name__ == "__main__":
         main_page_url = "/"
   
     # Add a second button to navigate back to the main page
-    if st.button('Zurück zum Chat', key=bottom):
+    if st.button('Zurück zum Chat', key="bottom"):
         redirect_button('/~/+/app_rec_4')
