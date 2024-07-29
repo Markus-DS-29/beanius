@@ -14,6 +14,9 @@ css = """
 }
 </style>
 """
+# Inject CSS into the Streamlit app
+st.markdown(css, unsafe_allow_html=True)
+
 
 # Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
