@@ -151,7 +151,7 @@ memory = init_memory(llm)
 input_template = """Answer the question based only on the following context.
 Keep your answers short and succinct, but always use whole sentences.
 All answers must always be in German!
-Most Important: Always add the according source_url to your answer. 
+Most Important: Always add the according url to your answer. 
 
 Previous conversation:
 {chat_history}
