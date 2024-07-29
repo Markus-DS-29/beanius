@@ -3,7 +3,7 @@ import mysql.connector
 import pandas as pd
 import urllib.parse
 
-# Define your CSS styles
+# Custom CSS
 css = """
 <style>
 section[data-testid="stSidebar"][aria-expanded="true"]{
