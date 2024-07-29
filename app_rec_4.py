@@ -29,6 +29,17 @@ from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
 
+# Custom CSS
+css = """
+<style>
+section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
+</style>
+"""
+# Inject CSS into the Streamlit app
+st.markdown(css, unsafe_allow_html=True)
+
+
 # Database connection configuration
 db_config = {
     'user': st.secrets["mysql"]["user"],
