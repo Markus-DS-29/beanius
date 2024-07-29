@@ -170,18 +170,26 @@ chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=m
 st.title("Welcome to the Beanius, your Espresso expert.")
 st.markdown("Just give me a minute, I will be right with you.")
 
-# Extract session_id from the URL
-query_params = st.experimental_get_query_params()
-session_id = query_params.get('session_id', [None])[0]
 
-if session_id:
-    # Fetch and load the conversation from the database
-    st.session_state.messages = fetch_conversations_from_db(session_id)
-else:
-    # Generate a new session_id if none exists
-    session_id = str(uuid.uuid4())
-    st.session_state.session_id = session_id
+#######
+# Initialize session_id
+if 'session_id' not in st.session_state:
+    # Extract session_id from the URL if available
+    query_params = st.experimental_get_query_params()
+    session_id_from_url = query_params.get('session_id', [None])[0]
 
+    if session_id_from_url:
+        # Use session_id from URL
+        st.session_state.session_id = session_id_from_url
+    else:
+        # Generate a new session_id if none exists
+        st.session_state.session_id = str(uuid.uuid4())
+
+# Retrieve session_id from session_state
+session_id = st.session_state.session_id
+
+#######
+   
 # Initialize chat history if not already initialized
 if "messages" not in st.session_state:
     st.session_state.messages = []
