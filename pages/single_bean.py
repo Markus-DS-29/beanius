@@ -80,9 +80,14 @@ if __name__ == "__main__":
 
 
 ###
-    # Function to handle button click
-    def redirect_button(url):
-        st.experimental_set_query_params(session_id=session_id)
-        js = f"window.location.href = '{url}?session_id={session_id}';"
-        html = f"<script>{js}</script>"
-        st.markdown(html, unsafe_allow_html=True)
+
+
+
+    # Create a link to the main page with the session_id
+    if session_id:
+        main_page_url = f"/?session_id={session_id}"
+    else:
+        main_page_url = "/"
+  
+    # Add a link to navigate back to the main page
+    st.write(f"[Click here to go to the main page]({main_page_url})")
