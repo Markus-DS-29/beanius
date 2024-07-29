@@ -27,18 +27,6 @@ def fetch_single_beans_info_from_db(source_url):
     
     return beans_info
 
-# Function to handle button click
-def redirect_button(url):
-    st.experimental_set_query_params(session_id=session_id)
-    js = f"window.location.href = '{url}?session_id={session_id}';"
-    html = f"<script>{js}</script>"
-    st.markdown(html, unsafe_allow_html=True)
-    # Create a button that redirects to a new page
-
-# Add a button to navigate back to the main page
-if st.button('Zurück zum Chat', key="top"):
-    redirect_button('/~/+/app_rec_4')
-
 
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
@@ -49,6 +37,18 @@ def display_single_beans_info(source_url):
 
     # Display beans_info if it exists
     if beans_info:
+        # Function to handle button click
+        def redirect_button(url):
+            st.experimental_set_query_params(session_id=session_id)
+            js = f"window.location.href = '{url}?session_id={session_id}';"
+            html = f"<script>{js}</script>"
+            st.markdown(html, unsafe_allow_html=True)
+            # Create a button that redirects to a new page
+        
+        # Add a button to navigate back to the main page
+        if st.button('Zurück zum Chat', key="top"):
+            redirect_button('/~/+/app_rec_4')
+            
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
 
