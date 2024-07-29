@@ -120,13 +120,18 @@ load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
 
-embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
+#embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder) #not needed anymore
+
+@st.cache_resource #create function
+def init_embeddings():
+    return HuggingFaceEmbeddings(model_name=embedding_model)
+embeddings = init_embeddings() 
 
 # Check if FAISS files exist before loading
 faiss_index_file = os.path.join(load_path, "index.faiss")
-faiss_pkl_file = os.path.join(load_path, "index.pkl")
+#faiss_pkl_file = os.path.join(load_path, "index.pkl")
 
-if os.path.exists(faiss_index_file) and os.path.exists(faiss_pkl_file):
+if os.path.exists(faiss_index_file): #and os.path.exists(faiss_pkl_file):
     vector_db = FAISS.load_local(load_path, embeddings, allow_dangerous_deserialization=True)
     retriever = vector_db.as_retriever(search_kwargs={"k": 5})
 else:
