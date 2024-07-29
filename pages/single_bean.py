@@ -43,11 +43,11 @@ def display_single_beans_info(source_url):
             js = f"window.location.href = '{url}?session_id={session_id}';"
             html = f"<script>{js}</script>"
             st.markdown(html, unsafe_allow_html=True)
-            # Create a button that redirects to a new page
+
         
         # Add a button to navigate back to the main page
         if st.button('Zurück zum Chat', key="top"):
-            redirect_button('/~/+/app_rec_4')
+            redirect_button('https://beanius-app-rec-4.streamlit.app/')
             
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
@@ -89,4 +89,4 @@ if __name__ == "__main__":
   
     # Add a second button to navigate back to the main page
     if st.button('Zurück zum Chat', key="bottom"):
-        redirect_button('/~/+/app_rec_4')
+        redirect_button('../')
