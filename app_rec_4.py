@@ -32,7 +32,7 @@ from langchain.schema import Document
 # Custom CSS
 css = """
 <style>
-section[data-testid="stSidebar"][aria-expanded="true"]{
+section[data-testid="stSidebar"]{
             display: none;
 </style>
 """
