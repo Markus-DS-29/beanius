@@ -48,8 +48,7 @@ def display_single_beans_info(source_url):
         main_page_url = "/"
   
     # Add a link to navigate back to the main page
-    st.write(f"[Zurück zum Chat]({main_page_url})")
-
+    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
 
     # Fetch single beans_info from the database
     beans_info = fetch_single_beans_info_from_db(source_url)
@@ -95,6 +94,5 @@ if __name__ == "__main__":
         main_page_url = "/"
   
     # Add a link to navigate back to the main page
-    st.write(f"[Zurück zum Chat]({main_page_url})")
-    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat html</a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
 
