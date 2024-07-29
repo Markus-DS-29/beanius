@@ -48,7 +48,7 @@ def display_single_beans_info(source_url):
 
         # Add a button to navigate back to the main page
         if st.button('Zurück zum Chat', key="top"):
-            redirect_button('https://beanius-app-rec-4.streamlit.app/')
+            redirect_button('/')
             
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
