@@ -172,21 +172,20 @@ st.markdown("Just give me a minute, I will be right with you.")
 
 
 #######
-# Initialize session_id
-if 'session_id' not in st.session_state:
-    # Extract session_id from the URL if available
-    query_params = st.experimental_get_query_params()
-    session_id_from_url = query_params.get('session_id', [None])[0]
 
-    if session_id_from_url:
-        # Use session_id from URL
-        st.session_state.session_id = session_id_from_url
-    else:
-        # Generate a new session_id if none exists
-        st.session_state.session_id = str(uuid.uuid4())
+# Extract session_id from the URL if available
+query_params = st.experimental_get_query_params()
+session_id_from_url = query_params.get('session_id', [None])[0]
 
-# Retrieve session_id from session_state
-session_id = st.session_state.session_id
+if session_id_from_url:
+    # Always use session_id from URL if present
+    st.session_state.session_id = session_id_from_url
+elif 'session_id' not in st.session_state:
+    # Generate a new session_id if none exists
+    st.session_state.session_id = str(uuid.uuid4())
+
+
+#######
 
 #######
    
