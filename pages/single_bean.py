@@ -30,6 +30,15 @@ def fetch_single_beans_info_from_db(source_url):
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
     st.title("Unsere Bohne")
+    # Create a link to the main page with the session_id
+    if session_id:
+        main_page_url = f"/?session_id={session_id}"
+    else:
+        main_page_url = "/"
+  
+    # Add a link to navigate back to the main page
+    st.write(f"[Zurück zum Chat]({main_page_url})")
+
 
     # Fetch single beans_info from the database
     beans_info = fetch_single_beans_info_from_db(source_url)
@@ -73,21 +82,6 @@ if __name__ == "__main__":
         main_page_url = f"/?session_id={session_id}"
     else:
         main_page_url = "/"
-
-    # Add a button to navigate back to the main page
-    if st.button('Back to Main Page'):
-        st.markdown(f'<a href="{main_page_url}" target="_self">Back to Main Page</a>', unsafe_allow_html=True)
-
-
-###
-
-
-
-    # Create a link to the main page with the session_id
-    if session_id:
-        main_page_url = f"/?session_id={session_id}"
-    else:
-        main_page_url = "/"
   
     # Add a link to navigate back to the main page
-    st.write(f"[Click here to go to the main page]({main_page_url})")
+    st.write(f"[Zurück zum Chat]({main_page_url})")
