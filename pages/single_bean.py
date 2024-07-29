@@ -27,6 +27,19 @@ def fetch_single_beans_info_from_db(source_url):
     
     return beans_info
 
+# Function to handle button click
+def redirect_button(url):
+    st.experimental_set_query_params(session_id=session_id)
+    js = f"window.location.href = '{url}?session_id={session_id}';"
+    html = f"<script>{js}</script>"
+    st.markdown(html, unsafe_allow_html=True)
+    # Create a button that redirects to a new page
+
+# Add a button to navigate back to the main page
+if st.button('Zurück zum Chat'):
+    redirect_button('/single_bean')
+
+
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
     st.title("Unsere Bohne")
@@ -73,20 +86,7 @@ if __name__ == "__main__":
         main_page_url = f"/?session_id={session_id}"
     else:
         main_page_url = "/"
-
-    # Add a button to navigate back to the main page
-    if st.button('Back to Main Page'):
-        st.markdown(f'<a href="{main_page_url}" target="_self">Back to Main Page</a>', unsafe_allow_html=True)
-
-
-###
-    # Function to handle button click
-    def redirect_button(url):
-        st.experimental_set_query_params(session_id=session_id)
-        js = f"window.location.href = '{url}?session_id={session_id}';"
-        html = f"<script>{js}</script>"
-        st.markdown(html, unsafe_allow_html=True)
-        # Create a button that redirects to a new page
-    
-    if st.button('Go to Single Bean Page'):
+  
+    # Add a second button to navigate back to the main page
+    if st.button('Zurück zum Chat'):
         redirect_button('/single_bean')
