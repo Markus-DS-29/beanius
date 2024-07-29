@@ -77,3 +77,12 @@ if __name__ == "__main__":
     # Add a button to navigate back to the main page
     if st.button('Back to Main Page'):
         st.markdown(f'<a href="{main_page_url}" target="_self">Back to Main Page</a>', unsafe_allow_html=True)
+
+
+###
+    # Function to handle button click
+    def redirect_button(url):
+        st.experimental_set_query_params(session_id=session_id)
+        js = f"window.location.href = '{url}?session_id={session_id}';"
+        html = f"<script>{js}</script>"
+        st.markdown(html, unsafe_allow_html=True)
