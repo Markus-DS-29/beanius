@@ -6,13 +6,8 @@ import urllib.parse
 # Define your CSS styles
 css = """
 <style>
-/* Style the title */
-
-/* Style the sidebar */
-.st-emotion-cache-1gv3huu.eczjsme18 {
-  display: none;
-}
-}
+section[data-testid="stSidebar"][aria-expanded="true"]{
+            display: none;
 </style>
 """
 # Inject CSS into the Streamlit app
