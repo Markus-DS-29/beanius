@@ -17,7 +17,6 @@ import re
 import uuid
 from urllib.parse import urlencode
 
-
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
 
@@ -29,7 +28,6 @@ from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
-
 
 # Database connection configuration
 db_config = {
@@ -170,8 +168,7 @@ chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=m
 st.title("Welcome to the Beanius, your Espresso expert.")
 st.markdown("Just give me a minute, I will be right with you.")
 
-
-#######
+####### Extract and handle session_id #######
 
 # Extract session_id from the URL if available
 query_params = st.experimental_get_query_params()
@@ -190,14 +187,15 @@ session_id = st.session_state.session_id
 # Display session ID for debugging
 st.write(f"Session ID: {session_id}")
 
+####### Initialize chat history and fetch conversations #######
 
-#######
-
-#######
-   
 # Initialize chat history if not already initialized
 if "messages" not in st.session_state:
     st.session_state.messages = []
+
+# Fetch conversations from the database if session_id is present
+if session_id_from_url:
+    st.session_state.messages = fetch_conversations_from_db(session_id)
 
 # Display chat messages from history on app rerun
 for message in st.session_state.messages:
