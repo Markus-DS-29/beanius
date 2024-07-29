@@ -3,6 +3,18 @@ import mysql.connector
 import pandas as pd
 import urllib.parse
 
+# Define your CSS styles
+css = """
+<style>
+/* Style the title */
+
+/* Style the sidebar */
+.sidebar .sidebar-content {
+    background-color: #f0f0f0;
+}
+</style>
+"""
+
 # Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
     db_config = {
