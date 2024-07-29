@@ -184,6 +184,12 @@ elif 'session_id' not in st.session_state:
     # Generate a new session_id if none exists
     st.session_state.session_id = str(uuid.uuid4())
 
+# Now you can safely use st.session_state.session_id
+session_id = st.session_state.session_id
+
+# Display session ID for debugging
+st.write(f"Session ID: {session_id}")
+
 
 #######
 
