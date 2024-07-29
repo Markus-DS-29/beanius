@@ -129,7 +129,7 @@ embeddings = init_embeddings()
 
 # Check if FAISS files exist before loading
 faiss_index_file = os.path.join(load_path, "index.faiss")
-#faiss_pkl_file = os.path.join(load_path, "index.pkl")
+#faiss_pkl_file = os.path.join(load_path, "index.pkl") #we decided to generate the embeddings instead of loading them.
 
 if os.path.exists(faiss_index_file): #and os.path.exists(faiss_pkl_file):
     vector_db = FAISS.load_local(load_path, embeddings, allow_dangerous_deserialization=True)
@@ -150,7 +150,7 @@ memory = init_memory(llm)
 # Prompt template
 input_template = """Answer the question based only on the following context.
 Keep your answers short and succinct, but always use whole sentences.
-All answers in German.
+All answers must always be in German!
 Most Important: Always add the according source_url to your answer. 
 
 Previous conversation:
