@@ -27,17 +27,6 @@ def fetch_single_beans_info_from_db(source_url):
     
     return beans_info
 
-
-# Function to handle button click and show the link
-def redirect_button(url):
-    full_url = f"{url}?session_id={session_id}"
-    st.experimental_set_query_params(session_id=session_id)
-    js = f"window.location.href = '{full_url}';"
-    html = f"<script>{js}</script>"
-    st.markdown(html, unsafe_allow_html=True)
-    return full_url
-
-
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
     st.title("Unsere Bohne")
@@ -47,11 +36,6 @@ def display_single_beans_info(source_url):
 
     # Display beans_info if it exists
     if beans_info:
-
-        if st.button('Go to Main Page'):
-            main_page_url = redirect_button('/')
-            st.write(f"[Click here to go to the main page]({main_page_url})")
-            
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
 
@@ -89,6 +73,16 @@ if __name__ == "__main__":
         main_page_url = f"/?session_id={session_id}"
     else:
         main_page_url = "/"
-  
-    # Add a link to navigate back to the main page
-    st.write(f"[Click here to go to the main page]({main_page_url})")
+
+    # Add a button to navigate back to the main page
+    if st.button('Back to Main Page'):
+        st.markdown(f'<a href="{main_page_url}" target="_self">Back to Main Page</a>', unsafe_allow_html=True)
+
+
+###
+    # Function to handle button click
+    def redirect_button(url):
+        st.experimental_set_query_params(session_id=session_id)
+        js = f"window.location.href = '{url}?session_id={session_id}';"
+        html = f"<script>{js}</script>"
+        st.markdown(html, unsafe_allow_html=True)
