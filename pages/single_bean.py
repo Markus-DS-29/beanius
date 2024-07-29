@@ -90,6 +90,5 @@ if __name__ == "__main__":
     else:
         main_page_url = "/"
   
-    # Add a second button to navigate back to the main page
-    if st.button('Zurück zum Chat', key="bottom"):
-        redirect_button('../')
+    # Add a link to navigate back to the main page
+    st.write(f"[Click here to go to the main page]({main_page_url})")
