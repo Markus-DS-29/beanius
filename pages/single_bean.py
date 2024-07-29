@@ -86,3 +86,7 @@ if __name__ == "__main__":
         js = f"window.location.href = '{url}?session_id={session_id}';"
         html = f"<script>{js}</script>"
         st.markdown(html, unsafe_allow_html=True)
+        # Create a button that redirects to a new page
+    
+    if st.button('Go to Single Bean Page'):
+        redirect_button('/single_bean')
