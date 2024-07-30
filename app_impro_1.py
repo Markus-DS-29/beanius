@@ -70,7 +70,7 @@ def fetch_chunks_sql_from_db():
     cursor.execute('''
         SELECT *
         FROM chunks_db
-    ''', (session_id,))
+    ''')
     chunks_sql = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -82,7 +82,7 @@ def fetch_feedback_sql_from_db():
     cursor.execute('''
         SELECT *
         FROM feedback_sql
-    ''', (session_id,))
+    ''')
     feedback_sql = cursor.fetchall()
     cursor.close()
     conn.close()
