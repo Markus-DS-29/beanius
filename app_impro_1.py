@@ -64,7 +64,7 @@ db_config_data = {
 }
 
 # Function to fetch content from the database
-def fetch_chunks_sql_from_db(session_id):
+def fetch_chunks_sql_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('''
@@ -76,7 +76,7 @@ def fetch_chunks_sql_from_db(session_id):
     conn.close()
     return chunks_sql
 
-def fetch_feedback_sql_from_db(session_id):
+def fetch_feedback_sql_from_db():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('''
