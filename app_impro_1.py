@@ -29,6 +29,8 @@ from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
+from langchain.document_loaders import DataFrameLoader
+from langchain.chains import RetrievalQA
 
 # Custom CSS
 css = """
