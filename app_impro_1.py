@@ -40,7 +40,7 @@ section[data-testid="stSidebar"]{
 st.markdown(css, unsafe_allow_html=True)
 
 
-# Database connection configuration
+# Database connection configuration for conversations
 db_config = {
     'user': st.secrets["mysql"]["user"],
     'password': st.secrets["mysql"]["password"],
@@ -51,6 +51,44 @@ db_config = {
 # Function to connect to the database
 def get_db_connection():
     return mysql.connector.connect(**db_config)
+
+
+### Start: Get content from database ###
+
+# Database connection configuration for conversations
+db_config_data = {
+    'user': st.secrets["mysql_data"]["user"],
+    'password': st.secrets["mysql_data"]["password"],
+    'host': st.secrets["mysql_data"]["host"],
+    'database': st.secrets["mysql_data"]["database"]
+}
+
+# Function to fetch content from the database
+def fetch_chunks_sql_from_db(session_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
+        SELECT *
+        FROM chunks_db
+    ''', (session_id,))
+    chunks_sql = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return chunks_sql
+
+def fetch_feedback_sql_from_db(session_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('''
+        SELECT *
+        FROM feedback_sql
+    ''', (session_id,))
+    feedback_sql = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return feedback_sql
+
+### End: Get RAG from database ###
 
 # Function to save conversations to the database
 def save_conversations_to_db(messages, session_id):
@@ -114,6 +152,29 @@ def detect_and_replace_url(answer):
     st.session_state.detected_slug = detected_slug
     
     return answer
+
+### Start: Combine data from db ###
+# Fetch data from the database
+chunks_data = fetch_chunks_sql_from_db()
+feedback_data = fetch_feedback_sql_from_db()
+# Convert the list of dictionaries to a DataFrame
+chunks_sql_df = pd.DataFrame(chunks_data)
+feedback_sql_df = pd.DataFrame(feedback_data)
+
+# Extract the 'combined_text' columns from both DataFrames
+chunks_text = chunks_sql_df[['combined_text']]
+feedback_text = feedback_sql_df[['combined_text']]
+
+# Concatenate the DataFrames vertically
+all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
+
+# Display the DataFrame
+all_data_df
+# Show the DataFrame
+st.write("Here's our DataFrame:")
+st.dataframe(all_data_df)
+
+### End: Combine data from db ###
 
 # Connection to HuggingFace
 huggingface_token = st.secrets["api_keys"]["df_token"]
