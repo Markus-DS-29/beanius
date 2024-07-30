@@ -60,12 +60,17 @@ db_config_data = {
     'user': st.secrets["mysql_data"]["user"],
     'password': st.secrets["mysql_data"]["password"],
     'host': st.secrets["mysql_data"]["host"],
-    'database': st.secrets["mysql_data"]["database"]
+    'database': st.secrets["mysql_data"]["database_2"]
 }
+
+# Function to connect to the database
+def get_db_connection_2():
+    return mysql.connector.connect(**db_config_data)
+
 
 # Function to fetch content from the database
 def fetch_chunks_sql_from_db():
-    conn = get_db_connection()
+    conn = get_db_connection_2()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('''
         SELECT *
@@ -77,7 +82,7 @@ def fetch_chunks_sql_from_db():
     return chunks_sql
 
 def fetch_feedback_sql_from_db():
-    conn = get_db_connection()
+    conn = get_db_connection_2()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('''
         SELECT *
