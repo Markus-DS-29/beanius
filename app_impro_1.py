@@ -81,7 +81,7 @@ def fetch_feedback_sql_from_db():
     cursor = conn.cursor(dictionary=True)
     cursor.execute('''
         SELECT *
-        FROM feedback_sql
+        FROM feedback_db
     ''')
     feedback_sql = cursor.fetchall()
     cursor.close()
