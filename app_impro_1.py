@@ -174,12 +174,6 @@ feedback_text = feedback_sql_df[['combined_text']]
 # Concatenate the DataFrames vertically
 all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 
-# Display the DataFrame
-all_data_df
-# Show the DataFrame
-st.write("Here's our DataFrame:")
-st.dataframe(all_data_df)
-
 ### End: Combine data from db ###
 
 # Connection to HuggingFace
@@ -196,7 +190,24 @@ load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
 
-#embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder) #not needed anymore
+### Start: FAISS
+
+embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
+
+# Convert dataframe to LangChain documents
+loader = DataFrameLoader(all_data_df, page_content_column='combined_text')
+documents = loader.load()
+
+# Create FAISS vector store from loader
+vector_db = FAISS.from_documents(documents, embeddings)
+retriever = vector_db.as_retriever(search_kwargs={"k": 2})
+
+memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
+
+st.write("FAISS vector store created successfully.")
+
+
+### End: FAISS
 
 @st.cache_resource #create function
 def init_embeddings():
