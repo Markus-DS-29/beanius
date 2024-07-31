@@ -274,14 +274,10 @@ def display_feedback_form():
     st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
     if st.button("Submit Feedback", key='submit_feedback'):
         if st.session_state.improved_answer:
-            st.session_state.query_data = st.session_state.last_prompt
-            st.success("Thank you for your feedback!")
+            # Save feedback and show success message
+            handle_feedback(st.session_state.query_data, st.session_state.improved_answer)
             st.session_state.awaiting_feedback = False
-            # Handle feedback after success
-            handle_feedback(
-                query_data=st.session_state.query_data,
-                improved_answer=st.session_state.improved_answer
-            )
+            st.session_state.show_feedback_options = False
         else:
             st.error("Please provide the improved answer before submitting.")
 
@@ -443,6 +439,24 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+# Display feedback options and handle user choice
+if st.session_state.awaiting_feedback:
+    if 'show_feedback_options' not in st.session_state:
+        st.session_state.show_feedback_options = True
+
+    if st.session_state.show_feedback_options:
+        feedback_option = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
+        if feedback_option == 'No':
+            st.session_state.awaiting_feedback = False
+            st.session_state.show_feedback_options = False
+        elif feedback_option == 'Yes':
+            st.session_state.show_feedback_options = False
+            display_feedback_form()
+else:
+    # Handle the case when no feedback is awaited
+    st.session_state.show_feedback_options = False
+
+# Chat Input Logic
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -470,16 +484,11 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
-
-else:
-    # Show feedback form
-    display_feedback_form()
+        st.session_state.show_feedback_options = True
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
 if 'detected_slug' in st.session_state:
     st.write(f"Detected Slug: {st.session_state.detected_slug}")
-
 
