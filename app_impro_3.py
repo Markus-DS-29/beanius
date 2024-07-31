@@ -200,27 +200,6 @@ all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 
 ### End: Combine data from db ###
 
-### Start: Add feedback function (not in use) ###
-
-def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
-    # Create a new dataframe with the feedback
-    feedback_df = pd.DataFrame({
-        'query': [original_query],
-        'combined_text': [feedback_text]
-    })
-
-    # Convert the dataframe to LangChain documents
-    feedback_loader = DataFrameLoader(feedback_df, page_content_column='combined_text')
-    feedback_documents = feedback_loader.load()
-
-    # Generate embeddings for the feedback documents
-    feedback_embeddings = embeddings.embed_documents([doc.page_content for doc in feedback_documents])
-
-    # Add the new documents and their embeddings to the FAISS vector store
-    vector_db.add_documents(feedback_documents)
-
-### End: Add feedback function ###
-
 ### Start: saving feedback to SQL database ###
 def handle_feedback(query_data, improved_answer):
     """
@@ -233,9 +212,12 @@ def handle_feedback(query_data, improved_answer):
     # Example: Print feedback to console (or you can save it to a file or database)
     st.write(f"Received feedback for query: {query_data}")
     st.write(f"Improved answer: {improved_answer}")
-    
+    # Combine the variables into a formatted string
+    combined_text = f"Lautet die Frage in etwa {query_data}, dann ist die beste Antwort: {improved_answer}"        
+    st.write(f"Prepared for saving: combined_text = {combined_text}")
+            
     # Provide confirmation to the user
-    st.success("Thank you for your feedback! Your input has been received.")
+    st.success("Thank you for your feedback! The combined Text is ready to be saved.")
 ### End: Saving feedback to SQL database ###
 
 
