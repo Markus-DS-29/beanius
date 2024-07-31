@@ -6,17 +6,21 @@ from datetime import datetime
 import re
 import uuid
 from urllib.parse import urlencode
+
+# Audio
+from streamlit_mic_recorder import mic_recorder, speech_to_text
+
+# Chatbot imports
 from huggingface_hub import login
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
-from langchain.document_loaders import DataFrameLoader
-from langchain.chains import ConversationalRetrievalChain
+from langchain_core.prompts import PromptTemplate
 from langchain.memory import ConversationBufferMemory
-from langchain.prompts import PromptTemplate
+from langchain.chains import ConversationalRetrievalChain
 from langchain.schema import Document
-from streamlit_mic_recorder import mic_recorder, speech_to_text
+from langchain.document_loaders import DataFrameLoader
 
-# Custom CSS to hide the sidebar
+# Custom CSS
 css = """
 <style>
 section[data-testid="stSidebar"] {
@@ -24,6 +28,7 @@ section[data-testid="stSidebar"] {
 }
 </style>
 """
+# Inject CSS into the Streamlit app
 st.markdown(css, unsafe_allow_html=True)
 
 # Initialize chat history and feedback state
@@ -50,12 +55,25 @@ db_config = {
     'database': st.secrets["mysql"]["database"]
 }
 
+# Function to connect to the database
 def get_db_connection():
     return mysql.connector.connect(**db_config)
 
-# Fetch chunks and feedback data from the database
+# Database connection configuration for RAG data
+db_config_data = {
+    'user': st.secrets["mysql_data"]["user"],
+    'password': st.secrets["mysql_data"]["password"],
+    'host': st.secrets["mysql_data"]["host"],
+    'database': st.secrets["mysql_data"]["database_2"]
+}
+
+# Function to connect to the database for RAG data
+def get_db_connection_2():
+    return mysql.connector.connect(**db_config_data)
+
+# Function to fetch content from the database
 def fetch_chunks_sql_from_db():
-    conn = get_db_connection()
+    conn = get_db_connection_2()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('SELECT * FROM chunks_db')
     chunks_sql = cursor.fetchall()
@@ -64,7 +82,7 @@ def fetch_chunks_sql_from_db():
     return chunks_sql
 
 def fetch_feedback_sql_from_db():
-    conn = get_db_connection()
+    conn = get_db_connection_2()
     cursor = conn.cursor(dictionary=True)
     cursor.execute('SELECT * FROM feedback_db')
     feedback_sql = cursor.fetchall()
@@ -83,6 +101,16 @@ def save_conversations_to_db(messages, session_id):
     cursor.close()
     conn.close()
 
+# Function to fetch conversations from the database
+def fetch_conversations_from_db(session_id):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    cursor.execute('SELECT timestamp, role, content FROM conversations WHERE session_id = %s ORDER BY timestamp', (session_id,))
+    conversations = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return conversations
+
 # Function to detect and replace URLs in the answer
 def detect_and_replace_url(answer):
     url_pattern = re.compile(r'(https?://\S+)')
@@ -90,21 +118,21 @@ def detect_and_replace_url(answer):
     urls = url_pattern.findall(answer)
     if urls:
         detected_url = urls[0].rstrip('>,)')
-        detected_slug = detected_url[len(base_url):] if detected_url.startswith(base_url) else None
+        if detected_url.startswith(base_url):
+            detected_slug = detected_url[len(base_url):]
+        else:
+            detected_slug = None
         existing_params = {'url': detected_slug, 'session_id': st.session_state.session_id}
         subpage_url = f"/single_bean?{urlencode(existing_params)}"
         answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer)
     else:
         detected_url = None
         detected_slug = None
-
-    # Store detected URL and slug in session state for debugging
     st.session_state.detected_url = detected_url
     st.session_state.detected_slug = detected_slug
-
     return answer
 
-# Fetch and prepare RAG (retrieval-augmented generation) data
+# Fetch and combine data from the database
 chunks_data = fetch_chunks_sql_from_db()
 feedback_data = fetch_feedback_sql_from_db()
 chunks_sql_df = pd.DataFrame(chunks_data)
@@ -113,7 +141,7 @@ chunks_text = chunks_sql_df[['combined_text']]
 feedback_text = feedback_sql_df[['combined_text']]
 all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 
-# Function to add feedback to the RAG (not used in the current code but defined here for completeness)
+# Function to add feedback to the RAG
 def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
     feedback_df = pd.DataFrame({'query': [original_query], 'combined_text': [feedback_text]})
     feedback_loader = DataFrameLoader(feedback_df, page_content_column='combined_text')
@@ -121,7 +149,7 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
     feedback_embeddings = embeddings.embed_documents([doc.page_content for doc in feedback_documents])
     vector_db.add_documents(feedback_documents)
 
-# Function to display the feedback form and handle feedback submission
+# Function to display the feedback form
 def display_feedback_form():
     st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
     if st.button("Submit Feedback", key='submit_feedback'):
@@ -129,6 +157,7 @@ def display_feedback_form():
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
             st.session_state.awaiting_feedback = False
+            st.session_state.show_feedback_options = False
         else:
             st.error("Please provide the improved answer before submitting.")
 
@@ -136,7 +165,7 @@ def display_feedback_form():
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
 
-# Define HuggingFace model and embeddings
+# HuggingFace model and embeddings
 hf_model = "mistralai/Mistral-7B-Instruct-v0.3"
 llm = HuggingFaceEndpoint(repo_id=hf_model)
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
@@ -145,6 +174,7 @@ load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
 
+# Function to create FAISS vector store
 @st.cache(allow_output_mutation=True)
 def create_faiss_vector_store(dataframe, embedding_model, embeddings_folder):
     embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
@@ -156,6 +186,7 @@ def create_faiss_vector_store(dataframe, embedding_model, embeddings_folder):
 vector_db = create_faiss_vector_store(all_data_df, embedding_model, embeddings_folder)
 retriever = vector_db.as_retriever(search_kwargs={"k": 1})
 memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
+st.write("FAISS vector store created successfully.")
 
 @st.cache_resource
 def init_embeddings():
@@ -205,25 +236,21 @@ elif 'session_id' not in st.session_state:
 session_id = st.session_state.session_id
 st.write(f"Session ID: {session_id}")
 
-# Initialize chat history if not already initialized
+# Initialize chat history and fetch conversations
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Fetch conversations from the database if session_id is present
 if session_id_from_url:
     st.session_state.messages = fetch_conversations_from_db(session_id)
 
-# Display chat messages from history on app rerun
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"], unsafe_allow_html=True)
 
 state = st.session_state
-
 if 'text_received' not in state:
     state.text_received = []
 
-# Display chat input and handle transcription from speech
 c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
@@ -268,7 +295,7 @@ if not st.session_state.awaiting_feedback:
 
 # Show feedback options and handle feedback submission
 if st.session_state.awaiting_feedback:
-    if 'show_feedback_options' in st.session_state and st.session_state.show_feedback_options:
+    if st.session_state.show_feedback_options:
         feedback_option = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
         if feedback_option == 'No':
             st.session_state.awaiting_feedback = False
@@ -279,13 +306,13 @@ if st.session_state.awaiting_feedback:
     else:
         display_feedback_form()
 
-# Optional Debugging: Print the query and feedback
+# (Optional) Debugging: Print the query and feedback
 if st.session_state.query_data:
     st.write(f"Query: {st.session_state.query_data}")
 if st.session_state.improved_answer:
     st.write(f"Improved Answer: {st.session_state.improved_answer}")
 
-# Optional Debugging: Print the detected URL and slug
+# (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
 if 'detected_slug' in st.session_state:
