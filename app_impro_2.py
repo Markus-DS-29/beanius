@@ -161,6 +161,11 @@ def detect_and_replace_url(answer):
     
     return answer
 
+###
+# Initialize chat history
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
 ### Start: Combine data from db ###
 # Fetch data from the database
 chunks_data = fetch_chunks_sql_from_db()
@@ -353,10 +358,6 @@ if transcription:
 
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
-
-# Initialize chat history
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
 
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
