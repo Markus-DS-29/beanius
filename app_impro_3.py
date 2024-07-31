@@ -443,6 +443,10 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+# Debugging: Display current state of awaiting_feedback
+st.write(f"awaiting_feedback: {st.session_state.get('awaiting_feedback', False)}")
+st.write(f"show_feedback_options: {st.session_state.get('show_feedback_options', False)}")
+
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
