@@ -339,17 +339,6 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-
-# Ensure session state is initialized
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
-
-if 'awaiting_feedback' not in st.session_state:
-    st.session_state.awaiting_feedback = False
-
-if 'improved_answer' not in st.session_state:
-    st.session_state.improved_answer = ""
-
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
@@ -363,38 +352,31 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     
     # Detect and replace URL in the answer
     answer = detect_and_replace_url(answer)
-    
-    # Add response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": answer})
-    with st.chat_message("assistant"):
-        st.markdown(answer, unsafe_allow_html=True)        
-    
+
+    #### START: Adding feedback ###
+
+
+
+    ####        
+            
     # Prompt for feedback
-    st.session_state.awaiting_feedback = True
-
-# Display conversation history
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# Handle feedback
-if st.session_state.awaiting_feedback:
-    feedback = st.text_input("Do you want to improve this answer? (yes/no): ").strip().lower()
-    if feedback:
-        if feedback == 'yes':
-            query_data = st.session_state.messages[-2]["content"]  # Last user query
-            improved_answer = st.text_input("Please provide the improved answer: ").strip()
-            if improved_answer:
-                st.session_state.messages.append({"role": "improvement", "content": improved_answer})
-                st.session_state.awaiting_feedback = False
-        elif feedback == 'no':
-            st.session_state.awaiting_feedback = False
+    feedback = st.chat_input("Do you want to improve this answer? (yes/no): ")
+    feedback = feedback.strip().lower()
+            
+    if feedback == 'yes':
+        query_data = user_input
+        improved_answer = st.chat_input("Please provide the improved answer: ")
+        st.markdown(query_data, unsafe_allow_html=True)
+        st.markdown(improved_answer, unsafe_allow_html=True)
 
 
     ### END: Adding feedback ###        
             
 
-    
+    # Add response to chat history
+    st.session_state.messages.append({"role": "assistant", "content": answer})
+    with st.chat_message("assistant"):
+        st.markdown(answer, unsafe_allow_html=True)
        
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
