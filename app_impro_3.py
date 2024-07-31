@@ -266,6 +266,9 @@ def handle_feedback(query_data, improved_answer):
             
     # Provide confirmation to the user
     st.success("Thank you for your feedback! The combined Text is ready to be saved.")
+    # Ensure we return to the chat
+    st.session_state.awaiting_feedback = False
+    st.session_state.show_feedback_options = False      
             
 ### End: Saving feedback to SQL database ###
 
