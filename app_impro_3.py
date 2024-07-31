@@ -448,6 +448,9 @@ else:
             query_data=st.session_state.query_data,
             improved_answer=st.session_state.improved_answer
         )
+        # Example: Print feedback to console (or you can save it to a file or database)
+        st.write(f"Received feedback for query: {query_data}")
+        st.write(f"Improved answer: {improved_answer}")        
         # Reset feedback state after handling
         st.session_state.awaiting_feedback = False
         st.session_state.show_feedback_options = False
@@ -459,6 +462,4 @@ if 'detected_slug' in st.session_state:
     st.write(f"Detected Slug: {st.session_state.detected_slug}")
 
 
-# Example: Print feedback to console (or you can save it to a file or database)
-st.write(f"Received feedback for query: {query_data}")
-st.write(f"Improved answer: {improved_answer}")
+
