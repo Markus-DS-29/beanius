@@ -1,3 +1,5 @@
+####### Status: The feedback input field disappears all the time. Everything else seems to be working ###########
+
 import os
 import pandas as pd
 import streamlit as st
