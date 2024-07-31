@@ -236,7 +236,7 @@ def save_feedback_to_db(query_data, improved_answer):
             INSERT INTO feedback_db (`index`, `query_data`, `improved_answer`, `combined_text`)
             VALUES (%s, %s, %s, %s)
         """
-        combined_text = f"Query: {query_data}\nImproved Answer: {improved_answer}"
+        combined_text = f"Lautet die Frage in etwa: {query_data}, dann ist die beste Antwort immer: {improved_answer}"   
         cursor.execute(insert_query, (next_index, query_data, improved_answer, combined_text))
         conn.commit()
         
@@ -258,7 +258,7 @@ def handle_feedback(query_data, improved_answer):
     st.write(f"Received feedback for query: {query_data}")
     st.write(f"Improved answer: {improved_answer}")
     # Combine the variables into a formatted string
-    combined_text = f"Lautet die Frage in etwa {query_data}, dann ist die beste Antwort: {improved_answer}"        
+    combined_text = f"Lautet die Frage in etwa: {query_data}, dann ist die beste Antwort immer: {improved_answer}"        
     st.write(f"Prepared for saving: combined_text = {combined_text}")
             
     # Save feedback to database
