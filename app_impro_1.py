@@ -361,9 +361,8 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     if feedback == 'yes':
         query_data = user_input
         improved_answer = st.chat_input("Please provide the improved answer: ")
-                
-    st.markdown(query_data, unsafe_allow_html=True)
-    st.markdown(improved_answer, unsafe_allow_html=True)
+        st.markdown(query_data, unsafe_allow_html=True)
+        st.markdown(improved_answer, unsafe_allow_html=True)
 
 
     ### END: Adding feedback ###        
