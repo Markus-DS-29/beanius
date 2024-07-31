@@ -353,6 +353,22 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Detect and replace URL in the answer
     answer = detect_and_replace_url(answer)
 
+    #### START: Adding feedback ###
+            
+    # Prompt for feedback
+    feedback = st.chat_input("Do you want to improve this answer? (yes/no): ").strip().lower()
+
+    if feedback == 'yes':
+        query_data = user_input
+        improved_answer = st.chat_input("Please provide the improved answer: ").strip()
+                
+    st.markdown(query_data, unsafe_allow_html=True)
+    st.markdown(improved_answer, unsafe_allow_html=True)
+
+
+    ### END: Adding feedback ###        
+            
+
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
