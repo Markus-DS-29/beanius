@@ -439,7 +439,7 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-# Display feedback options and handle user choice
+# Main logic for handling feedback
 if st.session_state.awaiting_feedback:
     if 'show_feedback_options' not in st.session_state:
         st.session_state.show_feedback_options = True
@@ -453,7 +453,6 @@ if st.session_state.awaiting_feedback:
             st.session_state.show_feedback_options = False
             display_feedback_form()
 else:
-    # Handle the case when no feedback is awaited
     st.session_state.show_feedback_options = False
 
 # Chat Input Logic
