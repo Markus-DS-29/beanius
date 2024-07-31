@@ -1,3 +1,6 @@
+########### Status: working: connects to database, caching FAISS, but no feedback input yet  ########################
+
+
 import os
 import pandas as pd
 import streamlit as st
