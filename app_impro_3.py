@@ -55,6 +55,16 @@ if 'awaiting_feedback' not in st.session_state:
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
 
+if 'improved_answer' not in st.session_state:
+    st.session_state.improved_answer = ""
+
+if 'query_data' not in st.session_state:
+    st.session_state.query_data = ""
+
+if 'show_feedback_options' not in st.session_state:
+    st.session_state.show_feedback_options = False
+
+
 # Database connection configuration for conversations
 db_config = {
     'user': st.secrets["mysql"]["user"],
