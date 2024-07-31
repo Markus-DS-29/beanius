@@ -450,6 +450,7 @@ if transcription:
 st.write(f"awaiting_feedback: {st.session_state.get('awaiting_feedback', False)}")
 st.write(f"show_feedback_options: {st.session_state.get('show_feedback_options', False)}")
 
+# Chat Input
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -477,11 +478,25 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
+        st.session_state.show_feedback_options = True
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
 
 else:
-    # Show feedback form
-    display_feedback_form()
+    if 'feedback_radio' in st.session_state:
+        feedback_option = st.session_state.feedback_radio
+        if feedback_option == 'No':
+            st.session_state.awaiting_feedback = False
+            st.session_state.show_feedback_options = False
+        elif feedback_option == 'Yes':
+            st.session_state.show_feedback_options = False
+            display_feedback_form()
+
+# Handle feedback submission
+if st.session_state.improved_answer and st.session_state.query_data:
+    handle_feedback(st.session_state.query_data, st.session_state.improved_answer)
+    # Reset feedback states after handling
+    st.session_state.improved_answer = ""
+    st.session_state.query_data = ""
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
