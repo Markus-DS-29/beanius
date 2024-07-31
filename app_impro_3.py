@@ -457,3 +457,8 @@ if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
 if 'detected_slug' in st.session_state:
     st.write(f"Detected Slug: {st.session_state.detected_slug}")
+
+
+# Example: Print feedback to console (or you can save it to a file or database)
+st.write(f"Received feedback for query: {query_data}")
+st.write(f"Improved answer: {improved_answer}")
