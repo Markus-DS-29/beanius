@@ -378,8 +378,11 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     if feedback == 'Yes':
         feedback_text = st.text_area("Please provide the improved answer:")
         if st.button("Submit Feedback"):
-            add_feedback_to_rag(feedback_text, prompt, vector_db, embeddings)
-            st.success("Thank you for your feedback!")
+            if feedback_text:
+                add_feedback_to_rag(feedback_text, prompt, vector_db, embeddings)
+                st.success("Thank you for your feedback!")
+            else:
+                st.error("Please provide the improved answer before submitting.")
 
     ### END: Adding feedback ###        
             
