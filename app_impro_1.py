@@ -211,21 +211,9 @@ def create_faiss_vector_store(dataframe, embedding_model, embeddings_folder):
 
 ### End FAISS cache
 
-#embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
-
-# Convert dataframe to LangChain documents
-#loader = DataFrameLoader(all_data_df, page_content_column='combined_text')
-#documents = loader.load()
-
-# Create FAISS vector store from loader
-#vector_db = FAISS.from_documents(documents, embeddings)
-#retriever = vector_db.as_retriever(search_kwargs={"k": 2})
-#memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
-#st.write("FAISS vector store created successfully.")
-
-# Create FAISS vector store
+# Create FAISS vector store using function for cache
 vector_db = create_faiss_vector_store(all_data_df, embedding_model, embeddings_folder)
-retriever = vector_db.as_retriever(search_kwargs={"k": 2})
+retriever = vector_db.as_retriever(search_kwargs={"k": 1})
 memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
 st.write("FAISS vector store created successfully.")
 
@@ -235,20 +223,6 @@ st.write("FAISS vector store created successfully.")
 def init_embeddings():
     return HuggingFaceEmbeddings(model_name=embedding_model)
 embeddings = init_embeddings() 
-
-### START: Drop old FAISS ###
-
-# Check if FAISS files exist before loading
-#faiss_index_file = os.path.join(load_path, "index.faiss")
-#faiss_pkl_file = os.path.join(load_path, "index.pkl") #we decided to generate the embeddings instead of loading them.
-
-#if os.path.exists(faiss_index_file): #and os.path.exists(faiss_pkl_file):
-#    vector_db = FAISS.load_local(load_path, embeddings, allow_dangerous_deserialization=True)
-#    retriever = vector_db.as_retriever(search_kwargs={"k": 1})
-#else:
-#    st.error(f"FAISS index files not found at {load_path}. Ensure both index.faiss and index.pkl are present.")
-
-### END: Drop old FAISS ###
 
 # Initialize memory
 @st.cache_resource
