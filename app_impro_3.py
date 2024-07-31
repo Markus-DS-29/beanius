@@ -1,4 +1,4 @@
-####### Status: The feedback input field disappears all the time. Everything else seems to be working ###########
+####### Status: The feedback input field is good, but it's saved to the RAG instead of sql. Everything else seems to be working ###########
 
 import os
 import pandas as pd
@@ -190,7 +190,7 @@ all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 
 ### End: Combine data from db ###
 
-### Start: Add feedback function ###
+### Start: Add feedback function (not in use) ###
 
 def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
     # Create a new dataframe with the feedback
@@ -210,6 +210,24 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
     vector_db.add_documents(feedback_documents)
 
 ### End: Add feedback function ###
+
+### Start: saving feedback to SQL database ###
+def handle_feedback(query_data, improved_answer):
+    """
+    Handle feedback provided by the user without saving it to the RAG vector store.
+    Parameters:
+    - query_data (str): The user's original query.
+    - improved_answer (str): The improved answer provided by the user.
+    """
+    # Example: Print feedback to console (or you can save it to a file or database)
+    st.write(f"Received feedback for query: {query_data}")
+    st.write(f"Improved answer: {improved_answer}")
+    
+    # Provide confirmation to the user
+    st.success("Thank you for your feedback! Your input has been received.")
+
+### End: Saving feedback to SQL database ###
+
 
 #### Start: Function to display the feedback form
 def display_feedback_form():
@@ -412,6 +430,16 @@ if not st.session_state.awaiting_feedback:
 
 else:
     display_feedback_form()
+    
+    # Handle feedback submission
+    if st.session_state.improved_answer:
+        handle_feedback(
+            query_data=st.session_state.query_data,
+            improved_answer=st.session_state.improved_answer
+        )
+        # Reset feedback state after handling
+        st.session_state.awaiting_feedback = False
+        st.session_state.show_feedback_options = False
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
