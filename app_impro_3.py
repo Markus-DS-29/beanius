@@ -426,11 +426,12 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+        st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
 
 else:
+    # Show feedback form
     display_feedback_form()
-    
+
     # Handle feedback submission
     if st.session_state.improved_answer:
         handle_feedback(
