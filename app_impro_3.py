@@ -266,9 +266,6 @@ def handle_feedback(query_data, improved_answer):
             
     # Provide confirmation to the user
     st.success("Thank you for your feedback! The combined Text is ready to be saved.")
-    # Ensure we return to the chat
-    st.session_state.awaiting_feedback = False
-    st.session_state.show_feedback_options = False      
             
 ### End: Saving feedback to SQL database ###
 
@@ -446,11 +443,6 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-# Debugging: Display current state of awaiting_feedback
-st.write(f"awaiting_feedback: {st.session_state.get('awaiting_feedback', False)}")
-st.write(f"show_feedback_options: {st.session_state.get('show_feedback_options', False)}")
-
-# Chat Input
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -478,25 +470,11 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        st.session_state.show_feedback_options = True
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
 
 else:
-    if 'feedback_radio' in st.session_state:
-        feedback_option = st.session_state.feedback_radio
-        if feedback_option == 'No':
-            st.session_state.awaiting_feedback = False
-            st.session_state.show_feedback_options = False
-        elif feedback_option == 'Yes':
-            st.session_state.show_feedback_options = False
-            display_feedback_form()
-
-# Handle feedback submission
-if st.session_state.improved_answer and st.session_state.query_data:
-    handle_feedback(st.session_state.query_data, st.session_state.improved_answer)
-    # Reset feedback states after handling
-    st.session_state.improved_answer = ""
-    st.session_state.query_data = ""
+    # Show feedback form
+    display_feedback_form()
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
