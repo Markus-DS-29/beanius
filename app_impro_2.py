@@ -43,6 +43,23 @@ section[data-testid="stSidebar"]{
 st.markdown(css, unsafe_allow_html=True)
 
 
+### Initialize chat history and feedback state
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
+if 'awaiting_feedback' not in st.session_state:
+    st.session_state.awaiting_feedback = False
+
+if 'last_prompt' not in st.session_state:
+    st.session_state.last_prompt = ""
+
+if 'improved_answer' not in st.session_state:
+    st.session_state.improved_answer = ""
+
+if 'query_data' not in st.session_state:
+    st.session_state.query_data = ""
+
+
 # Database connection configuration for conversations
 db_config = {
     'user': st.secrets["mysql"]["user"],
@@ -161,23 +178,6 @@ def detect_and_replace_url(answer):
     
     return answer
 
-### Initialize chat history and feedback state
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
-
-if 'awaiting_feedback' not in st.session_state:
-    st.session_state.awaiting_feedback = False
-
-if 'last_prompt' not in st.session_state:
-    st.session_state.last_prompt = ""
-
-if 'improved_answer' not in st.session_state:
-    st.session_state.improved_answer = ""
-
-if 'query_data' not in st.session_state:
-    st.session_state.query_data = ""
-
-
 ### Start: Combine data from db ###
 # Fetch data from the database
 chunks_data = fetch_chunks_sql_from_db()
@@ -218,8 +218,8 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
 
 #### Start: Function to display the feedback form
 def display_feedback_form():
-    st.session_state.improved_answer = st.text_area("Please provide the improved answer:")
-    if st.button("Submit Feedback"):
+    st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
+    if st.button("Submit Feedback", key='submit_feedback'):
         if st.session_state.improved_answer:
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
@@ -387,7 +387,9 @@ if transcription:
 
 # Chat Input
 if not st.session_state.awaiting_feedback:
-    if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+    prompt = st.chat_input("Was für einen Espresso suchst du?")
+
+    if prompt:
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -413,13 +415,19 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        feedback_option = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+        st.session_state.show_feedback_options = True
+
+if st.session_state.awaiting_feedback:
+    if 'show_feedback_options' in st.session_state and st.session_state.show_feedback_options:
+        feedback_option = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
         if feedback_option == 'No':
             st.session_state.awaiting_feedback = False
+            st.session_state.show_feedback_options = False
         elif feedback_option == 'Yes':
+            st.session_state.show_feedback_options = False
             display_feedback_form()
-else:
-    display_feedback_form()
+    else:
+        display_feedback_form()
 
 # (Optional) Debugging: Print the query and feedback
 if st.session_state.query_data:
