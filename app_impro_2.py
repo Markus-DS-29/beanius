@@ -161,10 +161,16 @@ def detect_and_replace_url(answer):
     
     return answer
 
-###
-# Initialize chat history
+### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
+
+if 'awaiting_feedback' not in st.session_state:
+    st.session_state.awaiting_feedback = False
+
+if 'last_prompt' not in st.session_state:
+    st.session_state.last_prompt = ""
+
 
 ### Start: Combine data from db ###
 # Fetch data from the database
@@ -217,6 +223,19 @@ embeddings_folder = "coffee_content/embeddings"
 load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
+
+#### Function to display the feedback form
+def display_feedback_form():
+    feedback_text = st.text_area("Please provide the improved answer:")
+    if st.button("Submit Feedback"):
+        if feedback_text:
+            add_feedback_to_rag(feedback_text, st.session_state.last_prompt, vector_db, embeddings)
+            st.success("Thank you for your feedback!")
+            st.session_state.awaiting_feedback = False
+        else:
+            st.error("Please provide the improved answer before submitting.")
+####
+
 
 ### Start: FAISS
 ### Start: FAISS cache
@@ -360,43 +379,40 @@ if transcription:
     save_conversations_to_db(st.session_state.messages, session_id)
 
 # Chat Input
-if prompt := st.chat_input("Was für einen Espresso suchst du?"):
-    # Add user message to chat history
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+if not st.session_state.awaiting_feedback:
+    if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+        # Add user message to chat history
+        st.session_state.messages.append({"role": "user", "content": prompt})
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-    # Generate response
-    response = chain({"question": prompt})
-    answer = response['answer']
-    
-    # Detect and replace URL in the answer
-    answer = detect_and_replace_url(answer)
+        # Generate response
+        response = chain({"question": prompt})
+        answer = response['answer']
+        
+        # Detect and replace URL in the answer
+        answer = detect_and_replace_url(answer)
 
-    #### START: Adding feedback ###
+        # Add response to chat history
+        st.session_state.messages.append({"role": "assistant", "content": answer})
+        with st.chat_message("assistant"):
+            st.markdown(answer, unsafe_allow_html=True)
+        
+        # Save the updated conversation to the database
+        save_conversations_to_db(st.session_state.messages, session_id)
+        
+        # Store the prompt and set awaiting feedback state
+        st.session_state.last_prompt = prompt
+        st.session_state.awaiting_feedback = True
 
-    feedback = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
-    if feedback == 'Yes':
-        feedback_text = st.text_area("Please provide the improved answer:")
-        if st.button("Submit Feedback"):
-            if feedback_text:
-                add_feedback_to_rag(feedback_text, prompt, vector_db, embeddings)
-                st.success("Thank you for your feedback!")
-            else:
-                st.error("Please provide the improved answer before submitting.")
+        # Display feedback options
+        st.radio("Do you want to improve this answer?", ('No', 'Yes'))
 
-    ### END: Adding feedback ###        
-            
-    # Add response to chat history
-    st.session_state.messages.append({"role": "assistant", "content": answer})
-    with st.chat_message("assistant"):
-        st.markdown(answer, unsafe_allow_html=True)
-       
-    # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages, session_id)
-    
-    # (Optional) Debugging: Print the detected URL and slug
-    if 'detected_url' in st.session_state:
-        st.write(f"Detected URL: {st.session_state.detected_url}")
-    if 'detected_slug' in st.session_state:
-        st.write(f"Detected Slug: {st.session_state.detected_slug}")
+else:
+    display_feedback_form()
+
+# (Optional) Debugging: Print the detected URL and slug
+if 'detected_url' in st.session_state:
+    st.write(f"Detected URL: {st.session_state.detected_url}")
+if 'detected_slug' in st.session_state:
+    st.write(f"Detected Slug: {st.session_state.detected_slug}")
