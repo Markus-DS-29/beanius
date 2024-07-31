@@ -218,15 +218,15 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
 
 #### Start: Function to display the feedback form
 def display_feedback_form():
-    feedback_text = st.text_area("Please provide the improved answer:")
+    st.session_state.improved_answer = st.text_area("Please provide the improved answer:")
     if st.button("Submit Feedback"):
-        if feedback_text:
-            st.session_state.improved_answer = feedback_text
+        if st.session_state.improved_answer:
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
             st.session_state.awaiting_feedback = False
         else:
             st.error("Please provide the improved answer before submitting.")
+
 #### End: Function to display the feedback form
 
 
