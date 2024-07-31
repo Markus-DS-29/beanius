@@ -178,6 +178,27 @@ all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 
 ### End: Combine data from db ###
 
+### Start: Add feedback function ###
+
+def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
+    # Create a new dataframe with the feedback
+    feedback_df = pd.DataFrame({
+        'query': [original_query],
+        'combined_text': [feedback_text]
+    })
+
+    # Convert the dataframe to LangChain documents
+    feedback_loader = DataFrameLoader(feedback_df, page_content_column='combined_text')
+    feedback_documents = feedback_loader.load()
+
+    # Generate embeddings for the feedback documents
+    feedback_embeddings = embeddings.embed_documents([doc.page_content for doc in feedback_documents])
+
+    # Add the new documents and their embeddings to the FAISS vector store
+    vector_db.add_documents(feedback_documents)
+
+### End: Add feedback function ###
+
 # Connection to HuggingFace
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
@@ -333,6 +354,10 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+# Initialize chat history
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
+
 # Chat Input
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Add user message to chat history
@@ -348,11 +373,16 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     answer = detect_and_replace_url(answer)
 
     #### START: Adding feedback ###
-            
+
+    feedback = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+    if feedback == 'Yes':
+        feedback_text = st.text_area("Please provide the improved answer:")
+        if st.button("Submit Feedback"):
+            add_feedback_to_rag(feedback_text, prompt, vector_db, embeddings)
+            st.success("Thank you for your feedback!")
 
     ### END: Adding feedback ###        
             
-
     # Add response to chat history
     st.session_state.messages.append({"role": "assistant", "content": answer})
     with st.chat_message("assistant"):
