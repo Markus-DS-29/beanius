@@ -358,6 +358,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
     # Prompt for feedback
     feedback = st.chat_input("Do you want to improve this answer? (yes/no): ")
     #feedback = st.session_state.feedback.strip().lower()
+    st.markdown(feedback)
             
     if feedback == 'yes':
         query_data = user_input
