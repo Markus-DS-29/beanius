@@ -80,7 +80,7 @@ def get_db_connection():
 
 ### Start: Get content from database ###
 
-# Database connection configuration for conversations
+# Database connection configuration for data
 db_config_data = {
     'user': st.secrets["mysql_data"]["user"],
     'password': st.secrets["mysql_data"]["password"],
@@ -201,6 +201,51 @@ all_data_df = pd.concat([chunks_text, feedback_text], ignore_index=True)
 ### End: Combine data from db ###
 
 ### Start: saving feedback to SQL database ###
+
+# Function to get the next available index for feedback
+def get_next_index():
+    try:
+        conn = get_db_connection_2()
+        cursor = conn.cursor()
+        query = "SELECT MAX(`index`) FROM feedback_db"
+        cursor.execute(query)
+        result = cursor.fetchone()
+        current_max_index = result[0]
+        if current_max_index is None:
+            return 1
+        else:
+            return current_max_index + 1
+    except Error as e:
+        st.error(f"Error while fetching next index: {e}")
+        return 1
+    finally:
+        cursor.close()
+        conn.close()
+
+# Function to save feedback into the database
+def save_feedback_to_db(query_data, improved_answer):
+    try:
+        conn = get_db_connection_2()
+        cursor = conn.cursor()
+        
+        # Get the next index
+        next_index = get_next_index()
+        
+        # Insert feedback into the feedback_db table
+        insert_query = """
+            INSERT INTO feedback_db (`index`, `query_data`, `improved_answer`, `combined_text`)
+            VALUES (%s, %s, %s, %s)
+        """
+        combined_text = f"Query: {query_data}\nImproved Answer: {improved_answer}"
+        cursor.execute(insert_query, (next_index, query_data, improved_answer, combined_text))
+        conn.commit()
+        
+    except Error as e:
+        st.error(f"Error while saving feedback: {e}")
+    finally:
+        cursor.close()
+        conn.close()
+
 def handle_feedback(query_data, improved_answer):
     """
     Handle feedback provided by the user without saving it to the RAG vector store.
@@ -216,10 +261,13 @@ def handle_feedback(query_data, improved_answer):
     combined_text = f"Lautet die Frage in etwa {query_data}, dann ist die beste Antwort: {improved_answer}"        
     st.write(f"Prepared for saving: combined_text = {combined_text}")
             
+    # Save feedback to database
+    save_feedback_to_db(query_data, improved_answer)
+            
     # Provide confirmation to the user
     st.success("Thank you for your feedback! The combined Text is ready to be saved.")
+            
 ### End: Saving feedback to SQL database ###
-
 
 #### Start: Function to display the feedback form
 def display_feedback_form():
