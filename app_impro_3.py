@@ -225,6 +225,7 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
 def handle_feedback(query_data, improved_answer):
     """
     Handle feedback provided by the user without saving it to the RAG vector store.
+    
     Parameters:
     - query_data (str): The user's original query.
     - improved_answer (str): The improved answer provided by the user.
@@ -235,18 +236,22 @@ def handle_feedback(query_data, improved_answer):
     
     # Provide confirmation to the user
     st.success("Thank you for your feedback! Your input has been received.")
-
 ### End: Saving feedback to SQL database ###
 
 
 #### Start: Function to display the feedback form
 def display_feedback_form():
-    feedback_text = st.text_area("Please provide the improved answer:")
-    if st.button("Submit Feedback"):
-        if feedback_text:
-            add_feedback_to_rag(feedback_text, st.session_state.last_prompt, vector_db, embeddings)
+    st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
+    if st.button("Submit Feedback", key='submit_feedback'):
+        if st.session_state.improved_answer:
+            st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
             st.session_state.awaiting_feedback = False
+            # Handle feedback after success
+            handle_feedback(
+                query_data=st.session_state.query_data,
+                improved_answer=st.session_state.improved_answer
+            )
         else:
             st.error("Please provide the improved answer before submitting.")
 
@@ -408,7 +413,6 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-# Chat Input
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -442,24 +446,10 @@ else:
     # Show feedback form
     display_feedback_form()
 
-    # Handle feedback submission
-    if st.session_state.improved_answer:
-        handle_feedback(
-            query_data=st.session_state.query_data,
-            improved_answer=st.session_state.improved_answer
-        )
-        # Example: Print feedback to console (or you can save it to a file or database)
-        st.write(f"Received feedback for query: {query_data}")
-        st.write(f"Improved answer: {improved_answer}")        
-        # Reset feedback state after handling
-        st.session_state.awaiting_feedback = False
-        st.session_state.show_feedback_options = False
-
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
 if 'detected_slug' in st.session_state:
     st.write(f"Detected Slug: {st.session_state.detected_slug}")
-
 
 
