@@ -171,6 +171,12 @@ if 'awaiting_feedback' not in st.session_state:
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
 
+if 'improved_answer' not in st.session_state:
+    st.session_state.improved_answer = ""
+
+if 'query_data' not in st.session_state:
+    st.session_state.query_data = ""
+
 
 ### Start: Combine data from db ###
 # Fetch data from the database
@@ -210,6 +216,20 @@ def add_feedback_to_rag(feedback_text, original_query, vector_db, embeddings):
 
 ### End: Add feedback function ###
 
+#### Start: Function to display the feedback form
+def display_feedback_form():
+    feedback_text = st.text_area("Please provide the improved answer:")
+    if st.button("Submit Feedback"):
+        if feedback_text:
+            st.session_state.improved_answer = feedback_text
+            st.session_state.query_data = st.session_state.last_prompt
+            st.success("Thank you for your feedback!")
+            st.session_state.awaiting_feedback = False
+        else:
+            st.error("Please provide the improved answer before submitting.")
+#### End: Function to display the feedback form
+
+
 # Connection to HuggingFace
 huggingface_token = st.secrets["api_keys"]["df_token"]
 login(token=huggingface_token)
@@ -223,19 +243,6 @@ embeddings_folder = "coffee_content/embeddings"
 load_path = "coffee_content/faiss_index"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
-
-#### Function to display the feedback form
-def display_feedback_form():
-    feedback_text = st.text_area("Please provide the improved answer:")
-    if st.button("Submit Feedback"):
-        if feedback_text:
-            add_feedback_to_rag(feedback_text, st.session_state.last_prompt, vector_db, embeddings)
-            st.success("Thank you for your feedback!")
-            st.session_state.awaiting_feedback = False
-        else:
-            st.error("Please provide the improved answer before submitting.")
-####
-
 
 ### Start: FAISS
 ### Start: FAISS cache
@@ -406,10 +413,19 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        st.radio("Do you want to improve this answer?", ('No', 'Yes'))
-
+        feedback_option = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+        if feedback_option == 'No':
+            st.session_state.awaiting_feedback = False
+        elif feedback_option == 'Yes':
+            display_feedback_form()
 else:
     display_feedback_form()
+
+# (Optional) Debugging: Print the query and feedback
+if st.session_state.query_data:
+    st.write(f"Query: {st.session_state.query_data}")
+if st.session_state.improved_answer:
+    st.write(f"Improved Answer: {st.session_state.improved_answer}")
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
