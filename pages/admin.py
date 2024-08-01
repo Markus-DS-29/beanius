@@ -1,4 +1,38 @@
-####### Status: The feedback input field is good and it's saved to SQL, but it's not smoothly coninuing with the chat afterwards. Everything else seems to be working ###########
+# Password protection function
+def password_protect_page():
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+    
+    if not st.session_state.authenticated:
+        st.title("Login")
+        password = st.text_input("Password", type="password")
+
+        # Define your password here
+        correct_password = "0000"
+
+        if st.button("Submit"):
+            if password == correct_password:
+                st.session_state.authenticated = True
+                st.experimental_rerun()  # Rerun the app to show the protected content
+            else:
+                st.error("Incorrect password")
+
+    if st.session_state.authenticated:
+        st.write("You are now logged in!")
+
+        # Display the protected content here
+        st.write("Protected content goes here.")
+
+# Check if user is on the protected subpage
+page = st.sidebar.selectbox("Select Page", ["Home", "Protected Page"])
+
+if page == "Protected Page":
+    password_protect_page()
+else:
+    st.write("Welcome to the home page!")
+
+
+####### Status: Everythings seems to be working ###########
 
 import os
 import pandas as pd
