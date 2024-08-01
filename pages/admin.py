@@ -22,20 +22,16 @@ from urllib.parse import urlencode
 
 ###### Password Protection ########
 
-import streamlit as st
 
 def main():
     # Define the correct password
-    correct_password = "1234"
+    admin_password = st.secrets["admin"]["password"]
     
     # Password input field
     password = st.text_input("Enter the admin password", type="password")
     
     # Check if the entered password is correct
-    if password == correct_password:
-        st.title("Admin Page")
-        st.write("Welcome to the admin page.")
-
+    if password == admin_password:
         
 #################### START ADMIN PAGE CONTENT ####################        
         
@@ -392,8 +388,8 @@ def main():
         chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, return_source_documents=False, combine_docs_chain_kwargs={"prompt": prompt})
         
         # Streamlit app title
-        st.title("Welcome to the Beanius, your Espresso expert.")
-        st.markdown("Just give me a minute, I will be right with you.")
+        st.title("Welcome to the Beanius Admin Page.")
+        st.markdown("You can improve the answers here.")
         
         ####### Extract and handle session_id #######
         
