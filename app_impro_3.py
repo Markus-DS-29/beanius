@@ -473,11 +473,12 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
                             
         # Display feedback options
         st.write(f"st.session_state.awaiting_feedback vor buttons: {st.session_state.awaiting_feedback}")
-        st.radio("Do you want to improve this answer?", ('No', 'Yes'), on_change=on_change_to_yes, key='feedback_radio')
+        feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'), on_change=on_change_to_yes, key='feedback_radio')
         st.write(f"st.session_state.awaiting_feedback nach buttons: {st.session_state.awaiting_feedback}")
+        st.write(f"feedback_choice: {feedback_choice}")
         # Conditionally display the feedback form
-        if st.session_state.awaiting_feedback:
-           display_feedback_form()
+        if feedback_choice == 'Yes':
+            on_change_to_yes()
         
 
 #st.session_state.awaiting_feedback = False
