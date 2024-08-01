@@ -22,42 +22,25 @@ from urllib.parse import urlencode
 
 ###### Password Protection ########
 
-
-
-# Define the password (you might want to load this securely in production)
-PASSWORD = "1234"
-
-# Function to display the login page
-def display_login_page():
-    st.title("Login Page")
-    password = st.text_input("Password", type="password")
-    
-    if st.button("Submit"):
-        if password == PASSWORD:
-            st.session_state.authenticated = True
-            st.experimental_rerun()  # Rerun to refresh and show the protected content
-        else:
-            st.error("Incorrect password")
-
-# Function to display protected content
-def display_protected_content():
-    st.title("Protected Content")
-    st.write("You have successfully accessed the protected page!")
+import streamlit as st
 
 def main():
-    # Initialize session state for authentication
-    if 'authenticated' not in st.session_state:
-        st.session_state.authenticated = False
-
-    # Check if the user is authenticated
-    if not st.session_state.authenticated:
-        display_login_page()
-    else:
-        display_protected_content()
+    # Define the correct password
+    correct_password = "1234"
+    
+    # Password input field
+    password = st.text_input("Enter the admin password", type="password")
+    
+    # Check if the entered password is correct
+    if password == correct_password:
+        st.title("Admin Page")
+        st.write("Welcome to the admin page.")
+        # Add your admin page content and functionalities here
+    elif password:
+        st.error("Incorrect password. Please try again.")
 
 if __name__ == "__main__":
     main()
-
 
 
 ###### End Password Protection #######
