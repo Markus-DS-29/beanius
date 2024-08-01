@@ -473,7 +473,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         st.session_state.last_prompt = prompt
             
         # Display feedback options
-        feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
+        feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
             
         # Update awaiting feedback state based on radio choice
         if feedback_choice == 'Yes':
