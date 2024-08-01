@@ -271,7 +271,7 @@ def display_feedback_form():
         if st.session_state.improved_answer:
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
-            st.session_state.awaiting_feedback = False
+            #st.session_state.awaiting_feedback = False
             # Handle feedback after success
             handle_feedback(
                 query_data=st.session_state.query_data,
@@ -476,7 +476,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         if st.session_state.awaiting_feedback == True:
             # Show feedback form
             display_feedback_form()
-            st.session_state.awaiting_feedback = False
+            #st.session_state.awaiting_feedback = False
         else:
             st.session_state.awaiting_feedback = False
 
