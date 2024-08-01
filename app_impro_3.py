@@ -239,13 +239,6 @@ def save_feedback_to_db(query_data, improved_answer):
         conn.close()
 
 def handle_feedback(query_data, improved_answer):
-    """
-    Handle feedback provided by the user without saving it to the RAG vector store.
-    
-    Parameters:
-    - query_data (str): The user's original query.
-    - improved_answer (str): The improved answer provided by the user.
-    """
     # Print feedback to console (or you can save it to a file or database)
     st.write(f"Received feedback for query: {query_data}")
     st.write(f"Improved answer: {improved_answer}")
@@ -264,7 +257,6 @@ def handle_feedback(query_data, improved_answer):
     st.session_state.awaiting_feedback = False
     st.session_state.show_feedback_options = False
     st.session_state.feedback_radio = 'No'
-
             
 ### End: Saving feedback to SQL database ###
 
