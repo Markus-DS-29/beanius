@@ -47,8 +47,6 @@ st.markdown(css, unsafe_allow_html=True)
 
 ### Initialize chat history and feedback state
 
-st.session_state.awaiting_feedback = False
-
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 if 'awaiting_feedback' not in st.session_state:
