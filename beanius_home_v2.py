@@ -287,7 +287,7 @@ chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=m
 
 # Streamlit app title
 st.title("Welcome to the Beanius, your Espresso expert.")
-st.markdown("Just give me a minute, I will be right with you.")
+#st.markdown("Just give me a minute, I will be right with you.")
 
 ####### Extract and handle session_id #######
 
