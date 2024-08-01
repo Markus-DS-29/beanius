@@ -1,3 +1,27 @@
+####### Status: Everythings seems to be working ###########
+
+import os
+import pandas as pd
+import streamlit as st
+import mysql.connector
+from datetime import datetime
+import streamlit.components.v1 as components
+#import sounddevice as sd
+import numpy as np
+import wave
+import matplotlib.pyplot as plt
+import torch
+from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
+import soundfile as sf
+from pydub import AudioSegment
+import tempfile
+import shutil
+import re
+import uuid
+from urllib.parse import urlencode
+
+###### Password Protection ########
+
 # Password protection function
 def password_protect_page():
     if 'authenticated' not in st.session_state:
@@ -32,27 +56,11 @@ else:
     st.write("Welcome to the home page!")
 
 
-####### Status: Everythings seems to be working ###########
 
-import os
-import pandas as pd
-import streamlit as st
-import mysql.connector
-from datetime import datetime
-import streamlit.components.v1 as components
-#import sounddevice as sd
-import numpy as np
-import wave
-import matplotlib.pyplot as plt
-import torch
-from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-import soundfile as sf
-from pydub import AudioSegment
-import tempfile
-import shutil
-import re
-import uuid
-from urllib.parse import urlencode
+
+###### End Password Protection #######
+
+
 
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
