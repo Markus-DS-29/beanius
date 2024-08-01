@@ -470,7 +470,8 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
-        st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
+        feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
+        st.write(f"User selected: {feedback_choice}")
 
 else:
     # Show feedback form
