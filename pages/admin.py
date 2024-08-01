@@ -280,22 +280,19 @@ def display_feedback_form():
             if st.session_state.improved_answer:
                 st.session_state.query_data = st.session_state.last_prompt
                 st.success("Thank you for your feedback!")
-                st.session_state.awaiting_feedback = False
-                # Handle feedback after success
                 handle_feedback(
                     query_data=st.session_state.query_data,
                     improved_answer=st.session_state.improved_answer
                 )
+                st.session_state.awaiting_feedback = False
+                st.experimental_rerun()
             else:
                 st.error("Please provide the improved answer before submitting.")
 
     with col2:
         if st.button("Cancel", key='cancel_feedback'):
             st.session_state.awaiting_feedback = False
-            st.session_state.feedback_choice = None
-            st.session_state.improved_answer = ""
-            st.session_state.query_data = ""
-            st.experimental_rerun()  # Refresh the app to reflect the changes
+            st.experimental_rerun()
 
 #### End: Function to display the feedback form
 
@@ -455,6 +452,7 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+# Check if awaiting feedback, if not, continue with chat logic
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -479,12 +477,24 @@ if not st.session_state.awaiting_feedback:
         
         # Store the prompt and set awaiting feedback state
         st.session_state.last_prompt = prompt
+        st.session_state.awaiting_feedback = False
                 
-        st.session_state.awaiting_feedback = True         
-      
-        # Show feedback form
-        display_feedback_form()
+        def on_change_to_yes():
+            st.session_state.awaiting_feedback = True
+                            
+        # Display feedback options
+        st.radio("Do you want to improve this answer?", ('No', 'Yes'), on_change=on_change_to_yes, key='feedback_radio')
+        # Conditionally display the feedback form
+        if st.session_state.awaiting_feedback:
+            display_feedback_form()
+else:
+    display_feedback_form()
 
+# (Optional) Debugging: Print the detected URL and slug
+if 'detected_url' in st.session_state:
+    st.write(f"Detected URL: {st.session_state.detected_url}")
+if 'detected_slug' in st.session_state:
+    st.write(f"Detected Slug: {st.session_state.detected_slug}")
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
