@@ -49,9 +49,9 @@ st.markdown(css, unsafe_allow_html=True)
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 if 'awaiting_feedback' not in st.session_state:
-    st.session_state.awaiting_feedback = False
+    st.session_state.awaiting_feedback = True
 if 'feedback_choice' not in st.session_state:
-    st.session_state.feedback_choice = 'yes'  
+    st.session_state.feedback_choice = 'Yes'  
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
 if 'improved_answer' not in st.session_state:
