@@ -272,18 +272,30 @@ def handle_feedback(query_data, improved_answer):
 #### Start: Function to display the feedback form
 def display_feedback_form():
     st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
-    if st.button("Submit Feedback", key='submit_feedback'):
-        if st.session_state.improved_answer:
-            st.session_state.query_data = st.session_state.last_prompt
-            st.success("Thank you for your feedback!")
+    
+    col1, col2 = st.columns(2)  # Create two columns for buttons
+
+    with col1:
+        if st.button("Submit Feedback", key='submit_feedback'):
+            if st.session_state.improved_answer:
+                st.session_state.query_data = st.session_state.last_prompt
+                st.success("Thank you for your feedback!")
+                st.session_state.awaiting_feedback = False
+                # Handle feedback after success
+                handle_feedback(
+                    query_data=st.session_state.query_data,
+                    improved_answer=st.session_state.improved_answer
+                )
+            else:
+                st.error("Please provide the improved answer before submitting.")
+
+    with col2:
+        if st.button("Cancel", key='cancel_feedback'):
             st.session_state.awaiting_feedback = False
-            # Handle feedback after success
-            handle_feedback(
-                query_data=st.session_state.query_data,
-                improved_answer=st.session_state.improved_answer
-            )
-        else:
-            st.error("Please provide the improved answer before submitting.")
+            st.session_state.feedback_choice = None
+            st.session_state.improved_answer = ""
+            st.session_state.query_data = ""
+            st.experimental_rerun()  # Refresh the app to reflect the changes
 
 #### End: Function to display the feedback form
 
