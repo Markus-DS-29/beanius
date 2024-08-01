@@ -469,7 +469,9 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
             st.session_state.awaiting_feedback = True
                 
         # Display feedback options
+        st.write(f"st.session_state.awaiting_feedback vor buttons: {st.session_state.awaiting_feedback}")
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), on_change=on_change_to_yes(), key='feedback_radio')
+        st.write(f"st.session_state.awaiting_feedback nach buttons: {st.session_state.awaiting_feedback}")
         
         if st.session_state.awaiting_feedback == True:
             # Show feedback form
@@ -480,7 +482,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
 
 
 st.session_state.awaiting_feedback = False
-st.write(f"st.session_state.awaiting_feedback: {st.session_state.awaiting_feedback}")
+st.write(f"st.session_state.awaiting_feedback am Ende: {st.session_state.awaiting_feedback}")
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
