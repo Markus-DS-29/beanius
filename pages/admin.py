@@ -22,38 +22,47 @@ from urllib.parse import urlencode
 
 ###### Password Protection ########
 
-# Password protection function
-def password_protect_page():
+import streamlit as st
+
+# Define the password
+PASSWORD = "your_secure_password"
+
+def main():
+    # Check for user authentication in session state
     if 'authenticated' not in st.session_state:
         st.session_state.authenticated = False
-    
-    if not st.session_state.authenticated:
-        st.title("Login")
-        password = st.text_input("Password", type="password")
 
-        # Define your password here
-        correct_password = "0000"
+    # Sidebar for page selection
+    page = st.sidebar.selectbox("Select Page", ["Home", "Protected Page"])
 
-        if st.button("Submit"):
-            if password == correct_password:
-                st.session_state.authenticated = True
-                st.experimental_rerun()  # Rerun the app to show the protected content
-            else:
-                st.error("Incorrect password")
+    # Page routing logic
+    if page == "Protected Page":
+        # If not authenticated, show the login form
+        if not st.session_state.authenticated:
+            password_protect_page()
+        else:
+            show_protected_content()
+    else:
+        # Show home page
+        st.write("Welcome to the home page!")
 
-    if st.session_state.authenticated:
-        st.write("You are now logged in!")
+def password_protect_page():
+    st.title("Login")
+    password = st.text_input("Password", type="password")
 
-        # Display the protected content here
-        st.write("Protected content goes here.")
+    if st.button("Submit"):
+        if password == PASSWORD:
+            st.session_state.authenticated = True
+            st.experimental_rerun()  # Rerun to display protected content
+        else:
+            st.error("Incorrect password")
 
-# Check if user is on the protected subpage
-page = st.sidebar.selectbox("Select Page", ["Home", "Protected Page"])
+def show_protected_content():
+    st.write("You are now logged in!")
+    st.write("Protected content goes here.")
 
-if page == "Protected Page":
-    password_protect_page()
-else:
-    st.write("Welcome to the home page!")
+if __name__ == "__main__":
+    main()
 
 
 
