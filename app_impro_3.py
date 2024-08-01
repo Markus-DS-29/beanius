@@ -48,19 +48,14 @@ st.markdown(css, unsafe_allow_html=True)
 ### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
-
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
-
 if 'improved_answer' not in st.session_state:
     st.session_state.improved_answer = ""
-
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
-
 if 'show_feedback_options' not in st.session_state:
     st.session_state.show_feedback_options = False
 
@@ -247,14 +242,7 @@ def save_feedback_to_db(query_data, improved_answer):
         conn.close()
 
 def handle_feedback(query_data, improved_answer):
-    """
-    Handle feedback provided by the user without saving it to the RAG vector store.
-    
-    Parameters:
-    - query_data (str): The user's original query.
-    - improved_answer (str): The improved answer provided by the user.
-    """
-    # Example: Print feedback to console (or you can save it to a file or database)
+    # Debugging: Print feedback to console (or you can save it to a file or database)
     st.write(f"Received feedback for query: {query_data}")
     st.write(f"Improved answer: {improved_answer}")
     # Combine the variables into a formatted string
@@ -266,6 +254,10 @@ def handle_feedback(query_data, improved_answer):
             
     # Provide confirmation to the user
     st.success("Thank you for your feedback! The combined Text is ready to be saved.")
+    # Reset the relevant session state variables to return to chat
+    st.session_state.feedback_choice = None
+    st.session_state.awaiting_feedback = False
+    st.session_state.last_prompt = None
             
 ### End: Saving feedback to SQL database ###
 
