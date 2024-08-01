@@ -447,8 +447,8 @@ if transcription:
 
 ### Chat input
 
-if not st.session_state.awaiting_feedback:
-    if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+
+if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -477,14 +477,15 @@ if not st.session_state.awaiting_feedback:
             
         # Update awaiting feedback state based on radio choice
         if feedback_choice == 'Yes':
-                    st.session_state.awaiting_feedback = True
+            st.session_state.awaiting_feedback = True
+            # Show feedback form
+            display_feedback_form()
         else:
-                    st.session_state.awaiting_feedback = False
-                    
-else:
-    # Show feedback form
-    display_feedback_form()
+            st.session_state.awaiting_feedback = False
 
+
+# (Optional) Debugging: Show user's choice
+st.write(f"User selected: {choice}")
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
