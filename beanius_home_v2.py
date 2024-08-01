@@ -48,12 +48,9 @@ st.markdown(css, unsafe_allow_html=True)
 ### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
 
-if 'show_feedback_options' not in st.session_state:
-    st.session_state.show_feedback_options = False
 
 
 # Database connection configuration for conversations
