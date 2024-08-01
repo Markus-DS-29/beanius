@@ -48,19 +48,16 @@ st.markdown(css, unsafe_allow_html=True)
 ### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
-
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
-
+if 'feedback_choice' not in st.session_state:
+    st.session_state.feedback_choice = 'No'  
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
-
 if 'improved_answer' not in st.session_state:
     st.session_state.improved_answer = ""
-
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
-
 if 'show_feedback_options' not in st.session_state:
     st.session_state.show_feedback_options = False
 
@@ -277,6 +274,7 @@ def display_feedback_form():
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
             st.session_state.awaiting_feedback = False
+            st.session_state.feedback_choice = 'No'        
             # Handle feedback after success
             handle_feedback(
                 query_data=st.session_state.query_data,
@@ -473,10 +471,10 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         st.session_state.last_prompt = prompt
             
         # Display feedback options
-        feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+        st.session_state.feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
             
         # Debugging: print the feedback choice
-        st.write(f"Debug: User's choice is {feedback_choice}")
+        st.write(f"Debug: User's choice is {st.session_state.feedback_choice}")
             
         # Update awaiting feedback state and call the function if needed
         if feedback_choice == 'Yes':
