@@ -481,7 +481,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
             st.session_state.awaiting_feedback = False
 
 
-st.session_state.awaiting_feedback = False
+#st.session_state.awaiting_feedback = False
 st.write(f"st.session_state.awaiting_feedback am Ende: {st.session_state.awaiting_feedback}")
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
