@@ -22,7 +22,6 @@ from urllib.parse import urlencode
 
 ###### Password Protection ########
 
-
 def main():
     # Define the correct password
     admin_password = st.secrets["admin"]["password"]
