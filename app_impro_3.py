@@ -45,25 +45,17 @@ section[data-testid="stSidebar"]{
 st.markdown(css, unsafe_allow_html=True)
 
 
-### Initialize chat history and feedback state
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
-
+### Initial setup for session state variables
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
-
-if 'last_prompt' not in st.session_state:
-    st.session_state.last_prompt = ""
-
-if 'improved_answer' not in st.session_state:
-    st.session_state.improved_answer = ""
-
-if 'query_data' not in st.session_state:
-    st.session_state.query_data = ""
-
 if 'show_feedback_options' not in st.session_state:
     st.session_state.show_feedback_options = False
-
+if 'improved_answer' not in st.session_state:
+    st.session_state.improved_answer = ""
+if 'query_data' not in st.session_state:
+    st.session_state.query_data = ""
+if 'feedback_radio' not in st.session_state:
+    st.session_state.feedback_radio = 'No'
 
 # Database connection configuration for conversations
 db_config = {
@@ -254,22 +246,30 @@ def handle_feedback(query_data, improved_answer):
     - query_data (str): The user's original query.
     - improved_answer (str): The improved answer provided by the user.
     """
-    # Example: Print feedback to console (or you can save it to a file or database)
+    # Print feedback to console (or you can save it to a file or database)
     st.write(f"Received feedback for query: {query_data}")
     st.write(f"Improved answer: {improved_answer}")
+    
     # Combine the variables into a formatted string
     combined_text = f"Lautet die Frage in etwa: {query_data}, dann ist die beste Antwort immer: {improved_answer}"        
     st.write(f"Prepared for saving: combined_text = {combined_text}")
-            
+    
     # Save feedback to database
     save_feedback_to_db(query_data, improved_answer)
-            
+    
     # Provide confirmation to the user
     st.success("Thank you for your feedback! The combined Text is ready to be saved.")
+    
+    # Ensure we return to the chat
+    st.session_state.awaiting_feedback = False
+    st.session_state.show_feedback_options = False
+    st.session_state.feedback_radio = 'No'
+
             
 ### End: Saving feedback to SQL database ###
 
 #### Start: Function to display the feedback form
+
 def display_feedback_form():
     st.session_state.improved_answer = st.text_area("Please provide the improved answer:", key='feedback_text_area')
     if st.button("Submit Feedback", key='submit_feedback'):
@@ -443,6 +443,7 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+# Chat Input
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -470,11 +471,25 @@ if not st.session_state.awaiting_feedback:
         st.session_state.awaiting_feedback = True
 
         # Display feedback options
+        st.session_state.show_feedback_options = True
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
 
 else:
-    # Show feedback form
-    display_feedback_form()
+    if 'feedback_radio' in st.session_state:
+        feedback_option = st.session_state.feedback_radio
+        if feedback_option == 'No':
+            st.session_state.awaiting_feedback = False
+            st.session_state.show_feedback_options = False
+        elif feedback_option == 'Yes':
+            st.session_state.show_feedback_options = False
+            display_feedback_form()
+
+# Handle feedback submission
+if st.session_state.improved_answer and st.session_state.query_data:
+    handle_feedback(st.session_state.query_data, st.session_state.improved_answer)
+    # Reset feedback states after handling
+    st.session_state.improved_answer = ""
+    st.session_state.query_data = ""
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
