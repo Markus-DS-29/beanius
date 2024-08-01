@@ -51,7 +51,7 @@ if 'messages' not in st.session_state:
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
 if 'feedback_choice' not in st.session_state:
-    st.session_state.feedback_choice = 'None'  
+    st.session_state.feedback_choice = 'yes'  
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
 if 'improved_answer' not in st.session_state:
