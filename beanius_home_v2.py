@@ -306,7 +306,7 @@ elif 'session_id' not in st.session_state:
 session_id = st.session_state.session_id
 
 # Display session ID for debugging
-st.write(f"Session ID: {session_id}")
+#st.write(f"Session ID: {session_id}")
 
 ####### Initialize chat history and fetch conversations #######
 
