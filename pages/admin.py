@@ -22,48 +22,41 @@ from urllib.parse import urlencode
 
 ###### Password Protection ########
 
-import streamlit as st
 
-# Define the password
-PASSWORD = "your_secure_password"
 
-def main():
-    # Check for user authentication in session state
-    if 'authenticated' not in st.session_state:
-        st.session_state.authenticated = False
+# Define the password (you might want to load this securely in production)
+PASSWORD = "1234"
 
-    # Sidebar for page selection
-    page = st.sidebar.selectbox("Select Page", ["Home", "Protected Page"])
-
-    # Page routing logic
-    if page == "Protected Page":
-        # If not authenticated, show the login form
-        if not st.session_state.authenticated:
-            password_protect_page()
-        else:
-            show_protected_content()
-    else:
-        # Show home page
-        st.write("Welcome to the home page!")
-
-def password_protect_page():
-    st.title("Login")
+# Function to display the login page
+def display_login_page():
+    st.title("Login Page")
     password = st.text_input("Password", type="password")
-
+    
     if st.button("Submit"):
         if password == PASSWORD:
             st.session_state.authenticated = True
-            st.experimental_rerun()  # Rerun to display protected content
+            st.experimental_rerun()  # Rerun to refresh and show the protected content
         else:
             st.error("Incorrect password")
 
-def show_protected_content():
-    st.write("You are now logged in!")
-    st.write("Protected content goes here.")
+# Function to display protected content
+def display_protected_content():
+    st.title("Protected Content")
+    st.write("You have successfully accessed the protected page!")
+
+def main():
+    # Initialize session state for authentication
+    if 'authenticated' not in st.session_state:
+        st.session_state.authenticated = False
+
+    # Check if the user is authenticated
+    if not st.session_state.authenticated:
+        display_login_page()
+    else:
+        display_protected_content()
 
 if __name__ == "__main__":
     main()
-
 
 
 
