@@ -435,8 +435,8 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-if not st.session_state.awaiting_feedback:
-    if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+
+if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -467,10 +467,14 @@ if not st.session_state.awaiting_feedback:
                 
         # Display feedback options
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), on_change=on_change_to_yes(), key='feedback_radio')
- 
-else:
-    # Show feedback form
-    display_feedback_form()
+        
+        if st.session_state.awaiting_feedback == True
+            # Show feedback form
+            display_feedback_form()
+        else:
+            st.session_state.awaiting_feedback = False
+
+
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
