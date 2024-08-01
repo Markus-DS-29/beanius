@@ -285,14 +285,14 @@ def display_feedback_form():
                     improved_answer=st.session_state.improved_answer
                 )
                 st.session_state.awaiting_feedback = False
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.error("Please provide the improved answer before submitting.")
 
     with col2:
         if st.button("Cancel", key='cancel_feedback'):
             st.session_state.awaiting_feedback = False
-            st.experimental_rerun()
+            st.rerun()
 
 #### End: Function to display the feedback form
 
