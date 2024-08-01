@@ -49,6 +49,8 @@ st.markdown(css, unsafe_allow_html=True)
 
 if 'messages' not in st.session_state:
     st.session_state.messages = []
+if 'feedback_choice' not in st.session_state:
+    st.session_state.feedback_choice = None
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
 if 'last_prompt' not in st.session_state:
@@ -269,12 +271,15 @@ def display_feedback_form():
         if st.session_state.improved_answer:
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
-            #st.session_state.awaiting_feedback = False
             # Handle feedback after success
             handle_feedback(
                 query_data=st.session_state.query_data,
                 improved_answer=st.session_state.improved_answer
             )
+            # Reset feedback state after handling feedback
+            st.session_state.awaiting_feedback = False
+            st.session_state.feedback_choice = None
+                    
         else:
             st.error("Please provide the improved answer before submitting.")
 
