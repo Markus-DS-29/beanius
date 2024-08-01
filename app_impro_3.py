@@ -467,7 +467,7 @@ if not st.session_state.awaiting_feedback:
         
         # Store the prompt and set awaiting feedback state
         st.session_state.last_prompt = prompt
-        st.session_state.awaiting_feedback = True
+        #st.session_state.awaiting_feedback = True
 
         # Display feedback options
         st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
