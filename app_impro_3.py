@@ -48,16 +48,19 @@ st.markdown(css, unsafe_allow_html=True)
 ### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
+
 if 'awaiting_feedback' not in st.session_state:
-    st.session_state.awaiting_feedback = True
-if 'feedback_choice' not in st.session_state:
-    st.session_state.feedback_choice = 'Yes'  
+    st.session_state.awaiting_feedback = False
+
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
+
 if 'improved_answer' not in st.session_state:
     st.session_state.improved_answer = ""
+
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
+
 if 'show_feedback_options' not in st.session_state:
     st.session_state.show_feedback_options = False
 
@@ -274,7 +277,6 @@ def display_feedback_form():
             st.session_state.query_data = st.session_state.last_prompt
             st.success("Thank you for your feedback!")
             st.session_state.awaiting_feedback = False
-            st.session_state.feedback_choice = 'No'        
             # Handle feedback after success
             handle_feedback(
                 query_data=st.session_state.query_data,
@@ -404,8 +406,6 @@ state = st.session_state
 if 'text_received' not in state:
     state.text_received = []
 
-### Voice input
-
 c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
@@ -443,10 +443,8 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
-### Chat input
-
-
-if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+if not st.session_state.awaiting_feedback:
+    if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
@@ -467,40 +465,17 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Save the updated conversation to the database
         save_conversations_to_db(st.session_state.messages, session_id)
         
-        # Store the prompt
+        # Store the prompt and set awaiting feedback state
         st.session_state.last_prompt = prompt
-            
+        st.session_state.awaiting_feedback = True
+
         # Display feedback options
-        st.session_state.feedback_choice = st.text_input("Type 'yes' to improve this answer or no to continue without editing: ", 
-        key='feedback_input')
-        st.session_state.feedback_choice = st.session_state.feedback_choice.strip().lower()
-            
-        # Debugging: print the feedback choice
-        st.write(f"Debug: User's choice is {st.session_state.feedback_choice}")
+        st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
 
-####### 
-        if st.session_state.feedback_choice is None:
-          # Display input field for user feedback
-          user_input = st.text_input("Type 'yes' to improve this answer or no to continue: ", key='feedback_input').strip().lower()
-          # Check for valid input
-          if user_input in ['yes', 'no']:
-             st.session_state.feedback_choice = user_input
-          else:
-             st.write("Please type 'yes' or 'no' to proceed.")
-                      
-        # Proceed based on valid input
-        if st.session_state.feedback_choice == 'yes':
-                st.session_state.awaiting_feedback = True
-                st.write("Debug: User typed 'yes'. Calling display_feedback_form().")
-                display_feedback_form()  # Call the function when the choice is 'yes'
-        elif st.session_state.feedback_choice == 'no':
-                st.session_state.awaiting_feedback = False
-                st.write("Debug: User typed 'no'. Setting awaiting_feedback to False.")
-        else:
-                st.write("Waiting for valid input...")
+else:
+    # Show feedback form
+    display_feedback_form()
 
-#######
-            
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
