@@ -485,7 +485,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
 
 
 # (Optional) Debugging: Show user's choice
-st.write(f"User selected: {choice}")
+st.write(f"User selected: {feedback_choice}")
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
