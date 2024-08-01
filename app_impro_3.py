@@ -477,7 +477,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         st.write(f"Debug: User's choice is {st.session_state.feedback_choice}")
             
         # Update awaiting feedback state and call the function if needed
-        if feedback_choice == 'Yes':
+        if st.session_state.feedback_choice == 'Yes':
             st.session_state.awaiting_feedback = True
             st.write("Debug: User selected 'Yes'. Calling display_feedback_form().")
             display_feedback_form()  # Call the function when the choice is 'Yes'
