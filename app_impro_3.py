@@ -51,7 +51,7 @@ if 'messages' not in st.session_state:
 if 'awaiting_feedback' not in st.session_state:
     st.session_state.awaiting_feedback = False
 if 'feedback_choice' not in st.session_state:
-    st.session_state.feedback_choice = 'No'  
+    st.session_state.feedback_choice = 'None'  
 if 'last_prompt' not in st.session_state:
     st.session_state.last_prompt = ""
 if 'improved_answer' not in st.session_state:
@@ -477,17 +477,30 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
             
         # Debugging: print the feedback choice
         st.write(f"Debug: User's choice is {st.session_state.feedback_choice}")
-            
-        # Update awaiting feedback state and call the function if needed
+
+####### 
+        if st.session_state.feedback_choice is None:
+          # Display input field for user feedback
+          user_input = st.text_input("Type 'yes' to improve this answer or no to continue: ", key='feedback_input').strip().lower()
+          # Check for valid input
+          if user_input in ['yes', 'no']:
+             st.session_state.feedback_choice = user_input
+          else:
+             st.write("Please type 'yes' or 'no' to proceed.")
+                      
+        # Proceed based on valid input
         if st.session_state.feedback_choice == 'yes':
-            st.session_state.awaiting_feedback = True
-            st.write("Debug: User selected 'yes'. Calling display_feedback_form().")
-            display_feedback_form()  # Call the function when the choice is 'Yes'
+                st.session_state.awaiting_feedback = True
+                st.write("Debug: User typed 'yes'. Calling display_feedback_form().")
+                display_feedback_form()  # Call the function when the choice is 'yes'
+        elif st.session_state.feedback_choice == 'no':
+                st.session_state.awaiting_feedback = False
+                st.write("Debug: User typed 'no'. Setting awaiting_feedback to False.")
         else:
-            st.session_state.awaiting_feedback = False
-            st.write("Debug: User selected 'No'. Setting awaiting_feedback to False.")
+                st.write("Waiting for valid input...")
 
-
+#######
+            
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
     st.write(f"Detected URL: {st.session_state.detected_url}")
