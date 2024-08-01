@@ -471,15 +471,17 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         st.session_state.last_prompt = prompt
             
         # Display feedback options
-        st.session_state.feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'))
+        st.session_state.feedback_choice = st.text_input("Type 'yes' to improve this answer or no to continue without editing: ", 
+        key='feedback_input')
+        st.session_state.feedback_choice = st.session_state.feedback_choice.strip().lower()
             
         # Debugging: print the feedback choice
         st.write(f"Debug: User's choice is {st.session_state.feedback_choice}")
             
         # Update awaiting feedback state and call the function if needed
-        if st.session_state.feedback_choice == 'Yes':
+        if st.session_state.feedback_choice == 'yes':
             st.session_state.awaiting_feedback = True
-            st.write("Debug: User selected 'Yes'. Calling display_feedback_form().")
+            st.write("Debug: User selected 'yes'. Calling display_feedback_form().")
             display_feedback_form()  # Call the function when the choice is 'Yes'
         else:
             st.session_state.awaiting_feedback = False
