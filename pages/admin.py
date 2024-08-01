@@ -470,9 +470,8 @@ if not st.session_state.awaiting_feedback:
                 
         st.session_state.awaiting_feedback = True         
       
-else:
-    # Show feedback form
-    display_feedback_form()
+        # Show feedback form
+        display_feedback_form()
 
 # (Optional) Debugging: Print the detected URL and slug
 if 'detected_url' in st.session_state:
