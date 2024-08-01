@@ -406,6 +406,8 @@ state = st.session_state
 if 'text_received' not in state:
     state.text_received = []
 
+### Voice input
+
 c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
@@ -443,6 +445,8 @@ if transcription:
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
 
+### Chat input
+
 if not st.session_state.awaiting_feedback:
     if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
@@ -465,14 +469,18 @@ if not st.session_state.awaiting_feedback:
         # Save the updated conversation to the database
         save_conversations_to_db(st.session_state.messages, session_id)
         
-        # Store the prompt and set awaiting feedback state
+        # Store the prompt
         st.session_state.last_prompt = prompt
-        st.session_state.awaiting_feedback = True
-
+            
         # Display feedback options
         feedback_choice = st.radio("Do you want to improve this answer?", ('No', 'Yes'), key='feedback_radio')
-        st.write(f"User selected: {feedback_choice}")
-
+            
+        # Update awaiting feedback state based on radio choice
+        if feedback_choice == 'Yes':
+                    st.session_state.awaiting_feedback = True
+        else:
+                    st.session_state.awaiting_feedback = False
+                    
 else:
     # Show feedback form
     display_feedback_form()
