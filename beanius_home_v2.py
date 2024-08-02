@@ -39,6 +39,89 @@ css = """
 <style>
 section[data-testid="stSidebar"]{
             display: none;
+
+/* Background */
+    body {
+        background-color: #f4ece2;
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Main content area */
+    .css-18e3th9 {
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: auto;
+    }
+
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Georgia', serif;
+        color: #3e2723;
+    }
+
+    /* Paragraphs */
+    p {
+        color: #5d4037;
+        line-height: 1.6;
+    }
+
+    /* Streamlit widgets */
+    .stButton button {
+        background-color: #6d4c41;
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .stButton button:hover {
+        background-color: #5d4037;
+    }
+
+    .stTextInput input {
+        border: 1px solid #a1887f;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
+    .stTextArea textarea {
+        border: 1px solid #a1887f;
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
+    /* Sidebar */
+    .css-1d391kg {
+        background-color: #3e2723;
+        color: #fff;
+    }
+
+    .css-1d391kg a {
+        color: #ffab91;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding: 1rem;
+        background-color: #6d4c41;
+        color: #fff;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .footer a {
+        color: #ffab91;
+        text-decoration: none;
+    }
+
+            
 </style>
 """
 # Inject CSS into the Streamlit app
