@@ -47,11 +47,12 @@ font-family: 'Georgia', serif;
 color: #3e2723; /* Dark coffee color */
 }
 
-if 'query_data' not in st.session_state:
-    st.session_state.query_data = ""
-
 </style>
 """
+
+
+if 'query_data' not in st.session_state:
+    st.session_state.query_data = ""
 
 # Database connection configuration for conversations
 db_config = {
