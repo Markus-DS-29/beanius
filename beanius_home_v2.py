@@ -44,15 +44,28 @@ section[data-testid="stSidebar"]{
 /* Headers */
 h1, h2, h3, h4, h5, h6 {
             font-family: 'Georgia', serif;
-            color: #3e2723; /* Dark coffee color */
+            color: #3e2723;
 }
 
+/* Paragraphs */
+p {
+            color: #5d4037;
+            line-height: 1.6;
+}
+            
 </style>
 """
+# Inject CSS into the Streamlit app
+st.markdown(css, unsafe_allow_html=True)
 
 
+### Initialize chat history and feedback state
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
+
+
 
 # Database connection configuration for conversations
 db_config = {
