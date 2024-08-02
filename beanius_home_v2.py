@@ -40,87 +40,13 @@ css = """
 section[data-testid="stSidebar"]{
             display: none;
 
-    /* General body styling */
-    body {
-        background-color: #f5f5dc; /* Light beige */
-        font-family: 'Arial', sans-serif;
-    }
 
-    /* Main content area */
-    .stApp {
-        background-color: #faf3e0; /* Lighter beige */
-        padding: 20px;
-    }
+/* Headers */
+h1, h2, h3, h4, h5, h6 {
+font-family: 'Georgia', serif;
+color: #3e2723; /* Dark coffee color */
+}
 
-    /* Headers */
-    h1, h2, h3, h4, h5, h6 {
-        font-family: 'Georgia', serif;
-        color: #3e2723; /* Dark coffee color */
-    }
-
-    /* Paragraphs */
-    p {
-        color: #5d4037; /* Coffee color */
-        line-height: 1.6;
-    }
-
-    /* Streamlit buttons */
-    button {
-        background-color: #6d4c41; /* Coffee color */
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background-color: #5d4037; /* Darker coffee color */
-    }
-
-    /* Inputs */
-    input, textarea {
-        border: 1px solid #a1887f; /* Coffee border */
-        padding: 0.5rem;
-        border-radius: 5px;
-    }
-
-    /* Sidebar */
-    .css-1lcbmhc {
-        background-color: #3e2723; /* Dark coffee color */
-        color: #ffffff; /* White text */
-    }
-
-    .css-1lcbmhc a {
-        color: #ffab91; /* Light coffee link color */
-    }
-
-    /* Footer */
-    .footer {
-        text-align: center;
-        padding: 1rem;
-        background-color: #6d4c41; /* Coffee color */
-        color: #fff;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-
-    .footer a {
-        color: #ffab91; /* Light coffee link color */
-        text-decoration: none;
-    }  
-           
-</style>
-"""
-# Inject CSS into the Streamlit app
-st.markdown(css, unsafe_allow_html=True)
-
-
-### Initialize chat history and feedback state
-if 'messages' not in st.session_state:
-    st.session_state.messages = []
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
 
