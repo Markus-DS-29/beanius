@@ -39,20 +39,6 @@ css = """
 <style>
 section[data-testid="stSidebar"]{
             display: none;
-
-
-/* Headers */
-h1, h2, h3, h4, h5, h6 {
-            font-family: 'Georgia', serif;
-            color: #3e2723 !important;
-}
-
-/* Paragraphs */
-p {
-            color: #5d4037 !important;
-            line-height: 1.6;
-}
-            
 </style>
 """
 # Inject CSS into the Streamlit app
