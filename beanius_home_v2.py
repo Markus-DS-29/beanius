@@ -46,14 +46,22 @@ section[data-testid="stSidebar"]{
         font-family: 'Arial', sans-serif;
     }
 
-    /* Main content area */
+/* General body styling */
+    body {
+        background-color: #f4ece2;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Main container */
     .css-18e3th9 {
         padding: 1.5rem;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         max-width: 800px;
-        margin: auto;
+        margin: 2rem auto;
     }
 
     /* Headers */
@@ -68,7 +76,7 @@ section[data-testid="stSidebar"]{
         line-height: 1.6;
     }
 
-    /* Streamlit widgets */
+    /* Streamlit buttons */
     .stButton button {
         background-color: #6d4c41;
         color: #fff;
@@ -82,12 +90,14 @@ section[data-testid="stSidebar"]{
         background-color: #5d4037;
     }
 
+    /* Streamlit text input */
     .stTextInput input {
         border: 1px solid #a1887f;
         padding: 0.5rem;
         border-radius: 5px;
     }
 
+    /* Streamlit text area */
     .stTextArea textarea {
         border: 1px solid #a1887f;
         padding: 0.5rem;
@@ -121,6 +131,11 @@ section[data-testid="stSidebar"]{
         text-decoration: none;
     }
 
+    /* Modify the container for all elements within the body */
+    .css-1lcbmhc, .css-12oz5g7, .css-1y4p8pa, .css-1v3fvcr {
+        background-color: #f4ece2;
+        padding: 1rem;
+    }
             
 </style>
 """
