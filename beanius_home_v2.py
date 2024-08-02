@@ -42,13 +42,13 @@ section[data-testid="stSidebar"]{
 
 /* Background */
     body {
-        background-color: #f4ece2;
+        background-color: #f4ece2 !important;
         font-family: 'Arial', sans-serif;
     }
 
 /* General body styling */
     body {
-        background-color: #f4ece2;
+        background-color: #f4ece2 !important;
         font-family: 'Arial', sans-serif;
         margin: 0;
         padding: 0;
