@@ -40,73 +40,77 @@ css = """
 section[data-testid="stSidebar"]{
             display: none;
 
-    /* Include the CSS code here */
+    /* General body styling */
     body {
-        background-color: #f5f5dc; /* Beige background to mimic coffee shop walls */
+        background-color: #f5f5dc; /* Light beige */
         font-family: 'Arial', sans-serif;
     }
+
+    /* Main content area */
+    .stApp {
+        background-color: #faf3e0; /* Lighter beige */
+        padding: 20px;
+    }
+
+    /* Headers */
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Georgia', serif;
+        color: #3e2723; /* Dark coffee color */
+    }
+
+    /* Paragraphs */
+    p {
+        color: #5d4037; /* Coffee color */
+        line-height: 1.6;
+    }
+
+    /* Streamlit buttons */
+    button {
+        background-color: #6d4c41; /* Coffee color */
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #5d4037; /* Darker coffee color */
+    }
+
+    /* Inputs */
+    input, textarea {
+        border: 1px solid #a1887f; /* Coffee border */
+        padding: 0.5rem;
+        border-radius: 5px;
+    }
+
     /* Sidebar */
-    .stSidebar {
+    .css-1lcbmhc {
         background-color: #3e2723; /* Dark coffee color */
         color: #ffffff; /* White text */
     }
-    .stSidebar .element-container .css-1d391kg {
-        color: #ffffff;
+
+    .css-1lcbmhc a {
+        color: #ffab91; /* Light coffee link color */
     }
-    .stSidebar .css-1avcm0n {
-        background-color: #5d4037; /* Lighter coffee brown */
-        color: #ffffff;
-    }
-    .stSidebar .css-2trqyj {
-        color: #ffffff;
-    }
-    /* Main content */
-    .css-1oe5cao {
-        background-color: #faf3e0; /* Lighter beige for main content background */
-        color: #3e2723; /* Dark coffee text */
-    }
-    .stButton button {
-        background-color: #6d4c41; /* Medium coffee color for buttons */
-        color: #ffffff;
-        border: none;
-        border-radius: 5px;
-    }
-    .stButton button:hover {
-        background-color: #8d6e63; /* Slightly lighter coffee color on hover */
-        color: #ffffff;
-    }
-    h1, h2, h3, h4, h5, h6 {
-        color: #3e2723; /* Coffee color for headers */
-    }
-    a {
-        color: #8d6e63; /* Light coffee color for links */
-    }
-    a:hover {
-        color: #5d4037; /* Darker coffee color on hover */
-    }
-    /* Inputs */
-    .stTextInput input, .stTextArea textarea {
-        background-color: #ffffff; /* White background for inputs */
-        color: #3e2723; /* Coffee color text */
-        border: 1px solid #6d4c41; /* Medium coffee border */
-    }
-    .stTextInput input:focus, .stTextArea textarea:focus {
-        border: 1px solid #8d6e63; /* Light coffee border on focus */
-    }
-    /* Containers */
-    .css-1d391kg {
-        border: 1px solid #6d4c41; /* Medium coffee border */
-        border-radius: 10px;
-        padding: 10px;
-    }
+
     /* Footer */
-    footer {
-        background-color: #3e2723; /* Dark coffee color */
-        color: #ffffff;
+    .footer {
         text-align: center;
-        padding: 10px;
-        border-top: 1px solid #6d4c41; /* Medium coffee border */
-    }            
+        padding: 1rem;
+        background-color: #6d4c41; /* Coffee color */
+        color: #fff;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .footer a {
+        color: #ffab91; /* Light coffee link color */
+        text-decoration: none;
+    }  
            
 </style>
 """
