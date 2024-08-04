@@ -22,7 +22,7 @@ from urllib.parse import urlencode
 
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
-def WhisperSTT(start_prompt="Spracheingabe beginnen", stop_prompt="Aufnahme beenden"):
+
 
 # Chatbot imports
 from huggingface_hub import login
@@ -358,6 +358,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
+    def WhisperSTT(start_prompt="Spracheingabe beginnen", stop_prompt="Aufnahme beenden")
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
