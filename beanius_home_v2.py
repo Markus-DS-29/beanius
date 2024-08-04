@@ -22,6 +22,7 @@ from urllib.parse import urlencode
 
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
+def WhisperSTT(start_prompt="Spracheingabe beginnen", stop_prompt="Aufnahme beenden"):
 
 # Chatbot imports
 from huggingface_hub import login
