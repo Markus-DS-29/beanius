@@ -21,8 +21,8 @@ import uuid
 from urllib.parse import urlencode
 
 # Audio
-from libs.streamlit_mic_recorder import mic_recorder, speech_to_text
-#from streamlit_mic_recorder import mic_recorder, speech_to_text
+from libs.streamlit-mic-recorder-main.streamlit_mic_recorder import mic_recorder, speech_to_text
+from streamlit_mic_recorder import speech_to_text
 #from libs.streamlit_mic_recorder_main.streamlit_mic_recorder.audio_recorder import audio_recorder_function
 #from libs.streamlit_mic_recorder_main.streamlit_mic_recorder.recorder import recorder_function
 
