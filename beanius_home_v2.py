@@ -38,7 +38,18 @@ from langchain.chains import RetrievalQA
 css = """
 <style>
 section[data-testid="stSidebar"]{
-            display: none;
+  display: none;
+}
+body {
+  background: #80480d;
+}
+.st-emotion-cache-12fmjuu.ezrtsby2 {
+  background: #80480d;
+}
+.st-emotion-cache-uhkwx6.ea3mdgi6 {
+  background: #80480d;
+}
+            
 </style>
 """
 # Inject CSS into the Streamlit app
