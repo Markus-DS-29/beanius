@@ -60,6 +60,9 @@ section.main.st-emotion-cache-bm2z3a.ea3mdgi8 {
 .App {
     background: #f5f5dc !important; 
 }
+div#root {
+    background: #f5f5dc !important;
+}
             
 </style>
 """
