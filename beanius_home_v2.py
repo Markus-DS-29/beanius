@@ -358,8 +358,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
-    def WhisperSTT(openai_api_key=None, start_prompt="Start recording" , stop_prompt="Stop recording" ,just_once=False,use_container_width=False,language=None,callback=None,args=(),kwargs={},key=None):
-      text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
+    text_from_speech = speech_to_text(start_prompt="Aufnahme starten", language='de', use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
 
