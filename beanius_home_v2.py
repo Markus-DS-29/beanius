@@ -358,7 +358,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
-    text_from_speech = speech_to_text(background = "red", start_prompt="Spracheingabe starten", stop_prompt="Aufnahme beenden", language='de', use_container_width=True, just_once=True, key='STT')
+    text_from_speech = speech_to_text(start_prompt="Spracheingabe starten", stop_prompt="Aufnahme beenden", language='de', use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
 
