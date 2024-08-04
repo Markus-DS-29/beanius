@@ -286,7 +286,7 @@ prompt = PromptTemplate(template=input_template, input_variables=["context", "qu
 chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, return_source_documents=False, combine_docs_chain_kwargs={"prompt": prompt})
 
 # Streamlit app title
-st.title("Welcome to the Beanius, your Espresso expert.")
+st.title("Welcome to Beanius, your Espresso expert.")
 #st.markdown("Just give me a minute, I will be right with you.")
 
 ####### Extract and handle session_id #######
