@@ -41,13 +41,19 @@ section[data-testid="stSidebar"]{
   display: none;
 }
 body {
-  background: #80480d;
+  background: #f5f5dc; #light beige
 }
 .st-emotion-cache-12fmjuu.ezrtsby2 {
-  background: #80480d;
+  background: #f5f5dc;
 }
 .st-emotion-cache-uhkwx6.ea3mdgi6 {
-  background: #80480d;
+  background: #f5f5dc;
+}
+section.main.st-emotion-cache-bm2z3a.ea3mdgi8 {
+    background: #f5f5dc;
+}
+.App {
+    background: #80480d; #this is the background of the voice recorder
 }
             
 </style>
