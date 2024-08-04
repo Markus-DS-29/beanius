@@ -358,7 +358,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write("Was für einen Espresso suchst du?")
 with c2:
-    def WhisperSTT(start_prompt="Spracheingabe beginnen", stop_prompt="Aufnahme beenden")
+    def WhisperSTT(start_prompt="Spracheingabe beginnen", stop_prompt="Aufnahme beenden"):
     text_from_speech = speech_to_text(language='de', use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
