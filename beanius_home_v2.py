@@ -58,7 +58,7 @@ section.main.st-emotion-cache-bm2z3a.ea3mdgi8 {
     background: #f5f5dc;
 }
 .App {
-    background: #f5f5dc; 
+    background: #f5f5dc !important; 
 }
             
 </style>
