@@ -316,6 +316,7 @@ session_id = st.session_state.session_id
 #st.write(f"Session ID: {session_id}")
 
 ####### Initialize chat history and fetch conversations #######
+path_to_user_avatar = "/images/user_icon.png"
 
 # Initialize chat history if not already initialized
 if "messages" not in st.session_state:
@@ -375,7 +376,7 @@ if transcription:
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user"):
+        with st.chat_message("user", avatar=st.image('path_to_user_avatar')):
             st.markdown(prompt)
 
         # Generate response
