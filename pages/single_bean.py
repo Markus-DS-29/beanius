@@ -79,32 +79,25 @@ def display_single_beans_info(source_url):
         vollautomaten_chart = beans_info['vollautomaten_num'],
         st.markdown(f"**Röstgrad:** {roestgrad_chart}")            
 
-        fig = go.Figure()
-            
-        fig.add_trace(go.Scatterpolar(
-                  r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-                  theta=categories,
-                  fill='toself',
-                  name='Product A'
-        ))
-        fig.add_trace(go.Scatterpolar(
-                  r=[4, 3, 2.5, 1, 2],
-                  theta=categories,
-                  fill='toself',
-                  name='Product B'
+        
+
+        fig = go.Figure(data=go.Scatterpolar(
+              r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
+              theta=['processing cost','mechanical properties','chemical stability', 'thermal stability',
+                       'device integration'],
+              fill='toself'
         ))
             
         fig.update_layout(
               polar=dict(
                 radialaxis=dict(
-                  visible=True,
-                  range=[0, 5]
-                )),
-             showlegend=False
+                  visible=True
+                ),
+              ),
+              showlegend=False
         )
             
         fig.show()
-
                 
         ######## end rader ########
                 
