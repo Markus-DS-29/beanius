@@ -129,7 +129,7 @@ def display_single_beans_info(source_url):
            means_radar_df = pd.DataFrame()  # Empty DataFrame if no means data
 
         # Create radar chart
-        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title='Single Bean vs. Mean Values')
+        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title='Diese Bohne im Vergleich zum Mittelwert aller Bohnen')
 
         if not means_radar_df.empty:
            fig.add_scatterpolar(
