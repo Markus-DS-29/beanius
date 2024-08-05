@@ -19,3 +19,4 @@ langchain-huggingface
 langchain-community
 numpy
 mysql-connector-python
+plotly
