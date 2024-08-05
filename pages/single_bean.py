@@ -43,6 +43,36 @@ def fetch_single_beans_info_from_db(source_url):
     
     return beans_info
 
+# Function to fetch and calculate means of all beans
+def fetch_and_calculate_means(source_url):
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+    
+    cursor.execute("""SELECT 
+    roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num
+    FROM beans_info WHERE source_url = %s
+    """, (source_url,))
+    
+    beans_info = cursor.fetchone()
+    conn.close()
+    
+    if beans_info:
+        # Convert fetched data to DataFrame
+        df = pd.DataFrame([beans_info])
+        
+        # Calculate means for specific columns
+        columns_to_calculate = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
+        means = df[columns_to_calculate].mean()
+        
+        # Create DataFrame with the means
+        means_df = pd.DataFrame([means], columns=columns_to_calculate)
+        
+        return means_df
+    else:
+        return pd.DataFrame()  # Return an empty DataFrame if no data is found
+
+
+
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
     st.title("Unsere Bohnenempfehlung")
@@ -97,6 +127,16 @@ def display_single_beans_info(source_url):
         # Show the chart in Streamlit
         st.markdown("**Die Eigenschaften der ausgewählten Bohnen:**")
         st.plotly_chart(fig)
+
+        means_df = fetch_and_calculate_means(source_url)
+    
+        if not means_df.empty:
+                    st.write("Calculated Means:")
+                    st.dataframe(means_df)
+        else:
+                    st.write("No data found for the provided source URL.")
+
+                
                         
         ######## end rader ########
                 
