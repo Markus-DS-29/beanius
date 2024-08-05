@@ -75,7 +75,7 @@ def display_single_beans_info(source_url):
         cremabildung_chart = beans_info['cremabildung_num'],  
         bohnenbild_chart = beans_info['bohnenbild_num'],  
         koffeingehalt_chart = beans_info['koffeingehalt_num'],  
-        vollautomaten_chart = beans_info['vollautomaten_num']],
+        vollautomaten_chart = beans_info['vollautomaten_num'],
                     
 
         fig = go.Figure()
