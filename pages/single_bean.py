@@ -44,25 +44,30 @@ def fetch_single_beans_info_from_db(source_url):
     return beans_info
 
 # Function to fetch and calculate means of all beans
-def fetch_and_calculate_means(source_url):
+def fetch_and_calculate_means():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
+    # SQL query to select all rows
     cursor.execute("""SELECT 
     roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num
     FROM beans_info
     """)
     
-    beans_info_mean = cursor.fetchall()
+    # Fetch all rows
+    data = cursor.fetchall()
     conn.close()
     
-    if beans_info_mean:
+    if data:
         # Convert fetched data to DataFrame
-        df = pd.DataFrame([beans_info_mean])
+        df = pd.DataFrame(data)
         
-        # Calculate means for specific columns
+        # Define the columns to calculate means for
         columns_to_calculate = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
+        
+        # Calculate means for specified columns
         means = df[columns_to_calculate].mean()
+        
         # Ensure means are float
         means = means.astype(float)
         
@@ -72,8 +77,6 @@ def fetch_and_calculate_means(source_url):
         return means_df
     else:
         return pd.DataFrame()  # Return an empty DataFrame if no data is found
-
-
 
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
