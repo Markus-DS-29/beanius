@@ -19,4 +19,4 @@ langchain-huggingface
 langchain-community
 numpy
 mysql-connector-python
-plotly==4.14.3
+plotly==5.23.0
