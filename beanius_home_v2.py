@@ -59,6 +59,13 @@ section[data-testid="stSidebar"]{
   margin-right: 30px;
 }
 
+.st-emotion-cache-1ghhuty.eeusbqq1 {
+  width: 100px;
+  height: 100px;
+  margin-right: 30px;
+}
+
+
 
 </style>
 """
@@ -370,7 +377,9 @@ transcription = text_from_speech
 # Use the transcription as input to the chatbot
 if transcription:
     # Display user message in chat message container
-    st.chat_message("user").markdown(transcription)
+    with st.chat_message("user", avatar=user_image):
+      st.markdown(transcription)
+    #st.chat_message("user").markdown(transcription)
 
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": transcription})
