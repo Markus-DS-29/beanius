@@ -387,7 +387,7 @@ if transcription:
         answer = detect_and_replace_url(answer)
 
         # Display chatbot response in chat message container
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=beanius_image):
             st.markdown(answer, unsafe_allow_html=True)
 
         # Add assistant response to chat history
