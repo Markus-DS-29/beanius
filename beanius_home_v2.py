@@ -316,7 +316,7 @@ session_id = st.session_state.session_id
 #st.write(f"Session ID: {session_id}")
 
 ####### Initialize chat history and fetch conversations #######
-path_to_user_avatar = "images/user_icon.png"
+path_to_user_avatar = "https://github.com/Markus-DS-29/beanius/blob/main/images/user_icon.png"
 
 # Initialize chat history if not already initialized
 if "messages" not in st.session_state:
