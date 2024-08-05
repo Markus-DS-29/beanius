@@ -63,6 +63,8 @@ def fetch_and_calculate_means(source_url):
         # Calculate means for specific columns
         columns_to_calculate = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
         means = df[columns_to_calculate].mean()
+        # Ensure means are float
+        means = means.astype(float)
         
         # Create DataFrame with the means
         means_df = pd.DataFrame([means], columns=columns_to_calculate)
