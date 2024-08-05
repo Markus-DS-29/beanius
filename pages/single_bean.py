@@ -50,7 +50,7 @@ def fetch_and_calculate_means(source_url):
     
     cursor.execute("""SELECT 
     roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num
-    FROM beans_info WHERE source_url = %s
+    FROM beans_info 
     """, (source_url,))
     
     beans_info = cursor.fetchone()
