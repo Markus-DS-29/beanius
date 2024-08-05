@@ -45,31 +45,7 @@ css = """
 <style>
 section[data-testid="stSidebar"]{
   display: none;
-}
-body {
-  background: #f5f5dc; 
-}
-.st-emotion-cache-12fmjuu.ezrtsby2 {
-  background: #f5f5dc;
-}
-.st-emotion-cache-uhkwx6.ea3mdgi6 {
-  background: #f5f5dc;
-}
-
-section.main.st-emotion-cache-bm2z3a.ea3mdgi8 {
-    background: f5f5dc;
-}
-
-section.main.st-emotion-cache-bm2z3a.ea3mdgi8 {
-    background: #f5f5dc;
-}
-.App {
-    background: #f5f5dc !important; 
-}
-div#root {
-    background: #f5f5dc !important;
-}
-            
+}          
 </style>
 """
 # Inject CSS into the Streamlit app
