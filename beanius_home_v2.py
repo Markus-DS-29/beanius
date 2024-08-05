@@ -359,7 +359,7 @@ if session_id_from_url:
 # Display chat messages from history on app rerun ###############experimental
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-      if message["role"] == "user"
+      if message["role"] == "user":
         st.markdown(message["content"], avatar=user_image, unsafe_allow_html=True)
       else:
         st.markdown(message["content"], avatar=beanius_image, unsafe_allow_html=True)
