@@ -45,7 +45,15 @@ css = """
 <style>
 section[data-testid="stSidebar"]{
   display: none;
-}          
+}
+
+.st-emotion-cache-p4micv.eeusbqq0 {
+  width: 100px;
+  height: 100px;
+  margin-right: 30px;
+}
+
+
 </style>
 """
 # Inject CSS into the Streamlit app
