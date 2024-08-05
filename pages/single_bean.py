@@ -80,13 +80,17 @@ def display_single_beans_info(source_url):
         st.markdown(f"**Röstgrad:** {roestgrad_chart}")
         st.write(isinstance(roestgrad_chart, (int, float)))  # True when x is an integer
         
-        radar_df = pd.DataFrame(dict(
-                r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-                theta=['Röstgrad','Cremabildung','Bohnenbild',
-                       'Koffeingehalt', 'Eignung für Vollautomaten']))
+        # Create the DataFrame
+        radar_df = pd.DataFrame({
+            'r': [roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
+            'theta': ['Röstgrad', 'Cremabildung', 'Bohnenbild', 'Koffeingehalt', 'Eignung für Vollautomaten']
+        })
+            
+        # Create the radar chart
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
+            
+        # Show the chart in Streamlit
         st.plotly_chart(fig)
-
                         
         ######## end rader ########
                 
