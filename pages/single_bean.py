@@ -136,7 +136,7 @@ def display_single_beans_info(source_url):
                r=means_radar_df['r'],
                theta=means_radar_df['theta'],
                fill='toself',
-               name='Average Values',
+               name='Mittelwerte',
                line=dict(color='#b0896c')
            )
 
