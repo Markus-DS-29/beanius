@@ -337,7 +337,7 @@ with open(path_to_user_avatar, "rb") as file:
     user_image = file.read()
 
 path_to_beanius_avatar = "images/beanius_icon.png"
-with open(path_to_user_avatar, "rb") as file:
+with open(path_to_beanius_avatar, "rb") as file:
     beanius_image = file.read()
 
 
