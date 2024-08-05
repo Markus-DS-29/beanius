@@ -73,10 +73,10 @@ def display_single_beans_info(source_url):
         ######## start radar #######
         
         roestgrad_chart = beans_info['roestgrad_num']
-        cremabildung_chart = beans_info['cremabildung_num'],  
-        bohnenbild_chart = beans_info['bohnenbild_num'],  
-        koffeingehalt_chart = beans_info['koffeingehalt_num'],  
-        vollautomaten_chart = beans_info['vollautomaten_num'],
+        cremabildung_chart = beans_info['cremabildung_num']
+        bohnenbild_chart = beans_info['bohnenbild_num']
+        koffeingehalt_chart = beans_info['koffeingehalt_num']
+        vollautomaten_chart = beans_info['vollautomaten_num']
         st.markdown(f"**Röstgrad:** {roestgrad_chart}")
         st.write(isinstance(roestgrad_chart, (int, float)))  # True when x is an integer
         
