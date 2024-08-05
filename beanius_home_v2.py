@@ -360,10 +360,10 @@ if session_id_from_url:
 # Display chat messages with avatars
 for message in st.session_state.messages:
     if message["role"] == "user":
-        with st.chat_message(message["role"], avatar=user_avatar):
+        with st.chat_message(message["role"], avatar=user_image):
             st.markdown(message["content"], unsafe_allow_html=True)
     else:
-        with st.chat_message(message["role"], avatar=beanius_avatar):
+        with st.chat_message(message["role"], avatar=beanius_image):
             st.markdown(message["content"], unsafe_allow_html=True)
 
 
