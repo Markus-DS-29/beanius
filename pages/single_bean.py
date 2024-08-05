@@ -71,7 +71,7 @@ def display_single_beans_info(source_url):
             st.markdown("**Reviews:** No reviews yet.")
 
         ######## start radar #######
-        categories = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
+        
         roestgrad_chart = beans_info['roestgrad_num']
         cremabildung_chart = beans_info['cremabildung_num'],  
         bohnenbild_chart = beans_info['bohnenbild_num'],  
@@ -85,6 +85,8 @@ def display_single_beans_info(source_url):
             'r': [roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
             'theta': ['Röstgrad', 'Cremabildung', 'Bohnenbild', 'Koffeingehalt', 'Eignung für Vollautomaten']
         })
+        # Convert 'r' column to numeric
+        radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
             
         # Create the radar chart
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
