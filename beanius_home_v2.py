@@ -381,7 +381,7 @@ if transcription:
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user", avatar=st.image(path_to_user_avatar, width=150, use_column_width=False)):
+        with st.chat_message("user", avatar=avatar_image):
             st.markdown(prompt)
 
         # Generate response
