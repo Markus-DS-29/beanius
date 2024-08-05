@@ -1,6 +1,6 @@
 [theme]
-primaryColor = "#E694FF"
-backgroundColor = "#f5f5dc"
-secondaryBackgroundColor = "#3e2723"
-textColor = "#3e2723"
-font = "sans-serif"
+primaryColor="#6f4e37"         # Coffee brown for primary elements
+backgroundColor="#f5f5dc"      # Light beige for the background
+secondaryBackgroundColor="#faf3e0" # Slightly darker beige for secondary backgrounds
+textColor="#3e2723"            # Dark coffee color for text
+font="Georgia"                 # Serif font to give a classic and elegant feel
