@@ -1,6 +1,6 @@
 [theme]
-primaryColor="#6f4e37"         # Coffee brown for primary elements
-backgroundColor="#f5f5dc"      # Light beige for the background
-secondaryBackgroundColor="#faf3e0" # Slightly darker beige for secondary backgrounds
-textColor="#3e2723"            # Dark coffee color for text
-font="Georgia"                 # Serif font to give a classic and elegant feel
+primaryColor="#6f4e37"            # Coffee brown for primary elements
+backgroundColor="#f5f5dc"         # Light beige for the background
+secondaryBackgroundColor="#d7ccc8" # Warm, medium beige for secondary backgrounds with better visibility
+textColor="#3e2723"               # Dark coffee color for text
+font="Georgia"                    # Serif font for a classic, elegant feel
