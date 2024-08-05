@@ -2,6 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 import urllib.parse
+import plotly.graph_objects as go
 
 # Custom CSS
 css = """
@@ -31,7 +32,9 @@ def fetch_single_beans_info_from_db(source_url):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute('SELECT title, source_url, rating_value, review_count, description FROM beans_info WHERE source_url = %s', (source_url,))
+    cursor.execute('SELECT 
+    title, source_url, rating_value, review_count, description, roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num
+    FROM beans_info WHERE source_url = %s', (source_url,))
     beans_info = cursor.fetchone()
     
     conn.close()
@@ -40,7 +43,7 @@ def fetch_single_beans_info_from_db(source_url):
 
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
-    st.title("Unsere Bohne")
+    st.title("Unsere Bohnenempfehlung")
     # Create a link to the main page with the session_id
     if session_id:
         main_page_url = f"/?session_id={session_id}"
@@ -64,7 +67,39 @@ def display_single_beans_info(source_url):
             st.markdown(f"**Reviews:** {beans_info['review_count']}")
         else:
             st.markdown("**Reviews:** No reviews yet.")
-        
+
+        ######## start radar #######
+        categories = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
+
+        fig = go.Figure()
+            
+        fig.add_trace(go.Scatterpolar(
+                  r=[roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num],
+                  theta=categories,
+                  fill='toself',
+                  name='Product A'
+        ))
+        fig.add_trace(go.Scatterpolar(
+                  r=[4, 3, 2.5, 1, 2],
+                  theta=categories,
+                  fill='toself',
+                  name='Product B'
+        ))
+            
+        fig.update_layout(
+              polar=dict(
+                radialaxis=dict(
+                  visible=True,
+                  range=[0, 5]
+                )),
+             showlegend=False
+        )
+            
+        fig.show()
+
+                
+        ######## end rader ########
+                
         st.markdown("---")
         st.markdown(f"**Beschreibung:** {beans_info['description']}")
     else:
