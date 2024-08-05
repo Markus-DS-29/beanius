@@ -77,9 +77,7 @@ def display_single_beans_info(source_url):
         bohnenbild_chart = beans_info['bohnenbild_num']
         koffeingehalt_chart = beans_info['koffeingehalt_num']
         vollautomaten_chart = beans_info['vollautomaten_num']
-        st.markdown(f"**Röstgrad:** {roestgrad_chart}")
-        st.write(isinstance(roestgrad_chart, (int, float)))  # True when x is an integer
-        
+                
         # Create the DataFrame
         radar_df = pd.DataFrame({
             'r': [roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
@@ -87,9 +85,7 @@ def display_single_beans_info(source_url):
         })
         # Convert 'r' column to numeric
         radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
-        # Display the DataFrame
-        st.write("DataFrame:")
-        st.write(radar_df)    
+        
         # Create the radar chart
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
 
