@@ -53,7 +53,7 @@ def fetch_and_calculate_means(source_url):
     FROM beans_info
     """)
     
-    beans_info_mean = cursor.fetchone()
+    beans_info_mean = cursor.fetchall()
     conn.close()
     
     if beans_info_mean:
