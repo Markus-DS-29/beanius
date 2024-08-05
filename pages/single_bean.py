@@ -88,6 +88,17 @@ def display_single_beans_info(source_url):
             
         # Create the radar chart
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
+
+        # Update layout to set the range of the radial axis
+        fig.update_layout(
+         polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 6]  # Adjust this range to cover the maximum value in your data
+            ),
+         ),
+         showlegend=False
+        )
             
         # Show the chart in Streamlit
         st.plotly_chart(fig)
