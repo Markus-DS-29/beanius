@@ -4,6 +4,7 @@ import pandas as pd
 import urllib.parse
 import plotly.graph_objects as go
 
+
 # Custom CSS
 css = """
 <style>
