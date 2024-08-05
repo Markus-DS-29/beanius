@@ -68,26 +68,12 @@ section[data-testid="stSidebar"]{
 st.markdown(css, unsafe_allow_html=True)
 
 
-### Initialize chat history, feedback state and memory
+### Initialize chat history and feedback state
 if 'messages' not in st.session_state:
     st.session_state.messages = []
 if 'query_data' not in st.session_state:
     st.session_state.query_data = ""
-if 'memory' not in st.session_state:
-    st.session_state.memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
-memory = st.session_state.memory
 
-
-# Extend the ConversationBufferMemory by adding a max_size attribute to limit the number of messages stored
-class ManagedConversationBufferMemory(ConversationBufferMemory):
-    def __init__(self, *args, max_size=100, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.max_size = max_size
-
-    def add_message(self, message):
-        super().add_message(message)
-        if len(self.buffer) > self.max_size:
-            self.buffer = self.buffer[-self.max_size:]
 
 
 # Database connection configuration for conversations
@@ -281,9 +267,7 @@ def create_faiss_vector_store(dataframe, embedding_model, embeddings_folder):
 # Create FAISS vector store using function for cache
 vector_db = create_faiss_vector_store(all_data_df, embedding_model, embeddings_folder)
 retriever = vector_db.as_retriever(search_kwargs={"k": 1})
-
 memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
-
 #st.write("FAISS vector store created successfully.")
 
 ### End: FAISS ###
@@ -295,18 +279,13 @@ embeddings = init_embeddings()
 
 # Initialize memory
 @st.cache_resource
-def init_memory(_llm, max_size=20):
-    return ManagedConversationBufferMemory(
+def init_memory(_llm):
+    return ConversationBufferMemory(
         llm=_llm,
         output_key='answer',
         memory_key='chat_history',
-        return_messages=True,
-        max_size=max_size
-    )
-
-# Initialize memory with a maximum size of 20 messages
-memory = init_memory(llm, max_size=100)
-
+        return_messages=True)
+memory = init_memory(llm)
 
 # Prompt template
 input_template = """Answer the question based only on the following context.
