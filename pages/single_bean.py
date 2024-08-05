@@ -63,12 +63,6 @@ def display_single_beans_info(source_url):
         st.markdown(f"**Bohne:** {beans_info['title']}")
         st.markdown(f"**URL:** {beans_info['source_url']}")
 
-        if beans_info['review_count'] > 0:
-            chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-            st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
-            st.markdown(f"**Reviews:** {beans_info['review_count']}")
-        else:
-            st.markdown("**Reviews:** No reviews yet.")
 
         ######## start radar #######
         
@@ -105,6 +99,13 @@ def display_single_beans_info(source_url):
         st.plotly_chart(fig)
                         
         ######## end rader ########
+                
+        if beans_info['review_count'] > 0:
+            chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
+            st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
+            st.markdown(f"**Reviews:** {beans_info['review_count']}")
+        else:
+            st.markdown("**Reviews:** No reviews yet.")    
                 
         st.markdown("---")
         st.markdown(f"**Beschreibung:** {beans_info['description']}")
