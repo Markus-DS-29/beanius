@@ -23,12 +23,6 @@ from urllib.parse import urlencode
 # Audio
 from streamlit_mic_recorder import mic_recorder, speech_to_text
 
-###trying to host it in my repo doesn't work...
-#from libs.streamlit_mic_recorder_main import mic_recorder, speech_to_text
-#from libs.streamlit_mic_recorder_main.streamlit_mic_recorder.audio_recorder import audio_recorder_function
-#from libs.streamlit_mic_recorder_main.streamlit_mic_recorder.recorder import recorder_function
-
-
 # Chatbot imports
 from huggingface_hub import login
 from langchain_huggingface import HuggingFaceEndpoint, HuggingFaceEmbeddings
