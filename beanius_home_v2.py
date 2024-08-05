@@ -53,6 +53,12 @@ section[data-testid="stSidebar"]{
   margin-right: 30px;
 }
 
+.st-emotion-cache-bho8sy.eeusbqq1 {
+  width: 100px;
+  height: 100px;
+  margin-right: 30px;
+}
+
 
 </style>
 """
@@ -325,11 +331,15 @@ session_id = st.session_state.session_id
 
 ####### Initialize chat history and fetch conversations #######
 
-#load custom avatar image
+#load custom avatar images
 path_to_user_avatar = "images/user_icon.png"
-# Open and read the image file
 with open(path_to_user_avatar, "rb") as file:
-    avatar_image = file.read()
+    user_image = file.read()
+
+path_to_beanius_avatar = "images/beanius_icon.png"
+with open(path_to_user_avatar, "rb") as file:
+    beanius_image = file.read()
+
 
 # Initialize chat history if not already initialized
 if "messages" not in st.session_state:
@@ -389,7 +399,7 @@ if transcription:
 if prompt := st.chat_input("Was für einen Espresso suchst du?"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
-        with st.chat_message("user", avatar=avatar_image):
+        with st.chat_message("user", avatar=user_image):
             st.markdown(prompt)
 
         # Generate response
@@ -401,7 +411,7 @@ if prompt := st.chat_input("Was für einen Espresso suchst du?"):
 
         # Add response to chat history
         st.session_state.messages.append({"role": "assistant", "content": answer})
-        with st.chat_message("assistant"):
+        with st.chat_message("assistant", avatar=beanius_image):
             st.markdown(answer, unsafe_allow_html=True)
         
         # Save the updated conversation to the database
