@@ -34,7 +34,7 @@ def fetch_single_beans_info_from_db(source_url):
     
     cursor.execute('SELECT 
     title, source_url, rating_value, review_count, description, roestgrad_num, cremabildung_num, bohnenbild_num, koffeingehalt_num, vollautomaten_num
-    FROM beans_info WHERE source_url = %s', (source_url,))
+    FROM beans_info WHERE source_url = %s', (source_url,)')
     beans_info = cursor.fetchone()
     
     conn.close()
