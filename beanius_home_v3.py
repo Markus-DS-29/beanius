@@ -161,7 +161,7 @@ def save_conversations_to_db(messages, session_id):
     conn.close()
 
 # Function to fetch conversations from the database
-@st.cache_data
+@cache_data
 def fetch_conversations_from_db(session_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
