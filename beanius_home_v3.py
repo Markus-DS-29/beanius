@@ -147,10 +147,10 @@ def save_conversations_to_db(messages, session_id):
     conn.close()
 
 # Function to fetch conversations from the database
+@cache_data
 def fetch_conversations_from_db(session_id):
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
-    
     cursor.execute('''
         SELECT timestamp, role, content
         FROM conversations
@@ -158,10 +158,8 @@ def fetch_conversations_from_db(session_id):
         ORDER BY timestamp
     ''', (session_id,))
     conversations = cursor.fetchall()
-    
     cursor.close()
     conn.close()
-    
     return conversations
 
 # Function to detect and replace URLs in the answer
