@@ -66,6 +66,8 @@ def display_single_beans_info(source_url):
             chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
             st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
             st.markdown(f"**Reviews:** {beans_info['review_count']}")
+            st.markdown(f"**Test1:** {beans_info['roestgrad_num']}")
+            st.markdown(f"**Test2:** {roestgrad_num}")
         else:
             st.markdown("**Reviews:** No reviews yet.")
 
