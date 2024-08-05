@@ -101,7 +101,7 @@ def display_single_beans_info(source_url):
         )
             
         # Show the chart in Streamlit
-        st.write("Die Eigenschaften der ausgewählten Bohne:")
+        st.markdown("**Die Eigenschaften der ausgewählten Bohnen:**")
         st.plotly_chart(fig)
                         
         ######## end rader ########
