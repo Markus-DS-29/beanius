@@ -87,7 +87,9 @@ def display_single_beans_info(source_url):
         })
         # Convert 'r' column to numeric
         radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
-            
+        # Display the DataFrame
+        st.write("DataFrame:")
+        st.write(radar_df)    
         # Create the radar chart
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
 
