@@ -137,7 +137,7 @@ def display_single_beans_info(source_url):
                theta=means_radar_df['theta'],
                fill='toself',
                name='Average Values',
-               line=dict(color='red')
+               line=dict(color='b0896c')
            )
 
         # Update layout to set the range of the radial axis
