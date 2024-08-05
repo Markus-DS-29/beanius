@@ -133,7 +133,7 @@ def display_single_beans_info(source_url):
         st.markdown("**Die Eigenschaften der ausgewählten Bohnen:**")
         st.plotly_chart(fig)
 
-        means_df = fetch_and_calculate_means(source_url)
+        means_df = fetch_and_calculate_means()
     
         if not means_df.empty:
                     st.write("Calculated Means:")
