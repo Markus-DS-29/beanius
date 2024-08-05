@@ -154,8 +154,8 @@ def display_single_beans_info(source_url):
         # Show the chart in Streamlit
         st.markdown("**Die Eigenschaften der ausgewählten Bohnen und Durchschnittswerte:**")
         st.plotly_chart(fig)
-    else:
-         st.write("No data found for the provided source URL.")                
+    #else:
+    #     st.write("No data found for the provided source URL.")                
                         
         ######## end rader ########
                 
