@@ -71,7 +71,7 @@ def display_single_beans_info(source_url):
 
         ######## start radar #######
         categories = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
-        roestgrad_chart = [beans_info['roestgrad_num']
+        roestgrad_chart = beans_info['roestgrad_num']
         cremabildung_chart = beans_info['cremabildung_num'],  
         bohnenbild_chart = beans_info['bohnenbild_num'],  
         koffeingehalt_chart = beans_info['koffeingehalt_num'],  
