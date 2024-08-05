@@ -53,12 +53,12 @@ def fetch_and_calculate_means(source_url):
     FROM beans_info
     """)
     
-    beans_info = cursor.fetchone()
+    beans_info_mean = cursor.fetchone()
     conn.close()
     
     if beans_info:
         # Convert fetched data to DataFrame
-        df = pd.DataFrame([beans_info])
+        df = pd.DataFrame([beans_info_mean])
         
         # Calculate means for specific columns
         columns_to_calculate = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
