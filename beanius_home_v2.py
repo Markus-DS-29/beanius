@@ -356,10 +356,14 @@ if "messages" not in st.session_state:
 if session_id_from_url:
     st.session_state.messages = fetch_conversations_from_db(session_id)
 
-# Display chat messages from history on app rerun
+# Display chat messages from history on app rerun ###############experimental
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
-        st.markdown(message["content"], unsafe_allow_html=True)
+      if message["role"] == "user"
+        st.markdown(message["content"], avatar=user_image, unsafe_allow_html=True)
+      else:
+        st.markdown(message["content"], avatar=beanius_image, unsafe_allow_html=True)
+
 
 state = st.session_state
 
