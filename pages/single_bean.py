@@ -82,8 +82,8 @@ def display_single_beans_info(source_url):
         
         radar_df = pd.DataFrame(dict(
                 r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-                theta=['processing cost','mechanical properties','chemical stability',
-                       'thermal stability', 'device integration']))
+                theta=['Röstgrad','Cremabildung','Bohnenbild',
+                       'Koffeingehalt', 'Eignung für Vollautomaten']))
         fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
         st.plotly_chart(fig)
 
