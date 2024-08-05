@@ -115,33 +115,47 @@ def display_single_beans_info(source_url):
         # Convert 'r' column to numeric
         radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
         
-        # Create the radar chart
-        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
+    # Fetch and prepare means data
+    means_df = fetch_and_calculate_means()
 
-        # Update layout to set the range of the radial axis
-        fig.update_layout(
-         polar=dict(
+    if not means_df.empty:
+        means_values = means_df.iloc[0].tolist()
+        means_radar_df = pd.DataFrame({
+            'r': means_values,
+            'theta': ['Röstgrad', 'Cremabildung', 'Bohnenbild', 'Koffeingehalt', 'Eignung für Vollautomaten']
+        })
+        means_radar_df['r'] = pd.to_numeric(means_radar_df['r'], errors='coerce')
+    else:
+        means_radar_df = pd.DataFrame()  # Empty DataFrame if no means data
+
+    # Create radar chart
+    fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title='Single Bean vs. Mean Values')
+
+    if not means_radar_df.empty:
+        fig.add_scatterpolar(
+            r=means_radar_df['r'],
+            theta=means_radar_df['theta'],
+            fill='toself',
+            name='Average Values',
+            line=dict(color='red')
+        )
+
+    # Update layout to set the range of the radial axis
+    fig.update_layout(
+        polar=dict(
             radialaxis=dict(
                 visible=True,
                 range=[0, 6]  # Adjust this range to cover the maximum value in your data
             ),
-         ),
-         showlegend=False
-        )
-            
-        # Show the chart in Streamlit
-        st.markdown("**Die Eigenschaften der ausgewählten Bohnen:**")
-        st.plotly_chart(fig)
+        ),
+        showlegend=True
+    )
 
-        means_df = fetch_and_calculate_means()
-    
-        if not means_df.empty:
-                    st.write("Calculated Means:")
-                    st.dataframe(means_df)
-        else:
-                    st.write("No data found for the provided source URL.")
-
-                
+    # Show the chart in Streamlit
+    st.markdown("**Die Eigenschaften der ausgewählten Bohnen und Durchschnittswerte:**")
+    st.plotly_chart(fig)
+else:
+    st.write("No data found for the provided source URL.")                
                         
         ######## end rader ########
                 
