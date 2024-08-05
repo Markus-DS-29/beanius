@@ -2,7 +2,7 @@ import streamlit as st
 import mysql.connector
 import pandas as pd
 import urllib.parse
-import plotly.graph_objects as go
+import plotly.express as px
 
 
 # Custom CSS
@@ -80,25 +80,14 @@ def display_single_beans_info(source_url):
         st.markdown(f"**Röstgrad:** {roestgrad_chart}")
         st.write(isinstance(roestgrad_chart, (int, float)))  # True when x is an integer
         
+        radar_df = pd.DataFrame(dict(
+                r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
+                theta=['processing cost','mechanical properties','chemical stability',
+                       'thermal stability', 'device integration']))
+        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True)
+        st.plotly_chart(fig)
 
-        fig = go.Figure(data=go.Scatterpolar(
-              r=[roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-              theta=['processing cost','mechanical properties','chemical stability', 'thermal stability',
-                       'device integration'],
-              fill='toself'
-        ))
-            
-        fig.update_layout(
-              polar=dict(
-                radialaxis=dict(
-                  visible=True
-                ),
-              ),
-              showlegend=False
-        )
-            
-        fig.show()
-                
+                        
         ######## end rader ########
                 
         st.markdown("---")
