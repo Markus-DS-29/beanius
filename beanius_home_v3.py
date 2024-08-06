@@ -384,7 +384,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write(f"{first_question}")
 with c2:
-    text_from_speech = speech_to_text(start_prompt=start_recording, stop_prompt=stop_recording, language=set_language, use_container_width=True, just_once=True, key='STT')
+    text_from_speech = speech_to_text(start_prompt=start_recording, stop_prompt=stop_recording, language=st.session_state.set_language, use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
 
