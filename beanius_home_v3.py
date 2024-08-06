@@ -257,7 +257,8 @@ memory = init_memory(llm)
 
 # Prompt template
 input_template = """Answer the question based only on the following context.
-Keep your answers short and succinct, but always use whole sentences.
+Extremely important: always stick closely to this prompt template!!
+Keep your answers short and succinct, but always use whole sentences. Don't write "Link:" or similar.
 All answers must always be in the same language as the user input!
 Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
 Otherwise don't add any URL.
