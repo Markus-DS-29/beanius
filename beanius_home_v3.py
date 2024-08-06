@@ -209,6 +209,8 @@ def detect_and_replace_url(answer):
         existing_params = {'url': detected_slug}
         # Add session_id to existing parameters
         existing_params['session_id'] = st.session_state.session_id
+        # Add language to existing parameters
+        existing_params['language'] = st.session_state.language
         # Generate URL with both parameters
         if detected_slug == None:
             answer = url_pattern.sub(f'<a href="/" target="_self">No Link.</a>', answer)
