@@ -233,7 +233,7 @@ def create_faiss_vector_store(dataframe, embedding_model, embeddings_folder):
 
 # Create FAISS vector store using function for cache
 vector_db = create_faiss_vector_store(all_data_df, embedding_model, embeddings_folder)
-retriever = vector_db.as_retriever(search_kwargs={"k": 1})
+retriever = vector_db.as_retriever(search_kwargs={"k": 3})
 memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True, output_key='answer')
 #st.write("FAISS vector store created successfully.")
 
