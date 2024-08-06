@@ -70,8 +70,8 @@ if set_language_from_url:
     # Always use set_language from URL if present
     st.session_state.set_language = set_language_from_url
 elif 'set_language' not in st.session_state:
-    # Generate a new set_language if none exists
-    st.session_state.set_language = "de"
+    # Enable button to generate a new set_language if none exists
+    st.button("DE / EN", on_click=toggle_language)
 
 # Display session ID for debugging
 #st.write(f"Set_Language from URL: {st.session_state.set_language}")
@@ -90,8 +90,8 @@ def toggle_language():
 #st.write(f"Current language: {st.session_state.set_language}")
 
 # Create a button that toggles the language when clicked
-if st.button("DE / EN", on_click=toggle_language):
-    st.write(f"Language changed to: {st.session_state.set_language}")
+#if st.button("DE / EN", on_click=toggle_language):
+#    st.write(f"Language changed to: {st.session_state.set_language}")
 
 ###########################
 
