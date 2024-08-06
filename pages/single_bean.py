@@ -179,11 +179,12 @@ if __name__ == "__main__":
     if source_url:
         # Decode the URL from the query parameters
         decoded_slug = urllib.parse.unquote(source_url)
+        st.markdown(f"**slug 1:**{decoded_slug}")
         if decoded_slug == None:
             decoded_slug = "nannini-classica-bohne"
 
 
-
+        st.markdown(f"**slug 2:**{decoded_slug}")
         external_url = "https://www.kaffeezentrale.de/"
         decoded_url = external_url + decoded_slug
         
