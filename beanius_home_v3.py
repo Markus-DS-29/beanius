@@ -74,13 +74,17 @@ def toggle_language():
 query_params = st.experimental_get_query_params()
 set_language_from_url = query_params.get('set_language', [None])[0]
 st.write(set_language_from_url)
+# If set_language is present in the URL, set it in the session state
 if set_language_from_url:
-    # Always use set_language from URL if present
     st.session_state.set_language = set_language_from_url
-elif 'set_language' not in st.session_state:
-    # Enable button to generate a new set_language if none exists
-    st.button("DE / EN", on_click=toggle_language)
+# If set_language is not present in the URL, check if it's in the session state or display the button
+else:
+    # If 'set_language' is not in session state, initialize it with 'de'
+    if 'set_language' not in st.session_state:
+        st.session_state.set_language = 'de'
 
+    # Display the button to toggle language
+    st.button("DE / EN", on_click=toggle_language)
 # Display session ID for debugging
 #st.write(f"Set_Language from URL: {st.session_state.set_language}")
 
