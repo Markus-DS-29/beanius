@@ -1,4 +1,4 @@
-####### FINAL? Status: Everything seems to be working. This version is for better performance only. ###########
+####### FINAL? Status: Everything seems to be working. Added multi language. ###########
 
 import os
 import pandas as pd
@@ -7,14 +7,8 @@ from streamlit import cache_resource #new
 import mysql.connector
 from datetime import datetime
 import streamlit.components.v1 as components
-#import sounddevice as sd
 import numpy as np
-#import wave
 import matplotlib.pyplot as plt
-#import torch
-#from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-#import soundfile as sf
-#from pydub import AudioSegment
 import tempfile
 import shutil
 import re
