@@ -170,9 +170,12 @@ def detect_and_replace_url(answer):
         # Add session_id to existing parameters
         existing_params['session_id'] = st.session_state.session_id
         # Generate URL with both parameters
-        subpage_url = f"/single_bean?{urlencode(existing_params)}"
-        answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Hier klicken für mehr Infos.</a>', answer)
-        #answer = url_pattern.sub(f'[Info]({subpage_url})', answer)
+        if detected_slug == None:
+            answer = url_pattern.sub(f'<a href="/" target="_self">No Link.</a>', answer)
+        else:    
+            subpage_url = f"/single_bean?{urlencode(existing_params)}"
+            answer = url_pattern.sub(f'<a href="{subpage_url}" target="_self">Details & Infos.</a>', answer)
+            #answer = url_pattern.sub(f'[Info]({subpage_url})', answer)
     else:
         detected_url = None
         detected_slug = None
