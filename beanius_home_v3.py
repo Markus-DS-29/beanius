@@ -91,10 +91,16 @@ if st.button("DE / EN", on_click=toggle_language):
 
 if st.session_state.language == 'de':
     greeting = "Willkommen bei Beanius, deinem Espresso-Experten."
-
+    first_question = "Was für einen Espresso suchst du?"
+    start_recording = "Aufnahme starten"
+    stop_recording = "Aufnahme beenden"
+    grinding = "Die Antwort ist in der Mühle..."
 else: 
-    greeting = "Welcome to Beanius, your Espresso expert."    
-
+    greeting = "Welcome to Beanius, your Espresso expert."
+    first_question = "What kind of espresso are you looking for?" 
+    start_recording = "Start recording"
+    stop_recording = "Stop recording"
+    grinding = "Grinding an answer..."
 
 
 
@@ -376,9 +382,9 @@ if 'text_received' not in state:
 # Display button and call function
 c1, c2 = st.columns(2)
 with c1:
-    st.write("Was für einen Espresso suchst du?")
+    st.write(f"{first_question}")
 with c2:
-    text_from_speech = speech_to_text(start_prompt="Spracheingabe starten", stop_prompt="Aufnahme beenden", language='de', use_container_width=True, just_once=True, key='STT')
+    text_from_speech = speech_to_text(start_prompt=start_recording, stop_prompt=stop_recording, language='de', use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
 
@@ -393,7 +399,7 @@ if transcription:
     st.session_state.messages.append({"role": "user", "content": transcription})
 
     # Begin spinner before answering question so it's there for the duration
-    with st.spinner("Grinding an answer..."):
+    with st.spinner(f"{grinding}"):
         # Send question to chain to get answer
         response = chain({"question": transcription})
         
@@ -415,7 +421,7 @@ if transcription:
 
 ### Display user input field in addition to speech-to-text
 
-if prompt := st.chat_input("Was für einen Espresso suchst du?"):
+if prompt := st.chat_input(f"{first_question}"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user", avatar=user_image):
