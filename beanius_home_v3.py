@@ -61,6 +61,13 @@ st.markdown(css, unsafe_allow_html=True)
 
 #### Language switcher ###
 
+# Define the callback function to toggle the language
+def toggle_language():
+    if st.session_state.set_language == 'de':
+        st.session_state.set_language = 'en'
+    else:
+        st.session_state.set_language = 'de'
+
 # Initialize session state if it doesn't exist
 
 # Extract session_id from the URL if available
@@ -79,12 +86,6 @@ elif 'set_language' not in st.session_state:
 if 'set_language' not in st.session_state:
     st.session_state.set_language = 'de'  # Default value
 
-# Define the callback function to toggle the language
-def toggle_language():
-    if st.session_state.set_language == 'de':
-        st.session_state.set_language = 'en'
-    else:
-        st.session_state.set_language = 'de'
 
 # Display the current language for debugging
 #st.write(f"Current language: {st.session_state.set_language}")
