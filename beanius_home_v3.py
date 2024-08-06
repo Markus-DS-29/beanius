@@ -355,6 +355,7 @@ st.title(f"{greeting}")
 # Extract session_id from the URL if available
 query_params = st.experimental_get_query_params()
 session_id_from_url = query_params.get('session_id', [None])[0]
+set_language_from_url = query_params.get('set_language', [None])[0]
 
 if session_id_from_url:
     # Always use session_id from URL if present
@@ -362,12 +363,22 @@ if session_id_from_url:
 elif 'session_id' not in st.session_state:
     # Generate a new session_id if none exists
     st.session_state.session_id = str(uuid.uuid4())
-
 # Now we can safely use st.session_state.session_id
 session_id = st.session_state.session_id
 
+if set_language_from_url:
+    # Always use set_language from URL if present
+    st.session_state.set_language = set_language_from_url
+elif 'set_language' not in st.session_state:
+    # Generate a new set_language if none exists
+    st.session_state.set_language = str(uuid.uuid4())
+# Now we can safely use st.session_state.set_language
+set_language = st.session_state.set_language
+
+
+
 # Display session ID for debugging
-#st.write(f"Session ID: {session_id}")
+st.write(f"Session ID: {set_language}")
 
 ### Initialize chat history and fetch conversations
 
