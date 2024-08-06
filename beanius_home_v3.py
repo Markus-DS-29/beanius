@@ -68,28 +68,28 @@ st.markdown(css, unsafe_allow_html=True)
 #### Language switcher ###
 
 # Initialize session state if it doesn't exist
-if 'language' not in st.session_state:
-    st.session_state.language = 'de'  # Default value
+if 'set_language' not in st.session_state:
+    st.session_state.set_language = 'de'  # Default value
 
 # Define the callback function to toggle the language
 def toggle_language():
-    if st.session_state.language == 'de':
-        st.session_state.language = 'en'
+    if st.session_state.set_language == 'de':
+        st.session_state.set_language = 'en'
     else:
-        st.session_state.language = 'de'
+        st.session_state.set_language = 'de'
 
 # Display the current language
-st.write(f"Current language: {st.session_state.language}")
+st.write(f"Current language: {st.session_state.set_language}")
 
 # Create a button that toggles the language when clicked
 if st.button("DE / EN", on_click=toggle_language):
-    st.write(f"Language changed to: {st.session_state.language}")
+    st.write(f"Language changed to: {st.session_state.set_language}")
 
 ### End Language switcher ###    
 
 ### translations ###
 
-if st.session_state.language == 'de':
+if st.session_state.set_language == 'de':
     greeting = "Willkommen bei Beanius, deinem Espresso-Experten."
     first_question = "Was für einen Espresso suchst du?"
     start_recording = "Aufnahme starten"
@@ -384,7 +384,7 @@ c1, c2 = st.columns(2)
 with c1:
     st.write(f"{first_question}")
 with c2:
-    text_from_speech = speech_to_text(start_prompt=start_recording, stop_prompt=stop_recording, language='de', use_container_width=True, just_once=True, key='STT')
+    text_from_speech = speech_to_text(start_prompt=start_recording, stop_prompt=stop_recording, language=set_language, use_container_width=True, just_once=True, key='STT')
 
 transcription = text_from_speech
 
