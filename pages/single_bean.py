@@ -3,7 +3,7 @@ import mysql.connector
 import pandas as pd
 import urllib.parse
 import plotly.express as px
-
+from urllib.parse import urlencode
 
 # Custom CSS
 css = """
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     if session_id:
         params = {
             'session_id': st.session_state.session_id,
-            'language': st.session_state.set_language
+            'set_language': st.session_state.set_language
         }
         main_page_url = f"/?{urlencode(params)}"
     else:
