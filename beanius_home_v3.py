@@ -298,11 +298,14 @@ def init_memory(_llm):
         return_messages=True)
 memory = init_memory(llm)
 
-# Prompt template
+
+### Prompt Language ####
+
+# German prompt template
 input_template = """Answer the question based only on the following context.
 Extremely important: always stick closely to this prompt template!!
 Keep your answers short and succinct, but always use whole sentences. Don't write "Link:" or similar.
-All answers must always be in the same language as the user input!
+All answers must always be in {st.session_state.set_language}!
 Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
 Otherwise don't add any URL.
 Never use any of the following characters in your answer: ( ' ) < > 
