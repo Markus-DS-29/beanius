@@ -82,10 +82,20 @@ def toggle_language():
 st.write(f"Current language: {st.session_state.language}")
 
 # Create a button that toggles the language when clicked
-if st.button("Toggle Language", on_click=toggle_language):
-    st.write(f"Language changed to: {st.session_state.language}")
+if st.button("DE / EN", on_click=toggle_language):
+    #st.write(f"Language changed to: {st.session_state.language}")
 
 ### End Language switcher ###    
+
+### translations ###
+
+if st.session_state.language == 'de':
+    greeting = "Willkommen bei Beanius, deinem Espresso-Experten."
+
+else: 
+    greeting = "Welcome to Beanius, your Espresso expert."    
+
+
 
 
 
@@ -306,7 +316,7 @@ prompt = PromptTemplate(template=input_template, input_variables=["context", "qu
 chain = ConversationalRetrievalChain.from_llm(llm, retriever=retriever, memory=memory, return_source_documents=False, combine_docs_chain_kwargs={"prompt": prompt})
 
 # Streamlit app title
-st.title("Welcome to Beanius, your Espresso expert.")
+st.title(f"{greeting}")
 #st.markdown("Just give me a minute, I will be right with you.")
 
 ### Extract and handle session_id
