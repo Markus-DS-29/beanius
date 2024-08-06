@@ -85,7 +85,7 @@ def display_single_beans_info(source_url):
     if session_id:
         main_page_url = f"/?session_id={session_id}"
     else:
-        main_page_url = "/"
+        main_page_url = "/"  #edit to link to home
   
     # Add a link to navigate back to the main page
     st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
@@ -175,7 +175,10 @@ if __name__ == "__main__":
     query_params = st.experimental_get_query_params()
     source_url = query_params.get('url', [None])[0]
     session_id = query_params.get('session_id', [None])[0]
-    
+    st.session_state.session_id = session_id
+    set_language = query_params.get('set_language', [None])[0]
+    st.session_state.set_language = set_language
+
     if source_url:
         # Decode the URL from the query parameters
         decoded_slug = urllib.parse.unquote(source_url)
@@ -189,9 +192,13 @@ if __name__ == "__main__":
     else:
         st.markdown("**Error:** No URL detected in the query parameters.")
     
-    # Create a link to the main page with the session_id
+    # Create a link to the main page with the session_id and set_language
     if session_id:
-        main_page_url = f"/?session_id={session_id}"
+        params = {
+            'session_id': st.session_state.session_id,
+            'language': st.session_state.set_language
+        }
+        main_page_url = f"/?{urlencode(params)}"
     else:
         main_page_url = "/"
   
