@@ -69,21 +69,20 @@ set_language_from_url = query_params.get('set_language', [None])[0]
 if 'set_language' not in st.session_state:
     st.session_state.set_language = 'de'  # Default value
 
-# Update session_state.set_language based on URL parameter if present and button not clicked
-if set_language_from_url and 'language_button_clicked' not in st.session_state:
+# Update session_state.set_language based on URL parameter if present
+if set_language_from_url:
     st.session_state.set_language = set_language_from_url
 
 # Define the callback function to toggle the language
 def toggle_language():
-    st.session_state.language_button_clicked = True
     if st.session_state.set_language == 'de':
         st.session_state.set_language = 'en'
     else:
         st.session_state.set_language = 'de'
 
 # Add a button for toggling the language
-if st.button("Switch Language", on_click=toggle_language):
-    st.session_state.language_button_clicked = True
+if st.button("Switch Language"):
+    toggle_language()
 
 # Debugging: Display current language setting
 st.write(f"Current Language: {st.session_state.set_language}")
