@@ -108,7 +108,7 @@ def display_single_beans_info(source_url):
         main_page_url = "/"
   
     # Add content and a link to navigate back to the main page
-    st.title({single_bean_headline})
+    st.title(single_bean_headline)
     st.markdown(f'<a href="{main_page_url}" target="_self">{back_to_chat}</a>', unsafe_allow_html=True)
 
     # Fetch single beans_info from the database
@@ -150,7 +150,7 @@ def display_single_beans_info(source_url):
            means_radar_df = pd.DataFrame()  # Empty DataFrame if no means data
 
         # Create radar chart
-        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title={radar_headline})
+        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title='radar_headline')
 
         if not means_radar_df.empty:
            fig.add_scatterpolar(
