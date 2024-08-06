@@ -388,7 +388,7 @@ elif 'set_language' not in st.session_state:
     st.session_state.set_language = "de"
 
 # Display session ID for debugging
-st.write(f"Set_Language: {st.session_state.set_language}")
+#st.write(f"Set_Language: {st.session_state.set_language}")
 
 ### Initialize chat history and fetch conversations
 
