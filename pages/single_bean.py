@@ -15,6 +15,11 @@ section[data-testid="stSidebar"][aria-expanded="true"]{
 # Inject CSS into the Streamlit app
 st.markdown(css, unsafe_allow_html=True)
 
+if st.session_state.set_language == "de":
+    single_bean_headline = "Unsere Bohnenempfehlung"
+else:
+    single_bean_headline = "Our Coffee Bean Recommendation"
+
 
 # Function to establish a connection to the database using Streamlit secrets
 def get_db_connection():
@@ -61,33 +66,32 @@ def fetch_and_calculate_means():
     if data:
         # Convert fetched data to DataFrame
         df = pd.DataFrame(data)
-        
         # Define the columns to calculate means for
         columns_to_calculate = ['roestgrad_num', 'cremabildung_num', 'bohnenbild_num', 'koffeingehalt_num', 'vollautomaten_num']
-        
         # Calculate means for specified columns
         means = df[columns_to_calculate].mean()
-        
         # Ensure means are float
         means = means.astype(float)
-        
         # Create DataFrame with the means
         means_df = pd.DataFrame([means], columns=columns_to_calculate)
-        
         return means_df
     else:
         return pd.DataFrame()  # Return an empty DataFrame if no data is found
 
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
-    st.title("Unsere Bohnenempfehlung")
-    # Create a link to the main page with the session_id
+    # Create a link to the main page with the session_id and set_language
     if session_id:
-        main_page_url = f"/?session_id={session_id}"
+        params = {
+            'session_id': st.session_state.session_id,
+            'set_language': st.session_state.set_language
+        }
+        main_page_url = f"/?{urlencode(params)}"
     else:
-        main_page_url = "/"  #edit to link to home
+        main_page_url = "/"
   
-    # Add a link to navigate back to the main page
+    # Add content and a link to navigate back to the main page
+    st.title({single_bean_headline})
     st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
 
     # Fetch single beans_info from the database
