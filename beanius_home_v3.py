@@ -301,7 +301,7 @@ memory = init_memory(llm)
 
 ### Prompt Language ####
 
-if st.session_state.set_language = "de":
+if st.session_state.set_language == "de":
     # German prompt template
     input_template = """Answer the question based only on the following context.
     Extremely important: always stick closely to this prompt template!!
