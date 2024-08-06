@@ -61,17 +61,23 @@ st.markdown(css, unsafe_allow_html=True)
 
 #### Language switcher ###
 
-# Extract set_language from the URL if available
+# Initialize session state if it doesn't exist
+
+# Extract session_id from the URL if available
 query_params = st.experimental_get_query_params()
 set_language_from_url = query_params.get('set_language', [None])[0]
+if set_language_from_url:
+    # Always use set_language from URL if present
+    st.session_state.set_language = set_language_from_url
+elif 'set_language' not in st.session_state:
+    # Generate a new set_language if none exists
+    st.session_state.set_language = "de"
 
-# Initialize set_language in session_state if not already present
+# Display session ID for debugging
+#st.write(f"Set_Language from URL: {st.session_state.set_language}")
+
 if 'set_language' not in st.session_state:
     st.session_state.set_language = 'de'  # Default value
-
-# Update session_state.set_language based on URL parameter if present
-if set_language_from_url:
-    st.session_state.set_language = set_language_from_url
 
 # Define the callback function to toggle the language
 def toggle_language():
@@ -80,12 +86,12 @@ def toggle_language():
     else:
         st.session_state.set_language = 'de'
 
-# Add a button for toggling the language
-if st.button("Switch Language"):
-    toggle_language()
+# Display the current language for debugging
+#st.write(f"Current language: {st.session_state.set_language}")
 
-# Debugging: Display current language setting
-st.write(f"Current Language: {st.session_state.set_language}")
+# Create a button that toggles the language when clicked
+if st.button("DE / EN", on_click=toggle_language):
+    st.write(f"Language changed to: {st.session_state.set_language}")
 
 ###########################
 
