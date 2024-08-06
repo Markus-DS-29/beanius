@@ -68,6 +68,20 @@ st.markdown(css, unsafe_allow_html=True)
 #### Language switcher ###
 
 # Initialize session state if it doesn't exist
+
+# Extract session_id from the URL if available
+query_params = st.experimental_get_query_params()
+set_language_from_url = query_params.get('set_language', [None])[0]
+if set_language_from_url:
+    # Always use set_language from URL if present
+    st.session_state.set_language = set_language_from_url
+elif 'set_language' not in st.session_state:
+    # Generate a new set_language if none exists
+    st.session_state.set_language = "de"
+
+# Display session ID for debugging
+st.write(f"Set_Language from URL: {st.session_state.set_language}")
+
 if 'set_language' not in st.session_state:
     st.session_state.set_language = 'de'  # Default value
 
@@ -371,14 +385,10 @@ if set_language_from_url:
     st.session_state.set_language = set_language_from_url
 elif 'set_language' not in st.session_state:
     # Generate a new set_language if none exists
-    st.session_state.set_language = str(uuid.uuid4())
-# Now we can safely use st.session_state.set_language
-set_language = st.session_state.set_language
-
-
+    st.session_state.set_language = "de"
 
 # Display session ID for debugging
-st.write(f"Session ID: {set_language}")
+st.write(f"Set_Language: {st.session_state.set_language}")
 
 ### Initialize chat history and fetch conversations
 
