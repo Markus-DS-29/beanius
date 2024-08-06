@@ -240,13 +240,13 @@ memory = ConversationBufferMemory(memory_key='chat_history', return_messages=Tru
 ### Embeddings, memory, prompt
 
 # Embeddings
-@st.cache_resource   -> caching? 
+@st.cache_resource   #-> caching? 
 def init_embeddings():
     return HuggingFaceEmbeddings(model_name=embedding_model)
 embeddings = init_embeddings() 
 
 # Initialize memory
-#@st.cache_resource   -> caching?
+#@st.cache_resource   #-> caching?
 def init_memory(_llm):
     return ConversationBufferMemory(
         llm=_llm,
