@@ -179,6 +179,11 @@ if __name__ == "__main__":
     if source_url:
         # Decode the URL from the query parameters
         decoded_slug = urllib.parse.unquote(source_url)
+        if decoded_slug == None:
+            decoded_slug = "nannini-classica-bohne"
+
+
+
         external_url = "https://www.kaffeezentrale.de/"
         decoded_url = external_url + decoded_slug
         
