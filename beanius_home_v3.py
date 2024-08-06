@@ -83,7 +83,7 @@ st.write(f"Current language: {st.session_state.language}")
 
 # Create a button that toggles the language when clicked
 if st.button("DE / EN", on_click=toggle_language):
-    #st.write(f"Language changed to: {st.session_state.language}")
+    st.write(f"Language changed to: {st.session_state.language}")
 
 ### End Language switcher ###    
 
