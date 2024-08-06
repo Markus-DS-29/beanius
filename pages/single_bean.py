@@ -95,8 +95,8 @@ def display_single_beans_info(source_url):
 
     # Display beans_info if it exists
     if beans_info:
-        st.markdown(f"**Bohne:** {beans_info['title']}")
-        st.markdown(f"**URL:** {beans_info['source_url']}")
+        st.markdown(f"**Espresso:** {beans_info['title']}")
+        st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
 
 
         ######## start radar #######
@@ -152,7 +152,7 @@ def display_single_beans_info(source_url):
         )
 
         # Show the chart in Streamlit
-        st.markdown("**Die Eigenschaften der ausgewählten Bohnen und Durchschnittswerte:**")
+        #st.markdown("**Die Eigenschaften der ausgewählten Bohnen und Durchschnittswerte:**")
         st.plotly_chart(fig)
        
                         
@@ -179,12 +179,8 @@ if __name__ == "__main__":
     if source_url:
         # Decode the URL from the query parameters
         decoded_slug = urllib.parse.unquote(source_url)
-        st.markdown(f"**slug 1:**{decoded_slug}")
         if decoded_slug == None:
             decoded_slug = "nannini-classica-bohne"
-
-
-        st.markdown(f"**slug 2:**{decoded_slug}")
         external_url = "https://www.kaffeezentrale.de/"
         decoded_url = external_url + decoded_slug
         
