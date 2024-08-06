@@ -15,6 +15,16 @@ section[data-testid="stSidebar"][aria-expanded="true"]{
 # Inject CSS into the Streamlit app
 st.markdown(css, unsafe_allow_html=True)
 
+# Fetch query parameters from the URL
+query_params = st.experimental_get_query_params()
+
+# Get the language parameter
+set_language = query_params.get('set_language', ['de'])[0]   # 'de' as default if not existing in URL
+st.session_state.set_language = set_language
+
+# Use the set_language variable as needed in your application
+st.write(f"The current language is: {set_language}")
+
 if st.session_state.set_language == "de":
     single_bean_headline = "Unsere Bohnenempfehlung"
 else:
