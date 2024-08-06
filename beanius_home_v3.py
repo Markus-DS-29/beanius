@@ -65,6 +65,30 @@ section[data-testid="stSidebar"]{
 # Inject CSS into the Streamlit app
 st.markdown(css, unsafe_allow_html=True)
 
+#### Language switcher ###
+
+# Initialize session state if it doesn't exist
+if 'language' not in st.session_state:
+    st.session_state.language = 'de'  # Default value
+
+# Define the callback function to toggle the language
+def toggle_language():
+    if st.session_state.language == 'de':
+        st.session_state.language = 'en'
+    else:
+        st.session_state.language = 'de'
+
+# Display the current language
+st.write(f"Current language: {st.session_state.language}")
+
+# Create a button that toggles the language when clicked
+if st.button("Toggle Language", on_click=toggle_language):
+    st.write(f"Language changed to: {st.session_state.language}")
+
+### End Language switcher ###    
+
+
+
 
 # Initialize chat history and feedback state
 if 'messages' not in st.session_state:
