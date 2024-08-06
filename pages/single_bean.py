@@ -29,12 +29,12 @@ st.session_state.set_language = set_language
 ### Translations
 
 if st.session_state.set_language == "de":
-    single_bean_headline = "Unsere Bohnenempfehlung"
+    single_bean_headline = "Deine persönliche Bohnenempfehlung"
     back_to_chat = "Zurück zum Chat"
     radar_headline = "Diese Bohne im Vergleich zum Mittelwert aller Bohnen"
     detail_description = "Ausführliche Beschreibung"
 else:
-    single_bean_headline = "Our Coffee Bean Recommendation"
+    single_bean_headline = "Your personal coffee bean recommendation"
     back_to_chat = "Back to chat"
     radar_headline = "This bean compared to the mean values of all beans"
     detail_description = "Original description (German)"
@@ -188,7 +188,7 @@ def display_single_beans_info(source_url):
             st.markdown("**Reviews:** No reviews yet.")    
                 
         st.markdown("---")
-        st.markdown(f"**Beschreibung:** {beans_info['description']}")
+        st.markdown(f"**{detail_description}** {beans_info['description']}")
     else:
         st.markdown("**Error:** Bohne not found.")
 
