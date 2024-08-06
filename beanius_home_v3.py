@@ -263,6 +263,7 @@ All answers must always be in the same language as the user input!
 Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
 Otherwise don't add any URL.
 Never use any of the following characters in your answer: ( ' ) < > 
+Never add the context to your answer.
 
 Previous conversation:
 {chat_history}
