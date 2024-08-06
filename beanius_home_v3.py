@@ -301,24 +301,44 @@ memory = init_memory(llm)
 
 ### Prompt Language ####
 
-# German prompt template
-input_template = """Answer the question based only on the following context.
-Extremely important: always stick closely to this prompt template!!
-Keep your answers short and succinct, but always use whole sentences. Don't write "Link:" or similar.
-All answers must always be in {st.session_state.set_language}!
-Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
-Otherwise don't add any URL.
-Never use any of the following characters in your answer: ( ' ) < > 
-Never add the context to your answer.
+if st.session_state.set_language = "de":
+    # German prompt template
+    input_template = """Answer the question based only on the following context.
+    Extremely important: always stick closely to this prompt template!!
+    Keep your answers short and succinct, but always use whole sentences. Don't write "Link:" or similar.
+    All answers must always be in German!
+    Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
+    Otherwise don't add any URL.
+    Never use any of the following characters in your answer: ( ' ) < > 
+    Never add the context to your answer.
 
-Previous conversation:
-{chat_history}
+    Previous conversation:
+    {chat_history}
 
-Context to answer question:
-{context}
+    Context to answer question:
+    {context}
 
-Question to be answered: {question}
-Response:"""
+    Question to be answered: {question}
+    Response:"""
+else:
+    # English prompt template
+    input_template = """Answer the question based only on the following context.
+    Extremely important: always stick closely to this prompt template!!
+    Keep your answers short and succinct, but always use whole sentences. Don't write "Link:" or similar.
+    All answers must always be in English!
+    Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
+    Otherwise don't add any URL.
+    Never use any of the following characters in your answer: ( ' ) < > 
+    Never add the context to your answer.
+
+    Previous conversation:
+    {chat_history}
+
+    Context to answer question:
+    {context}
+
+    Question to be answered: {question}
+    Response:"""
 
 prompt = PromptTemplate(template=input_template, input_variables=["context", "question"])
 
