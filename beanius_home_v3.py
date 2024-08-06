@@ -80,7 +80,7 @@ elif 'set_language' not in st.session_state:
     st.session_state.set_language = "de"
 
 # Display session ID for debugging
-st.write(f"Set_Language from URL: {st.session_state.set_language}")
+#st.write(f"Set_Language from URL: {st.session_state.set_language}")
 
 if 'set_language' not in st.session_state:
     st.session_state.set_language = 'de'  # Default value
@@ -92,8 +92,8 @@ def toggle_language():
     else:
         st.session_state.set_language = 'de'
 
-# Display the current language
-st.write(f"Current language: {st.session_state.set_language}")
+# Display the current language for debugging
+#st.write(f"Current language: {st.session_state.set_language}")
 
 # Create a button that toggles the language when clicked
 if st.button("DE / EN", on_click=toggle_language):
