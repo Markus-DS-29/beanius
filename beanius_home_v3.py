@@ -9,12 +9,12 @@ from datetime import datetime
 import streamlit.components.v1 as components
 #import sounddevice as sd
 import numpy as np
-import wave
+#import wave
 import matplotlib.pyplot as plt
-import torch
+#import torch
 #from transformers import Wav2Vec2Processor, Wav2Vec2ForCTC
-import soundfile as sf
-from pydub import AudioSegment
+#import soundfile as sf
+#from pydub import AudioSegment
 import tempfile
 import shutil
 import re
