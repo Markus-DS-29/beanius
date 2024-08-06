@@ -258,8 +258,10 @@ memory = init_memory(llm)
 # Prompt template
 input_template = """Answer the question based only on the following context.
 Keep your answers short and succinct, but always use whole sentences.
-All answers must always be in German!
-Most Important: Always add the 1 according url to your answer, no "(" or "'" or ")". 
+All answers must always be in the same language as the user input!
+Most Important: Always add the 1 according url to your answer, if it comes from https://www.kaffeezentrale.de/ ! 
+Otherwise don't add any URL.
+Never use any of the following characters in your answer: ( ' ) < > 
 
 Previous conversation:
 {chat_history}
