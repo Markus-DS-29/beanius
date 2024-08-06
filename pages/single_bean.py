@@ -25,10 +25,15 @@ st.session_state.set_language = set_language
 # Use the set_language variable as needed in your application
 st.write(f"The current language is: {set_language}")
 
+
+### Translations
+
 if st.session_state.set_language == "de":
     single_bean_headline = "Unsere Bohnenempfehlung"
+    back_to_chat = "Zurück zum Chat"
 else:
     single_bean_headline = "Our Coffee Bean Recommendation"
+    back_to_chat = "Back to chat"
 
 
 # Function to establish a connection to the database using Streamlit secrets
@@ -102,7 +107,7 @@ def display_single_beans_info(source_url):
   
     # Add content and a link to navigate back to the main page
     st.title({single_bean_headline})
-    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="{main_page_url}" target="_self">{back_to_chat}</a>', unsafe_allow_html=True)
 
     # Fetch single beans_info from the database
     beans_info = fetch_single_beans_info_from_db(source_url)
@@ -217,5 +222,5 @@ if __name__ == "__main__":
         main_page_url = "/"
   
     # Add a link to navigate back to the main page
-    st.markdown(f'<a href="{main_page_url}" target="_self">Zurück zum Chat</a>', unsafe_allow_html=True)
+    st.markdown(f'<a href="{main_page_url}" target="_self">{back_to_chat}</a>', unsafe_allow_html=True)
 
