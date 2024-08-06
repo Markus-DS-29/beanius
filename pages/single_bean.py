@@ -31,9 +31,11 @@ st.write(f"The current language is: {set_language}")
 if st.session_state.set_language == "de":
     single_bean_headline = "Unsere Bohnenempfehlung"
     back_to_chat = "Zurück zum Chat"
+    radar_headline = "Diese Bohne im Vergleich zum Mittelwert aller Bohnen"
 else:
     single_bean_headline = "Our Coffee Bean Recommendation"
     back_to_chat = "Back to chat"
+    radar_headline = "This bean compared to the mean values of all beans"
 
 
 # Function to establish a connection to the database using Streamlit secrets
@@ -148,7 +150,7 @@ def display_single_beans_info(source_url):
            means_radar_df = pd.DataFrame()  # Empty DataFrame if no means data
 
         # Create radar chart
-        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title='Diese Bohne im Vergleich zum Mittelwert aller Bohnen')
+        fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title={radar_headline})
 
         if not means_radar_df.empty:
            fig.add_scatterpolar(
@@ -171,7 +173,6 @@ def display_single_beans_info(source_url):
         )
 
         # Show the chart in Streamlit
-        #st.markdown("**Die Eigenschaften der ausgewählten Bohnen und Durchschnittswerte:**")
         st.plotly_chart(fig)
        
                         
