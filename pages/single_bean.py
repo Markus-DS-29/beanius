@@ -110,6 +110,25 @@ def fetch_and_calculate_means():
     else:
         return pd.DataFrame()  # Return an empty DataFrame if no data is found
 
+### Start Star rating ###
+
+# Function to generate HTML for star ratings
+def star_rating(rating):
+    max_stars = 5
+    full_star = '<span style="color: gold;">&#9733;</span>'
+    empty_star = '<span style="color: lightgray;">&#9733;</span>'
+    half_star = '<span style="color: gold;">&#9734;</span>'
+    
+    full_stars = int(rating)
+    half_stars = 1 if rating - full_stars >= 0.5 else 0
+    empty_stars = max_stars - full_stars - half_stars
+    
+    return full_star * full_stars + half_star * half_stars + empty_star * empty_stars
+
+### End Star rating ###
+
+
+
 # Function to display a single beans_info on the subpage
 def display_single_beans_info(source_url):
     # Create a link to the main page with the session_id and set_language
@@ -192,7 +211,13 @@ def display_single_beans_info(source_url):
        
                         
         ######## end rader ########
-                
+
+        # Display ratings with stars
+        st.title("Ratings with Stars")
+        for rating in ratings:
+                st.markdown(star_rating(rating), unsafe_allow_html=True)    
+
+               
         if beans_info['review_count'] > 0:
             chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
             st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
