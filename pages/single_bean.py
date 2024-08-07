@@ -167,7 +167,7 @@ def display_single_beans_info(source_url):
     if beans_info:
         stripped_beans_name = beans_info['title'].split(',')[0]
         st.markdown(f"## Espresso: {stripped_beans_name}")
-        st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
+        
 
 
         ######## start radar #######
@@ -271,7 +271,8 @@ if __name__ == "__main__":
             decoded_slug = "nannini-classica-bohne"
         external_url = "https://www.kaffeezentrale.de/"
         decoded_url = external_url + decoded_slug
-        
+        # Display shopping URL
+        st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
         # Display the beans information
         display_single_beans_info(decoded_url)
     else:
