@@ -49,7 +49,7 @@ else:
     amount_of_crema = "Amount of Crema"
     appearance_of_beans = "Appearance of Beans"
     caffeine_level = "Caffeine Level"
-    suitability_for_coffee_machines = "Suitability for Automatic Coffee Machines"
+    suitability_for_coffee_machines = "Suitability for Coffee Machines"
     mean_values = "Mean Values"
 
 
