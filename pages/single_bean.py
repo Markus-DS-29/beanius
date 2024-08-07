@@ -39,7 +39,7 @@ if st.session_state.set_language == "de":
     caffeine_level = "Koffeingehalt"
     suitability_for_coffee_machines = "Eignung für Vollautomaten"
     mean_values = "Mittelwerte"
-    rating_with-stars = "Kundenbewertung"
+    rating_with_stars = "Kundenbewertung"
     review = "Anzahl an Bewertungen"
     no_reviews_yet = "Noch keine Kundenbewertungen"
 
@@ -54,7 +54,7 @@ else:
     caffeine_level = "Caffeine Level"
     suitability_for_coffee_machines = "Suitability for Coffee Machines"
     mean_values = "Mean Values"
-    rating_with-stars = "Customer Rating"
+    rating_with_stars = "Customer Rating"
     review = "Number of Reviews"
     no_reviews_yet = "No customer reviews yet."
 
@@ -231,7 +231,7 @@ def display_single_beans_info(source_url):
                
         if beans_info['review_count'] > 0:
                     # Display the rating with stars
-                    st.markdown("**{rating_with-stars}")
+                    st.markdown("**{rating_with_stars}")
                     star_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
                     rating_value = star_rating["Rating"].iloc[0]/2 # Extract the single rating value
                     #st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
