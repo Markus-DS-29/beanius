@@ -205,15 +205,15 @@ def detect_and_replace_url(answer):
     if urls:
         detected_url = urls[0].rstrip('>,).')
         if detected_url.startswith(base_url):
+            detected_slug = detected_url[len(base_url):]
 
-            # Find the position of the ')' character
+          # Find the position of the ')' character
             bracket_index = detected_slug.find(')')
             # Check if ')' is found in the string
             if bracket_index != -1:
                   # Slice the string to remove ')' and everything after it
                   detected_slug = detected_slug[:bracket_index]
-          
-            detected_slug = detected_url[len(base_url):]
+                      
             st.write(f"{detected_slug}")
         else:
             detected_slug = None
