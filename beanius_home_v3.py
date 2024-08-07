@@ -207,14 +207,13 @@ def detect_and_replace_url(answer):
         if detected_url.startswith(base_url):
             detected_slug = detected_url[len(base_url):]
 
-          # Find the position of the ')' character
+          # explicitly remove another letter that has repeatedly caused trouble
             bracket_index = detected_slug.find(')')
             # Check if ')' is found in the string
             if bracket_index != -1:
                   # Slice the string to remove ')' and everything after it
-                  detected_slug = detected_slug[:bracket_index]
-                      
-            st.write(f"{detected_slug}")
+                  detected_slug = detected_slug[:bracket_index]          
+           
         else:
             detected_slug = None
         # Existing URL parameters
