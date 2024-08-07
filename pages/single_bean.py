@@ -166,7 +166,7 @@ def display_single_beans_info(source_url):
     # Display beans_info if it exists
     if beans_info:
         stripped_beans_name = beans_info['title'].split(',')[0]
-        st.markdown(f"**Espresso: {stripped_beans_name}**")
+        st.markdown(f"## Espresso: {stripped_beans_name}")
         st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
 
 
