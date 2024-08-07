@@ -476,11 +476,18 @@ if prompt := st.chat_input(f"{first_question}"):
         
         # Detect and replace URL in the answer
         answer = detect_and_replace_url(answer)
-
+  
+        # Characters to remove in answer
+        chars_to_remove = '/('
+        # Create a translation table that maps each character to None
+        translation_table = str.maketrans('', '', chars_to_remove)
+        # Apply the translation table to remove the characters
+        cleaned_answer = answer.translate(translation_table)
+        
         # Add response to chat history
         st.session_state.messages.append({"role": "assistant", "content": answer})
         with st.chat_message("assistant", avatar=beanius_image):
-            st.markdown(answer, unsafe_allow_html=True)
+            st.markdown(cleaned_answer, unsafe_allow_html=True)
                     
         # Save the updated conversation to the database
         save_conversations_to_db(st.session_state.messages, session_id)
