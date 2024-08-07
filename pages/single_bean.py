@@ -3,6 +3,7 @@ import mysql.connector
 import pandas as pd
 import urllib.parse
 import plotly.express as px
+import plotly.graph_objects as go
 from urllib.parse import urlencode
 
 # Custom CSS
