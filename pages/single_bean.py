@@ -203,7 +203,7 @@ def display_single_beans_info(source_url):
 
         fig.add_trace(go.Scatterpolar(
                 r=radar_df['r'].tolist() + [radar_df['r'].tolist()[0]],  # Closing the loop
-                theta=radar_df['theta'],
+                theta=radar_df['theta'].tolist() + [radar_df['theta'].tolist()[0]],  # Closing the loop
                 fill='none',
                 name=beans_info['title'],  
                 line=dict(color='blue')
@@ -212,7 +212,7 @@ def display_single_beans_info(source_url):
         if not means_radar_df.empty:
            fig.add_scatterpolar(
                r=means_radar_df['r'].tolist() + [means_radar_df['r'].tolist()[0]],  # Closing the loop
-               theta=means_radar_df['theta'],
+               theta=means_radar_df['theta'].tolist() + [means_radar_df['theta'].tolist()[0]],  # Closing the loop
                fill='toself',
                name= mean_values,
                line=dict(color='#b0896c')
