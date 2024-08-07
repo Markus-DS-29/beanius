@@ -146,7 +146,7 @@ def display_single_beans_info(source_url):
         # Create the DataFrame
         radar_df = pd.DataFrame({
             'r': [roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-            'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee machines]
+            'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee_machines]
         })
         # Convert 'r' column to numeric
         radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
