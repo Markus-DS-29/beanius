@@ -202,22 +202,20 @@ def display_single_beans_info(source_url):
         fig = go.Figure()
 
         fig.add_trace(go.Scatterpolar(
-                r=radar_df['r'],
+                r=radar_df['r'].tolist() + [radar_df['r'].tolist()[0]],  # Closing the loop
                 theta=radar_df['theta'],
                 fill='none',
                 name=beans_info['title'],  
-                line=dict(color='blue'),
-                line_close=True
+                line=dict(color='blue')
         ))
 
         if not means_radar_df.empty:
            fig.add_scatterpolar(
-               r=means_radar_df['r'],
+               r=means_radar_df['r'].tolist() + [means_radar_df['r'].tolist()[0]],  # Closing the loop
                theta=means_radar_df['theta'],
                fill='toself',
                name= mean_values,
-               line=dict(color='#b0896c'),
-               line_close=True
+               line=dict(color='#b0896c')
            )
 
         # Update layout to set the range of the radial axis
