@@ -158,7 +158,7 @@ def display_single_beans_info(source_url):
            means_values = means_df.iloc[0].tolist()
            means_radar_df = pd.DataFrame({
                'r': means_values,
-               'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee machines]
+               'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee_machines]
            })
            means_radar_df['r'] = pd.to_numeric(means_radar_df['r'], errors='coerce')
         else:
