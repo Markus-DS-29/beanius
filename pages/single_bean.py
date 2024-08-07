@@ -30,7 +30,8 @@ st.session_state.set_language = set_language
 ### Translations
 
 if st.session_state.set_language == "de":
-    single_bean_headline = "Deine persönliche Bohnenempfehlung"
+    single_bean_headline = "Deine persönliche Espresso-Empfehlung"
+    bean_name_headline = "Bohne"
     back_to_chat = "Zurück zum Chat"
     radar_headline = "Diese Bohne im Vergleich zum Mittelwert aller Bohnen"
     detail_description = "Ausführliche Beschreibung"
@@ -46,6 +47,7 @@ if st.session_state.set_language == "de":
 
 else:
     single_bean_headline = "Your personal coffee bean recommendation"
+    bean_name_headline = "Bean"
     back_to_chat = "Back to chat"
     radar_headline = "This bean compared to the mean values of all beans"
     detail_description = "Original description (German)"
@@ -166,7 +168,7 @@ def display_single_beans_info(source_url):
     # Display beans_info if it exists
     if beans_info:
         stripped_beans_name = beans_info['title'].split(',')[0]
-        st.markdown(f"## Espresso: {stripped_beans_name}")
+        st.markdown(f"## {bean_name_headline}: {stripped_beans_name}")
         
         ######## start radar #######
         
