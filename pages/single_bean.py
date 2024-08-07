@@ -207,6 +207,7 @@ def display_single_beans_info(source_url):
                 fill='none',
                 name=beans_info['title'],  
                 line=dict(color='blue')
+                line_close=True
         ))
 
         if not means_radar_df.empty:
@@ -216,6 +217,7 @@ def display_single_beans_info(source_url):
                fill='toself',
                name= mean_values,
                line=dict(color='#b0896c')
+               line_close=True
            )
 
         # Update layout to set the range of the radial axis
