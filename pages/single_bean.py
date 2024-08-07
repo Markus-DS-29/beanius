@@ -204,13 +204,10 @@ def display_single_beans_info(source_url):
         fig.add_trace(go.Scatterpolar(
                 r=radar_df['r'],
                 theta=radar_df['theta'],
-                fill='toself',
-                name='Radar Data',  # Name for the radar data line
+                fill='none',
+                name=beans_info['title'],  
                 line=dict(color='blue')
         ))
-
-                
-        #####fig = px.line_polar(radar_df, r='r', theta='theta', line_close=True, title=radar_headline, name='Radar Data')
 
         if not means_radar_df.empty:
            fig.add_scatterpolar(
