@@ -231,7 +231,7 @@ def display_single_beans_info(source_url):
                
         if beans_info['review_count'] > 0:
                     # Display the rating with stars
-                    st.markdown("**{rating_with_stars}")
+                    st.markdown(f"**{rating_with_stars}**")
                     star_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
                     rating_value = star_rating["Rating"].iloc[0]/2 # Extract the single rating value
                     #st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
