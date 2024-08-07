@@ -213,6 +213,7 @@ def display_single_beans_info(source_url):
         ######## end rader ########
 
         # Display ratings with stars
+        ratings = pd.DataFrame({"Rating": [beans_info['rating_value']]})
         st.title("Ratings with Stars")
         for rating in ratings:
                 st.markdown(star_rating(rating), unsafe_allow_html=True)    
