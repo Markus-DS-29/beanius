@@ -33,11 +33,24 @@ if st.session_state.set_language == "de":
     back_to_chat = "Zurück zum Chat"
     radar_headline = "Diese Bohne im Vergleich zum Mittelwert aller Bohnen"
     detail_description = "Ausführliche Beschreibung"
+    degree_of_roasting = "Röstgrad"
+    amount_of_crema = "Cremabildung"
+    appearance_of_beans = "Bohnenbild"
+    caffeine_level = "Koffeingehalt"
+    suitability_for_coffee machines = "Eignung für Vollautomaten"
+    mean_values = "Mittelwerte"
+
 else:
     single_bean_headline = "Your personal coffee bean recommendation"
     back_to_chat = "Back to chat"
     radar_headline = "This bean compared to the mean values of all beans"
     detail_description = "Original description (German)"
+    degree_of_roasting = "Degree of Roasting"
+    amount_of_crema = "Amount of Crema"
+    appearance_of_beans = "Appearance of Beans"
+    caffeine_level = "Caffeine Level"
+    suitability_for_coffee machines = "Suitability for Automatic Coffee Machines"
+    mean_values = "Mean Values"
 
 
 # Function to establish a connection to the database using Streamlit secrets
@@ -129,11 +142,11 @@ def display_single_beans_info(source_url):
         bohnenbild_chart = beans_info['bohnenbild_num']
         koffeingehalt_chart = beans_info['koffeingehalt_num']
         vollautomaten_chart = beans_info['vollautomaten_num']
-                
+          
         # Create the DataFrame
         radar_df = pd.DataFrame({
             'r': [roestgrad_chart, cremabildung_chart, bohnenbild_chart, koffeingehalt_chart, vollautomaten_chart],
-            'theta': ['Röstgrad', 'Cremabildung', 'Bohnenbild', 'Koffeingehalt', 'Eignung für Vollautomaten']
+            'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee machines]
         })
         # Convert 'r' column to numeric
         radar_df['r'] = pd.to_numeric(radar_df['r'], errors='coerce')
@@ -145,7 +158,7 @@ def display_single_beans_info(source_url):
            means_values = means_df.iloc[0].tolist()
            means_radar_df = pd.DataFrame({
                'r': means_values,
-               'theta': ['Röstgrad', 'Cremabildung', 'Bohnenbild', 'Koffeingehalt', 'Eignung für Vollautomaten']
+               'theta': [degree_of_roasting, amount_of_crema, appearance_of_beans, caffeine_level, suitability_for_coffee machines]
            })
            means_radar_df['r'] = pd.to_numeric(means_radar_df['r'], errors='coerce')
         else:
@@ -159,7 +172,7 @@ def display_single_beans_info(source_url):
                r=means_radar_df['r'],
                theta=means_radar_df['theta'],
                fill='toself',
-               name='Mittelwerte',
+               name= mean_values,
                line=dict(color='#b0896c')
            )
 
