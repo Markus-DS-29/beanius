@@ -37,7 +37,7 @@ if st.session_state.set_language == "de":
     amount_of_crema = "Cremabildung"
     appearance_of_beans = "Bohnenbild"
     caffeine_level = "Koffeingehalt"
-    suitability_for_coffee machines = "Eignung für Vollautomaten"
+    suitability_for_coffee_machines = "Eignung für Vollautomaten"
     mean_values = "Mittelwerte"
 
 else:
@@ -49,7 +49,7 @@ else:
     amount_of_crema = "Amount of Crema"
     appearance_of_beans = "Appearance of Beans"
     caffeine_level = "Caffeine Level"
-    suitability_for_coffee machines = "Suitability for Automatic Coffee Machines"
+    suitability_for_coffee_machines = "Suitability for Automatic Coffee Machines"
     mean_values = "Mean Values"
 
 
