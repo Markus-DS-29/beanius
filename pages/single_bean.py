@@ -112,11 +112,11 @@ def fetch_and_calculate_means():
 
 ### Start Star rating ###
 
-def star_rating_html(rating):
-    max_stars = 10  # Considering the rating is out of 10
-    full_star = '<span style="color: gold;">&#9733;</span>'
-    empty_star = '<span style="color: lightgray;">&#9733;</span>'
-    half_star = '<span style="color: gold;">&#9734;</span>'
+def star_rating_html(rating, star_size="24px"):
+    max_stars = 5  # Considering the rating is scaled to 5 stars
+    full_star = f'<span style="color: gold; font-size: {star_size};">&#9733;</span>'
+    empty_star = f'<span style="color: lightgray; font-size: {star_size};">&#9733;</span>'
+    half_star = f'<span style="color: gold; font-size: {star_size};">&#9734;</span>'
     
     full_stars = int(rating)
     half_stars = 1 if rating - full_stars >= 0.5 else 0
@@ -215,8 +215,9 @@ def display_single_beans_info(source_url):
         st.title("Rating with Stars")
         star_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
         st.write(star_rating)
-        rating_value = star_rating["Rating"].iloc[0]  # Extract the single rating value
-        st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
+        rating_value = star_rating["Rating"].iloc[0]/2 # Extract the single rating value
+        #st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
+        st.markdown(star_rating_html(rating_value, star_size="48px"), unsafe_allow_html=True)  # Increase star size to 48px
         st.write(rating_value)
 
                
