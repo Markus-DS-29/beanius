@@ -71,7 +71,7 @@ def toggle_language():
 # Initialize session state if it doesn't exist
 
 # Extract session_id from the URL if available
-query_params = st.experimental_get_query_params()
+query_params = st.get_query_params()
 set_language_from_url = query_params.get('set_language', [None])[0]
 # If set_language is present in the URL, set it in the session state
 if set_language_from_url:
@@ -357,7 +357,7 @@ st.title(f"{greeting}")
 ### Extract and handle session_id
 
 # Extract session_id from the URL if available
-query_params = st.experimental_get_query_params()
+query_params = st.get_query_params()
 session_id_from_url = query_params.get('session_id', [None])[0]
 set_language_from_url = query_params.get('set_language', [None])[0]
 
