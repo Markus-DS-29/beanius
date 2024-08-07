@@ -115,8 +115,8 @@ def fetch_and_calculate_means():
 def star_rating_html(rating, star_size="24px"):
     max_stars = 5  # Considering the rating is scaled to 5 stars
     full_star = f'<span style="color: gold; font-size: {star_size};">&#9733;</span>'
+    half_star = f'<span style="color: gold; font-size: {star_size}; position: relative;">&#9733;<span style="color: lightgray; position: absolute; left: 0; clip: rect(0px, {int(star_size[:-2])/2}px, {star_size}, 0px);">&#9733;</span></span>'
     empty_star = f'<span style="color: lightgray; font-size: {star_size};">&#9733;</span>'
-    half_star = f'<span style="color: gold; font-size: {star_size};">&#9734;</span>'
     
     full_stars = int(rating)
     half_stars = 1 if rating - full_stars >= 0.5 else 0
