@@ -39,6 +39,9 @@ if st.session_state.set_language == "de":
     caffeine_level = "Koffeingehalt"
     suitability_for_coffee_machines = "Eignung für Vollautomaten"
     mean_values = "Mittelwerte"
+    rating_with-stars = "Kundenbewertung"
+    review = "Anzahl an Bewertungen"
+    no_reviews_yet = "Noch keine Kundenbewertungen"
 
 else:
     single_bean_headline = "Your personal coffee bean recommendation"
@@ -51,6 +54,9 @@ else:
     caffeine_level = "Caffeine Level"
     suitability_for_coffee_machines = "Suitability for Coffee Machines"
     mean_values = "Mean Values"
+    rating_with-stars = "Customer Rating"
+    review = "Number of Reviews"
+    no_reviews_yet = "No customer reviews yet."
 
 
 # Function to establish a connection to the database using Streamlit secrets
@@ -220,22 +226,19 @@ def display_single_beans_info(source_url):
                         
         ######## end rader ########
 
-        # Display the rating with stars
-        st.title("Rating with Stars")
-        star_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-        st.write(star_rating)
-        rating_value = star_rating["Rating"].iloc[0]/2 # Extract the single rating value
-        #st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
-        st.markdown(star_rating_html(rating_value, star_size="48px"), unsafe_allow_html=True)  # Increase star size to 48px
-        st.write(rating_value)
+
 
                
         if beans_info['review_count'] > 0:
-            chart_data_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-            st.bar_chart(chart_data_rating, y="Rating", horizontal=True)
-            st.markdown(f"**Reviews:** {beans_info['review_count']}")
+                    # Display the rating with stars
+                    st.markdown("**{rating_with-stars}")
+                    star_rating = pd.DataFrame({"Rating": [beans_info['rating_value']]})
+                    rating_value = star_rating["Rating"].iloc[0]/2 # Extract the single rating value
+                    #st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
+                    st.markdown(star_rating_html(rating_value, star_size="48px"), unsafe_allow_html=True)  # Increase star size to 48px
+                    st.markdown(f"{review}: {beans_info['review_count']}")
         else:
-            st.markdown("**Reviews:** No reviews yet.")    
+            st.markdown(f"{review}: {no_reviews_yet}")    
                 
         st.markdown("---")
         st.markdown(f"**{detail_description}** {beans_info['description']}")
