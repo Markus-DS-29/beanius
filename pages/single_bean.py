@@ -165,7 +165,8 @@ def display_single_beans_info(source_url):
 
     # Display beans_info if it exists
     if beans_info:
-        st.markdown(f"**Espresso:** {beans_info['title']}")
+        stripped_beans_name = beans_info['title'].split(',')[0]
+        st.title(f"**Espresso:** {stripped_beans_name}")
         st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
 
 
@@ -205,7 +206,7 @@ def display_single_beans_info(source_url):
                 r=radar_df['r'].tolist() + [radar_df['r'].tolist()[0]],  # Closing the loop
                 theta=radar_df['theta'].tolist() + [radar_df['theta'].tolist()[0]],  # Closing the loop
                 fill='none',
-                name=beans_info['title'],  
+                name=stripped_beans_name,  
                 line=dict(color='blue')
         ))
 
