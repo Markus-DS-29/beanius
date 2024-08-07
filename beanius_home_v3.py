@@ -206,6 +206,7 @@ def detect_and_replace_url(answer):
         detected_url = urls[0].rstrip('>,).')
         if detected_url.startswith(base_url):
             detected_slug = detected_url[len(base_url):]
+            st.write(f"{detected_slug}")
         else:
             detected_slug = None
         # Existing URL parameters
@@ -473,7 +474,6 @@ if prompt := st.chat_input(f"{first_question}"):
         st.session_state.messages.append({"role": "assistant", "content": answer})
         with st.chat_message("assistant", avatar=beanius_image):
             st.markdown(answer, unsafe_allow_html=True)
-            st.write(f"{detected_slug}")
-        
+                    
         # Save the updated conversation to the database
         save_conversations_to_db(st.session_state.messages, session_id)
