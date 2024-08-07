@@ -464,7 +464,7 @@ if transcription:
             st.markdown(cleaned_answer, unsafe_allow_html=True)
 
         # Add assistant response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+        st.session_state.messages.append({"role": "assistant", "content": cleaned_answer})
 
     # Save the updated conversation to the database
     save_conversations_to_db(st.session_state.messages, session_id)
@@ -492,7 +492,7 @@ if prompt := st.chat_input(f"{first_question}"):
         cleaned_answer = answer.translate(translation_table)
         
         # Add response to chat history
-        st.session_state.messages.append({"role": "assistant", "content": answer})
+        st.session_state.messages.append({"role": "assistant", "content": cleaned_answer})
         with st.chat_message("assistant", avatar=beanius_image):
             st.markdown(cleaned_answer, unsafe_allow_html=True)
                     
