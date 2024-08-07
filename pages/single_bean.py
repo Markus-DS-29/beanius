@@ -168,8 +168,6 @@ def display_single_beans_info(source_url):
         stripped_beans_name = beans_info['title'].split(',')[0]
         st.markdown(f"## Espresso: {stripped_beans_name}")
         
-
-
         ######## start radar #######
         
         roestgrad_chart = beans_info['roestgrad_num']
@@ -235,10 +233,7 @@ def display_single_beans_info(source_url):
        
                         
         ######## end rader ########
-
-
-
-               
+              
         if beans_info['review_count'] > 0:
                     # Display the rating with stars
                     st.markdown(f"**{rating_with_stars}**")
@@ -249,7 +244,8 @@ def display_single_beans_info(source_url):
                     st.markdown(f"{review}: {beans_info['review_count']}")
         else:
             st.markdown(f"{review}: {no_reviews_yet}")    
-                
+        # Display shopping URL
+        st.markdown(f"**Shopping URL:** {beans_info['source_url']}")        
         st.markdown("---")
         st.markdown(f"**{detail_description}** {beans_info['description']}")
     else:
@@ -271,8 +267,7 @@ if __name__ == "__main__":
             decoded_slug = "nannini-classica-bohne"
         external_url = "https://www.kaffeezentrale.de/"
         decoded_url = external_url + decoded_slug
-        # Display shopping URL
-        st.markdown(f"**Shopping URL:** {beans_info['source_url']}")
+
         # Display the beans information
         display_single_beans_info(decoded_url)
     else:
