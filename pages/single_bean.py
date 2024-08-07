@@ -112,9 +112,8 @@ def fetch_and_calculate_means():
 
 ### Start Star rating ###
 
-# Function to generate HTML for star ratings
-def star_rating(rating):
-    max_stars = 5
+def star_rating_html(rating):
+    max_stars = 10  # Considering the rating is out of 10
     full_star = '<span style="color: gold;">&#9733;</span>'
     empty_star = '<span style="color: lightgray;">&#9733;</span>'
     half_star = '<span style="color: gold;">&#9734;</span>'
@@ -212,11 +211,10 @@ def display_single_beans_info(source_url):
                         
         ######## end rader ########
 
-        # Display ratings with stars
-        ratings = pd.DataFrame({"Rating": [beans_info['rating_value']]})
-        st.title("Ratings with Stars")
-        for rating in ratings:
-                st.markdown(star_rating(rating), unsafe_allow_html=True)    
+        # Display the rating with stars
+        st.title("Rating with Stars")
+        rating_value = star_rating["Rating"].iloc[0]  # Extract the single rating value
+        st.markdown(star_rating_html(rating_value), unsafe_allow_html=True)
 
                
         if beans_info['review_count'] > 0:
