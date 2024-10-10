@@ -267,8 +267,8 @@ llm = HuggingFaceEndpoint(repo_id=hf_model)
 
 embedding_model = "sentence-transformers/all-MiniLM-l6-v2"
 embeddings_folder = "honey_content/embeddings"
-index_folder = "honey_content/faiss_index"
-load_path = "honey_content/faiss_index"
+index_folder = "honey_content"
+load_path = "honey_content"
 os.makedirs(embeddings_folder, exist_ok=True)
 os.makedirs(load_path, exist_ok=True)
 
