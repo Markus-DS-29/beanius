@@ -465,7 +465,7 @@ if transcription:
         answer = response["answer"]
 
         # Detect and replace URL in the answer
-        answer = detect_and_replace_url(answer)
+#        answer = detect_and_replace_url(answer)
 
         # Characters to remove in answer
         chars_to_remove = "/('"
@@ -497,7 +497,7 @@ if prompt := st.chat_input(f"{first_question}"):
         answer = response['answer']
         
         # Detect and replace URL in the answer
-        answer = detect_and_replace_url(answer)
+#        answer = detect_and_replace_url(answer)
   
         # Characters to remove in answer
         chars_to_remove = "/('"
