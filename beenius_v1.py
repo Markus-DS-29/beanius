@@ -200,7 +200,7 @@ if 'query_data' not in st.session_state:
 # Function to detect and replace URLs in the answer
 def detect_and_replace_url(answer):
     url_pattern = re.compile(r'(https?://\S+)')
-    base_url = "https://heimathonig.de/"
+    base_url = "https://www.heimathonig.de/"
     urls = url_pattern.findall(answer)
     if urls:
         detected_url = urls[0].rstrip('>,).')
