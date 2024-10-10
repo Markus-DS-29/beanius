@@ -295,7 +295,7 @@ def load_faiss_vector_store(embedding_model, embeddings_folder, index_folder):
     embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
 
     # Load FAISS vector store from the saved index and metadata files
-    vector_db = FAISS.load_local(index_folder, embeddings)
+    vector_db = FAISS.load_local(index_folder, embeddings, allow_dangerous_deserialization=True)
 
     return vector_db
 
