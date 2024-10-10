@@ -405,10 +405,10 @@ elif 'set_language' not in st.session_state:
 ### Initialize chat history and fetch conversations
 
 #load custom avatar images for user and beanius
-path_to_user_avatar = "images/user_icon.png"
+path_to_user_avatar = "images/bee_icon.png"
 with open(path_to_user_avatar, "rb") as file:
     user_image = file.read()
-path_to_beanius_avatar = "images/beanius_icon.png"
+path_to_beanius_avatar = "images/beenius_icon.png"
 with open(path_to_beanius_avatar, "rb") as file:
     beanius_image = file.read()
 
