@@ -500,7 +500,7 @@ if prompt := st.chat_input(f"{first_question}"):
 #        answer = detect_and_replace_url(answer)
   
         # Characters to remove in answer
-        chars_to_remove = "/('"
+        chars_to_remove = "(')"
         # Create a translation table that maps each character to None
         translation_table = str.maketrans('', '', chars_to_remove)
         # Apply the translation table to remove the characters
