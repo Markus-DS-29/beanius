@@ -482,7 +482,7 @@ if transcription:
         st.session_state.messages.append({"role": "assistant", "content": cleaned_answer})
 
     # Save the updated conversation to the database
-    save_conversations_to_db(st.session_state.messages, session_id)
+#    save_conversations_to_db(st.session_state.messages, session_id)
 
 ### Display user input field in addition to speech-to-text
 
@@ -512,4 +512,4 @@ if prompt := st.chat_input(f"{first_question}"):
             st.markdown(cleaned_answer, unsafe_allow_html=True)
                     
         # Save the updated conversation to the database
-        save_conversations_to_db(st.session_state.messages, session_id)
+#        save_conversations_to_db(st.session_state.messages, session_id)
