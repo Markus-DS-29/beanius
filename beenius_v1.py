@@ -1,3 +1,4 @@
+
 ####### FINAL? Status: Everything seems to be working. Added multi language. ###########
 
 import os
@@ -168,7 +169,7 @@ if 'query_data' not in st.session_state:
 # Function to connect to the database for conversations
 #def get_db_connection():
 #    return mysql.connector.connect(**db_config)
-
+#
 # Function to save conversations to the database
 #def save_conversations_to_db(messages, session_id):
 #    conn = get_db_connection()
@@ -289,7 +290,7 @@ os.makedirs(load_path, exist_ok=True)
 #    return vector_db
 
 #loading FAISS instead of creating it 
-@cache_resource
+#@cache_resource
 def load_faiss_vector_store(embedding_model, embeddings_folder, index_folder):
     # Initialize embeddings
     embeddings = HuggingFaceEmbeddings(model_name=embedding_model, cache_folder=embeddings_folder)
